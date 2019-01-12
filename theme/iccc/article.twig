@@ -1,0 +1,12 @@
+{% extends 'partials/_base.twig' %}
+
+
+{% block main %}
+    <div class="article-content">
+        <h1 class="entry-title">{{ article.title }}
+            <span class="banner-date">{{ article.date|date("d-m-Y") }}</span></h1>
+
+        {{ article.body|markdown }}
+    </div>
+
+{% endblock main %}

@@ -1,0 +1,4 @@
+extensions:
+    - Bundle\Site\CustomisationExtension
+paths:
+    web: '.'

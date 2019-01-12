@@ -1,0 +1,51 @@
+{% extends 'partials/_master.twig' %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="article-content">
+            <h1 class="article-title">{{ record.title }}</h1>
+            <h2>Information</h2>
+            <p>
+                {% if record.country is not empty %}
+                    <span class="highlight">Country:</span>
+                    <a href=".?search={{ record.country }}">{{ record.country }}</a><br>
+                {% endif %}
+                {% if record.region is not empty %}
+                    <span class="highlight">Region:</span>
+                    <a href=".?search={{ record.region }}">{{ record.region }}</a><br>
+                {% endif %}
+                {% if record.subregion is not empty %}
+                    <span class="highlight">Subregion:</span>
+                    <a href=".?search={{ record.subregion }}">{{ record.subregion }}</a><br>
+                {% endif %}
+                {% if record.system is not empty %}
+                    <span class="highlight">System:</span>
+                    <a href=".?search={{ record.system }}">{{ record.system }}</a><br>
+                {% endif %}
+            </p>
+
+            {{ record.body|markdown }}
+
+            <h2>Reports</h2>
+            <div class="table-container">
+                <table class="sortable widetable">
+                    <tr>
+                        <th>Report</th>
+                        <th>Date</th>
+                    </tr>
+                    {% set data = cavesearch(record.id) %}
+                    {% for trip in data['trips'] %}
+                        <tr>
+                            <td>
+                                <a href="{{ trip['article'].link }}">{{ trip['article'].title }}</a>
+                            </td>
+                            <td>{{ trip['date'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}

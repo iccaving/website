@@ -1,0 +1,8 @@
+{% extends 'partials/_base.twig' %}
+
+{% block main %}
+    <div class="article-content">
+        {{ page.body|markdown }}
+    </div>
+
+{% endblock main %}

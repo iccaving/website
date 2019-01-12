@@ -1,0 +1,242 @@
+pages:
+    name: Pages
+    singular_name: Page
+    fields:
+        title:
+            type: text
+            class: large
+            group: content
+        body:
+            type: html
+            height: 300px
+            allowtwig: true
+            group: content
+        slug:
+            type: slug
+            uses: title
+            group: admin
+        template:
+            type: templateselect
+            filter: '*.twig'
+            group: admin
+        subsite:
+            type: select
+            values: subsite/name
+            keys: name
+            group: admin
+    recordsperpage: 20
+
+articles:
+    name: Articles
+    singular_name: Article
+    fields:
+        date:
+            type: date
+            required: true
+            group: summary            
+        title:
+            type: text
+            group: summary
+            variant: inline
+            required: true
+        type:
+            type: select
+            values: [ trip, tour, index, stickyindex, expedition ]
+            required: true
+        location:
+            type: select
+            values: location/name
+            keys: name
+            group: summary
+            sort: name
+            autocomplete: true
+            required: true
+        summary:
+            type: markdown
+            height: 150px
+            group: summary
+            postfix: The text that appears on the summary card on the homepage.
+        linkhref:
+            label: Summary Link
+            postfix: The link that appears on the summary card on the homepage. Defaults to linking to the article.
+            type: text
+            variant: inline
+            group: summary
+        linktext:
+            label: Summary Link Text
+            postfix: The text of the link that appears on the summary card on the homepage. Defaults to 'More'.
+            variant: inline
+            type: text
+            group: summary
+        photoarchive:
+            type: text
+            variant: inline
+            group: content
+        main-image:
+            type: text
+            variant: inline
+            group: content
+        left-thumbnail:
+            type: text
+            variant: inline
+            group: content
+        right-thumbnail:
+            type: text
+            variant: inline
+            group: content
+        authors:
+            group: content
+            type: select
+            values: caver/title
+            autocomplete: true
+            multiple: true
+        body:
+            type: markdown
+            height: 300px
+            allowtwig: true
+            group: content
+        cavepeeps:
+            type: repeater
+            group: Cavepeeps
+            prefix: "<p>Cavepeeps go here</p>"
+            fields:
+                Date:
+                    type: date
+                    variant: inline
+                Cave:
+                    type: select
+                    values: cave/name
+                    autocomplete: true
+                    multiple: true
+                People:
+                    type: select
+                    values: caver/name
+                    autocomplete: true
+                    multiple: true
+        slug:
+            type: slug
+            uses: [location, date]
+            group: admin
+        subsite:
+            type: select
+            values: subsite/name
+            keys: name
+        template:
+            type: templateselect
+            group: admin
+    record_template: article.twig
+    listing_template: articles.twig
+    listing_records: 10
+    default_status: draft
+    sort: -datepublish
+    recordsperpage: 20
+
+caves:
+    name: Caves
+    singular_name: Cave
+    fields:
+        name:
+            type: text
+            variant: inline
+            group: content
+        country:
+            type: text
+            variant: inline
+            group: content
+        region:
+            type: text
+            variant: inline
+            group: content
+        subregion:
+            type: text
+            variant: inline
+            group: content
+        system:
+            type: text
+            variant: inline
+            group: content
+        location:
+            type: text
+            variant: inline
+            group: content
+        slug:
+            type: slug
+            uses: name
+        summary:
+            type: html
+            height: 150px
+            allowtwig: true
+        body:
+            type: html
+            height: 300px
+            allowtwig: true
+    record_template: cave.twig
+    listing_template: caves.twig
+    listing_sort: name
+    listing_records: 1000
+    default_status: published
+    sort: name
+    recordsperpage: 20
+
+cavers:
+    name: Cavers
+    singular_name: Caver
+    fields:
+        name:
+            type: text
+            variant: inline
+            group: content
+        nickname:
+            type: text
+            variant: inline
+            group: content
+        badges:
+            type: text
+            variant: inline
+            group: content
+        slug:
+            type: slug
+            uses: name
+        summary:
+            type: html
+            height: 150px
+            allowtwig: true
+        body:
+            type: html
+            height: 300px
+            allowtwig: true
+    taxonomy: [ categories, tags ]
+    record_template: caver.twig
+    listing_template: cavers.twig
+    listing_records: 1000
+    listing_sort: name
+    default_status: published
+    sort: name
+    recordsperpage: 20
+
+locations:
+    name: Locations
+    singular_name: Location
+    viewless: true
+    show_in_menu: false
+    default_status: published
+    fields:
+        name:
+            type: text
+subsites:
+    name: Subsites
+    singular_name: Subsite
+    show_in_menu: false
+    fields:
+        slug:
+            type: slug
+            uses: name
+        name:
+            type: text
+        body:
+            type: markdown
+            height: 300px
+            allowtwig: true
+        template:
+            type: templateselect
+        

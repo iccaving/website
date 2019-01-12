@@ -1,0 +1,5 @@
+{% set master = 'partials/_master.twig' %}
+{% if record.subsite is not empty %}
+    {% set master = "#{record.subsite|lower}/partials/_master.twig" %}
+{% endif %}
+{% extends master %}

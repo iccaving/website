@@ -1,0 +1,102 @@
+{% extends 'partials/_master.twig' %}
+
+{% block main %}
+    {% set data = caversearch(record.id) %}
+    <div class="container">
+        <div class="article-content">
+            <h1 class="article-title">{{ record.title }}</h1>
+            {{ record.body|markdown }}
+            <h2>Reports</h2>
+            <p>{{ record.title }}
+                has attended
+                {{data['trips']|length}}
+                trips.</p>
+            <div class="table-container">
+                <table class="sortable widetable">
+                    <tr>
+                        <th>Report</th>
+                        <th>Cave</th>
+                        <th>Date</th>
+                    </tr>
+                    {% for trip in data['trips'] %}
+                        <tr>
+                            <td>
+                                <a href="{{ trip['article'].link() }}">{{ trip['article'].title }}</a>
+                            </td>
+                            <td>
+                                {% for cave in trip['caves'] %}
+                                    {% if not loop.first %}
+                                        >
+                                    {% endif %}
+                                    <a href="{{ cave.link() }}">{{ cave.name }}</a>
+                                {% endfor %}
+                            </td>
+                            <td>{{ trip['date'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <h2>Authored</h2>
+            <p>{{ record.title }}
+                has written
+                {{data['authored']|length}}
+                reports.</p>
+            <div class="table-container">
+                <table class="sortable widetable">
+                    <tr>
+                        <th>Report</th>
+                        <th>Date</th>
+                    </tr>
+                    {% for article in data['authored'] %}
+                        <tr>
+                            <td>
+                                <a href="{{ article.link }}">{{ article.title }}</a>
+                            </td>
+                            <td>{{ article.date }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <h2>Top Cavers</h2>
+            <p>{{ record.title }}
+                has caved with
+                {{data['cavers']['count']}}
+                cavers.</p>
+            <div class="table-container">
+                <table class="sortable widetable">
+                    <tr>
+                        <th>Name</th>
+                        <th>Trips</th>
+                    </tr>
+                    {% for caver in data['cavers']['top'] %}
+                        <tr>
+                            <td>
+                                <a href="{{ caver['caver'].link }}">{{ caver['caver'].title }}</a>
+                            </td>
+                            <td>{{ caver['count'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <h2>Top Caves</h2>
+            <div class="table-container">
+                <table class="sortable widetable">
+                    <tr>
+                        <th>Name</th>
+                        <th>Trips</th>
+                    </tr>
+                    {% for cave in data['caves']['top'] %}
+                        <tr>
+                            <td>
+                                <a href="{{ cave['cave'].link }}">{{ cave['cave'].title }}</a>
+                            </td>
+                            <td>{{ cave['count'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}
