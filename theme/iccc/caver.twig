@@ -1,6 +1,7 @@
 {% extends 'partials/_master.twig' %}
 
 {% block main %}
+    <script src="{{ asset('js/sorttable.js', 'theme') }}"></script>
     {% set data = caversearch(record.id) %}
     <div class="container">
         <div class="article-content">

@@ -1,0 +1,23 @@
+{% extends 'partials/_master.twig' %}
+
+{% block main %}
+{% setcontent wikis = 'wikis' orderby 'path' %}
+
+<div class="article-content">
+    {% for wiki in wikis %}
+      {% if not wiki.private or user is not empty %}
+        <div>
+          {% set path = '' %}
+          {% if wiki.path is not empty %}
+            {% for pathbit in wiki.path|split('/') %}
+              {% set path = path ~ '/' ~ pathbit %}
+              {{ pathbit }} / 
+            {% endfor %}
+          {% endif %}
+          <a href="{{ wiki.link}}">{{ wiki.title }}</a>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %}

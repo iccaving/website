@@ -8,7 +8,7 @@
         <meta name="theme-color" content="#2D2D2D">
         <meta name="msapplication-navbutton-color" content="#2D2D2D">
         <meta name="apple-mobile-web-app-status-bar-style" content="#2D2D2D">
-
+        <link href="/rcc/caving/assets/iclogo.png" rel="icon">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" type="text/css"/>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="{{ asset('css/main.css', 'theme') }}">
@@ -25,8 +25,9 @@
         </script>
         <script async="async" src='https://www.google-analytics.com/analytics.js'></script>
         <title>
-            {%- if record.title is defined %}{{ record.title|striptags }}
+            {%- if record.title is defined %}{{ record.title|striptags }} | 
             {% endif -%}
+            Imperial College Caving Club
         </title>
         {% block head %}{% endblock %}
 

@@ -7,7 +7,7 @@ pages:
             class: large
             group: content
         body:
-            type: html
+            type: markdown
             height: 300px
             allowtwig: true
             group: content
@@ -205,7 +205,6 @@ cavers:
             type: html
             height: 300px
             allowtwig: true
-    taxonomy: [ categories, tags ]
     record_template: caver.twig
     listing_template: cavers.twig
     listing_records: 1000
@@ -239,4 +238,24 @@ subsites:
             allowtwig: true
         template:
             type: templateselect
-        
+            
+wiki:
+    name: Wikis
+    singular_name: Wiki
+    fields:
+        slug:
+            type: slug
+            uses: title
+        title:
+            type: text
+        body:
+            type: markdown
+            height: 300px
+            allowtwig: true
+        path:
+            type: text
+        private:
+            type: checkbox
+    record_template: wiki.twig
+    listing_template: wikis.twig
+    default_status: published

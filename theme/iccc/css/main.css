@@ -85,7 +85,7 @@ pre {
   padding: 1rem;
   width: fit-content;
   border-radius: 3px;
-  white-space: normal;
+  /*white-space: normal;*/
 }
 .left-col {
   height: 100%;

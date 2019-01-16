@@ -10,6 +10,31 @@ import re
 conn = MySQLdb.connect(host="localhost", user="rcc_caving", passwd="BX6yvOclelntsjyh", db="rcc_caving")
 x = conn.cursor()
 
+contentroot = 'backup/source/content/'
+
+def replacer(match):
+    halves = match.group().split('}(')
+    first = halves[0].replace('{','')
+    external = ""
+    if first[0] == "!":
+        external = "!"
+        first= first[1:]
+    
+    align = first.split(' ')[-1:][0]
+    
+    caption = ' '.join(first.split(' ')[:-1])
+    if caption:
+        caption = caption[1:-1]
+    else:
+        caption = ""
+    second = halves[1].replace(')','').split(',')
+    if len(second) > 1:
+        image = second[0].strip()
+        url = second[1].strip()
+    else:
+        image = second[0]
+        url = ""
+    return '{{ ' + 'photo("{}","{}","{}","{}","{}")'.format(image,align,caption,external,url) + ' }}'
 
 def clearTrips():
     query = """TRUNCATE TABLE rcc_caving.bolt_articles"""
@@ -18,12 +43,11 @@ def clearTrips():
     x.execute(query)
     conn.commit()
 
-
 def doArticles(subdir, subsite = ""):
     md = markdown.Markdown(extensions=["markdown.extensions.meta"])
     md2 = markdown.Markdown()
     for root, dir, files in os.walk(
-        "../source/content/" + subdir + "/"
+        contentroot + subdir + "/"
     ):
         for afile in files:
             if afile[-3:] != ".md":
@@ -41,11 +65,7 @@ def doArticles(subdir, subsite = ""):
                     r'{{ people("\1","\2","\3") }}',
                     body,
                 )
-                body = re.sub(
-                    r'{(|!)(|".*")\s*(\w*)\s*}\(([^),]*)\s*,?\s*(|[^)]*)\)',
-                    r'{{ photo("\4","\3","\2","\1","\5") }}',
-                    body,
-                )
+                body = re.sub(r'({.*}\(.*\))', replacer, body)
                 body = re.sub(r"{{.*;.*}}", "", body)
                 body = body.replace("mainimg", "mainimg()")
                 body = body.replace("allpeople", "allpeople()")
@@ -297,10 +317,11 @@ def clearPages():
 
 def doPages(subdir, subsite=""):
     md = markdown.Markdown(extensions=["markdown.extensions.meta"])
-    for root, dir, files in os.walk("../source/content/" + subdir + "/"):
+    for root, dir, files in os.walk(contentroot + subdir + "/"):
         for afile in files:
             if afile[-3:] != ".md":
                 continue
+            print(afile)
             with codecs.open(root + "/" + afile, "r", "utf-8") as f:
                 text = f.read()
                 for index, line in enumerate(text.split('\n')):
@@ -313,11 +334,7 @@ def doPages(subdir, subsite=""):
                     r'{{ people("\1","\2","\3") }}',
                     body,
                 )
-                body = re.sub(
-                    r'{(|!)(|".*")\s*(\w*)\s*}\(([^),]*)\s*,?\s*(|[^)]*)\)',
-                    r'{{ photo("\4","\3","\2","\1","\5") }}',
-                    body,
-                )
+                body = re.sub(r'({.*}\(.*\))', replacer, body)
                 body = re.sub(r"{{.*;.*}}", "", body)
                 body = body.replace("mainimg", "mainimg()")
                 body = body.replace("allpeople", "allpeople()")
@@ -968,20 +985,78 @@ VALUES('%s', 0, 'published', '%s', '', '');"""
         x.execute(query)
         conn.commit()
 
+def convertCamel(name, divider):
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1' + divider + r'\2', name)
+    return re.sub('([a-z0-9])([A-Z])',r'\1' + divider + r'\2', s1)
+
+def doWiki():
+    query = """TRUNCATE TABLE rcc_caving.bolt_wiki"""
+    x.execute(query)
+    md = markdown.Markdown(extensions=["markdown.extensions.meta"])
+    for root, dir, files in os.walk("../source/content/wiki"):
+        for afile in files:
+            if afile[-3:] != ".md" or afile == '_Footer.md':
+                continue
+            with codecs.open(root + "/" + afile, "r", "utf-8") as f:
+                text = f.read()
+                for index, line in enumerate(text.split('\n')):
+                    if not line:
+                        body = '\n'.join(text.split('\n')[index+1:]).replace("""'""", """''""")
+                        break
+                md.convert(text).replace("""'""", """''""")
+                body = re.sub(
+                    r"{{\s*DATE=(.*);\s*CAVE=([^;]*);?(\d)?\s*}}",
+                    r'{{ people("\1","\2","\3") }}',
+                    body,
+                )
+                body = re.sub(
+                    r'{(|!)(|".*")\s*(\w*)\s*}\(([^),]*)\s*,?\s*(|[^)]*)\)',
+                    r'{{ photo("\4","\3","\2","\1","\5") }}',
+                    body,
+                )
+                body = re.sub(r"{{.*;.*}}", "", body)
+                body = body.replace("mainimg", "mainimg()")
+                body = body.replace("allpeople", "allpeople()")
+                body = body.replace("photolink", "photolink()")
+                title = convertCamel(afile[:-3], ' ')
+                path = md.Meta["path"][0] if "path" in md.Meta else ''
+                slug = convertCamel(afile[:-3], '-').lower()
+                print("'" + slug + "'")
+                sql = """INSERT INTO rcc_caving.bolt_wiki
+    (slug, datecreated, datechanged, datepublish, ownerid, status, templatefields, title, body, path)
+    VALUES('%s','%s','%s','%s',0,'%s','%s','%s','%s','%s');
+    """
+                data = (
+                    slug,
+                    "01-01-2019 00:00",
+                    "01-01-2019 00:00",
+                    "01-01-2019 00:00",
+                    "published",
+                    "[]",
+                    title,
+                    body,
+                    path
+                )
+                query = sql % data
+                #print(query)
+                x.execute(query)
+                conn.commit()
 
 #doCaves()
 #doCavers()
 #clearLocations()
 #doLocations("trip")
 #doLocations("tour")
-#clearTrips()
-#doArticles("trip")
-#doArticles("tour")
-#doArticles("_slovenia/articles", 'Slovenia')
+clearTrips()
+doArticles("trip")
+doArticles("tour")
+doArticles("_slovenia/articles", 'Slovenia')
+print('aaa')
 #doIndex()
-clearPages()
-doPages("pages")
-doPages("_slovenia/pages", "Slovenia")
+#clearPages()
+#doPages("pages")
+#doPages("_slovenia/pages", "Slovenia")
+#doWiki()
 
 conn.close()
 

@@ -154,9 +154,9 @@ recordsperpage: 10
 #                  translation files you should turn this off.
 caching:
     config: true
-    templates: false
-    request: false
-    duration: 10
+    templates: true
+    request: true
+    duration: 30
     authenticated: false
     thumbnails: true
     translations: true
@@ -240,7 +240,7 @@ accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, t
 branding:
     name: ICCC Admin
     path: /icccadmin
-    provided_by: [ supercool@example.org, "Supercool Webdesign Co." ]
+#    provided_by: [ supercool@example.org, "Supercool Webdesign Co." ]
 #     news_source: http://news.example.org
 #     news_variable: news
 
@@ -273,7 +273,7 @@ debuglog:
 
 # Use strict variables. This will make Bolt complain if you use {{ foo }},
 # when foo doesn't exist.
-strict_variables: true
+strict_variables: false
 
 # There are several options for giving editors more options to insert images,
 # video, etc in the WYSIWYG areas. But, as you give them more options, that
@@ -323,11 +323,11 @@ liveeditor: false
 # Protip: If your webhost does not support SMTP, sign up for a (free) Sparkpost
 # account at https://www.sparkpost.com/pricing/ for sending emails reliably.
 
-# mailoptions:
-#     transport: smtp
-#     spool: true
-#     host: localhost
-#     port: 25
+mailoptions:
+     transport: smtp
+     spool: true
+     host: localhost
+     port: 25
 #     username: username
 #     password: password
 #     encryption: null
@@ -443,4 +443,4 @@ compatibility:
     # Set to 'false' to enable using a newer version of the setcontent parser.
     setcontent_legacy: true
     
-siteurl: /rcc/caving/boltsite
+siteurl: /rcc/caving

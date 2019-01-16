@@ -204,6 +204,9 @@ class CavepeepsExtension extends SimpleExtension
         $app = $this->getContainer();
         $articles = [];
         $results = $app['db']->fetchAll('SELECT id FROM rcc_caving.bolt_articles WHERE authors LIKE "%\"' . $caverId . '\"%"');
+	if (count($results) < 1) {
+		return [];
+	}
         $articleIDs = array();
         array_walk($results, function($a) use (&$articleIDs) { $articleIDs[] = $a['id']; });
         $results = $app['query']->getContent((string) 'articles', ['id' => join(" || ", $articleIDs)]);
@@ -236,7 +239,7 @@ class CavepeepsExtension extends SimpleExtension
         // Hydrate the articles, caves and people
         $articleIDs = array();
         array_walk($results, function($a) use (&$articleIDs) { $articleIDs[] = $a['content_id']; });
-        $articles = $app['query']->getContent((string) 'articles', ['id' => join(" || ", $articleIDs)]);
+        $articles = $app['query']->getContent((string) 'articles', ['id' => join(" || ", $articleIDs), 'status' => 'published']);
         $articlesById = array();
         foreach($articles as $article) {
             $articlesById[$article['id']] = $article;
@@ -276,10 +279,10 @@ class CavepeepsExtension extends SimpleExtension
         // Get top caves
         $caveIDsCount = array_count_values($caveIDs);
         arsort($caveIDsCount);
-        if (count($caveIDsCount) <= 1) {
-            $data['caves'] = [];
+        if (count($caveIDsCount) < 1) {
+            $data['caves'] = ['top'=>[],'count'=>0];
         } else {
-            $top = array_slice($caveIDsCount, 1, 10,true);
+            $top = array_slice($caveIDsCount, 0, 10,true);
             $topIds = array_keys($top);
             $topCombined = array();
             foreach($topIds as $id) {
@@ -293,10 +296,10 @@ class CavepeepsExtension extends SimpleExtension
         // Get top cavers
         $caverIDsCount = array_count_values($caverIDs);
         arsort($caverIDsCount);
-        if (count($caverIDsCount) <= 1) {
-            $data['cavers'] = [];
+        if (count($caverIDsCount) < 1) {
+            $data['cavers'] = ['top'=>[],'count'=>0];
         } else {
-            $top = array_slice($caverIDsCount, 1, 10,true);
+            $top = array_slice($caverIDsCount, 0, 10,true);
             $topIds = array_keys($top);
             $topCombined = array();
             foreach($topIds as $id) {
@@ -328,10 +331,11 @@ class CavepeepsExtension extends SimpleExtension
             $result['People'] = json_decode($result['People']);
             array_push($results, $result);
         }
+        
         // Hydrate the articles
         $articleIDs = array();
         array_walk($results, function($a) use (&$articleIDs) { $articleIDs[] = $a['content_id']; });
-        $articles = $app['query']->getContent((string) 'articles', ['id' => join(" || ", $articleIDs)]);
+        $articles = $app['query']->getContent((string) 'articles', ['id' => join(" || ", $articleIDs), 'status' => 'published']);
         $articlesById = array();
         foreach($articles as $article) {
             $articlesById[$article['id']] = $article;
@@ -339,7 +343,9 @@ class CavepeepsExtension extends SimpleExtension
         // Convert to trips
         $trips = array();
         foreach($results as $result) {
-            array_push($trips, ['article'=>$articlesById[$result['content_id']], 'date'=>$result['Date']]);
+            if (array_key_exists($result['content_id'],$articlesById)) {
+                array_push($trips, ['article'=>$articlesById[$result['content_id']], 'date'=>$result['Date']]);
+            }
         }
         usort($trips, function ($item1, $item2) {
             return strcmp($item2['date'], $item1['date']);
@@ -427,7 +433,8 @@ class CavepeepsExtension extends SimpleExtension
     public function tripsByAcademicYear($context)
     {
         $app = $this->getContainer();
-        $articles = $app['query']->getContent((string) 'articles', ['type' => 'trip', 'order' => '-date']);
+        // $raw_results = $app['db']->fetchAll('SELECT *, date, CASE WHEN MONTH(date) < 9 THEN CONCAT(YEAR(date) - 1, ' - ', YEAR(date)) ELSE CONCAT(YEAR(date), ' - ', YEAR(date) + 1) END AS ACYEAR FROM rcc_caving.bolt_articles WHERE type = 'trip' AND status = 'published' ORDER BY date DESC');
+        $articles = $app['query']->getContent((string) 'articles', ['type' => 'trip', 'order' => '-date', 'status' => 'published']);
         $data = array();
         foreach($articles as $article) {
             $year = date("Y",strtotime($article['date']));
@@ -455,7 +462,7 @@ class CavepeepsExtension extends SimpleExtension
         foreach($raw_results as $r) {
             $results[] = $this->mainimg_url(['record'=>$r]);
         }
-        $assetlocation = '/theme/iccc/assets';
+        $assetlocation = '/rcc/caving/theme/iccc/assets';
         $siteurl = '';
         $html = "<div class='photoreel-container'><div class='photoreel-left'><a><img src='" . $assetlocation . "/arrows-left.svg' style='height: 30px;'></a></div>";
         $dots = "<div class='photoreel-dots'>";

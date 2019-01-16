@@ -47,3 +47,16 @@ composer.phar
 Thumbs.db
 Vagrantfile
 
+#ICCC specific
+.ftpconfig
+FILES/
+apps/
+assets/
+backup/
+newzealand/
+old/
+photo_archive/
+python/
+robots.txt
+topsecret/
+videos/

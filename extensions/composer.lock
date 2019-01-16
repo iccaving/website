@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8ef5d730acb3a552d56928b2eb230bc",
+    "content-hash": "12c5dc33b7de8423e0de30fe9a156835",
     "packages": [
         {
             "name": "Rhys/Cavepeeps",

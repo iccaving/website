@@ -1,0 +1,20 @@
+{% extends 'partials/_master.twig' %}
+{% block main %}
+    <div class="article-content">
+    {% if not record.private or user is not empty %}
+          <h1 class="entry-title">{{ record.title }}</h1>
+          {{ record.body }}
+          <div>
+            <ul>
+              <li>Path: {{ record.path }}</li>
+              <li>Created on: {{ record.datecreated }}</li>
+              <li>Last changed on: {{ record.datechanged }}</li>
+            </ul>
+          </div>
+    {% else %}
+        Nothing to see here.
+    {% endif %}
+    </div>
+
+
+{% endblock %}
