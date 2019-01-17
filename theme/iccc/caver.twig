@@ -54,7 +54,7 @@
                             <td>
                                 <a href="{{ article.link }}">{{ article.title }}</a>
                             </td>
-                            <td>{{ article.date }}</td>
+                            <td>{{ article.date|date("Y-m-d") }}</td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -81,6 +81,10 @@
                 </table>
             </div>
             <h2>Top Caves</h2>
+             <p>{{ record.title }}
+                has caved in
+                {{data['caves']['count']}}
+                caves.</p>
             <div class="table-container">
                 <table class="sortable widetable">
                     <tr>

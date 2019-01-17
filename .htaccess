@@ -25,7 +25,7 @@ Options -Indexes
   RewriteRule cache/ - [F]
 
   # Some servers require the RewriteBase to be set. If so, set to the correct folder.
-  # RewriteBase /
+  RewriteBase /rcc/caving
 
   RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
 
@@ -49,6 +49,12 @@ Options -Indexes
   RewriteCond %{ENV:REDIRECT_STATUS} ^$
   RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
 
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_URI} ^/rcc/caving/FILES/ [OR]
+  RewriteCond %{REQUEST_URI} ^/rcc/caving/photo_archive/ [OR]
+  RewriteCond %{REQUEST_URI} ^/rcc/caving/videos/
+  RewriteRule ^(.*)$ files/$1 [L]
+
   # If the requested filename exists, simply serve it.
   # We only want to let Apache serve files and not directories.
   RewriteCond %{REQUEST_FILENAME} !-d
@@ -58,6 +64,7 @@ Options -Indexes
 
   # Rewrite all other queries to the front controller.
   RewriteCond %{REQUEST_URI} !^/rcc/caving/old/
+  RewriteCond %{REQUEST_URI} !^/rcc/caving/files/
   RewriteRule ^ %{ENV:BASE}/index.php [L]
 
 </IfModule>

@@ -262,11 +262,13 @@ class CavepeepsExtension extends SimpleExtension
         // Convert to trips
         $trips = array();
         foreach($results as $result) {
-            $caves = array();
-            foreach($result['Cave'] as $cave) {
-                array_push($caves, $cavesById[$cave]);
-            };
-            array_push($trips, ['article'=>$articlesById[$result['content_id']], 'caves'=>$caves, 'date'=>$result['Date']]);
+            if (array_key_exists($result['content_id'],$articlesById)) {
+                $caves = array();
+                foreach($result['Cave'] as $cave) {
+                    array_push($caves, $cavesById[$cave]);
+                };
+                array_push($trips, ['article'=>$articlesById[$result['content_id']], 'caves'=>$caves, 'date'=>$result['Date']]);
+            }
         }
         usort($trips, function ($item1, $item2) {
             return strcmp($item2['date'], $item1['date']);
@@ -296,6 +298,7 @@ class CavepeepsExtension extends SimpleExtension
         // Get top cavers
         $caverIDsCount = array_count_values($caverIDs);
         arsort($caverIDsCount);
+   	unset($caverIDsCount[$caverId]);
         if (count($caverIDsCount) < 1) {
             $data['cavers'] = ['top'=>[],'count'=>0];
         } else {
@@ -433,7 +436,19 @@ class CavepeepsExtension extends SimpleExtension
     public function tripsByAcademicYear($context)
     {
         $app = $this->getContainer();
-        // $raw_results = $app['db']->fetchAll('SELECT *, date, CASE WHEN MONTH(date) < 9 THEN CONCAT(YEAR(date) - 1, ' - ', YEAR(date)) ELSE CONCAT(YEAR(date), ' - ', YEAR(date) + 1) END AS ACYEAR FROM rcc_caving.bolt_articles WHERE type = 'trip' AND status = 'published' ORDER BY date DESC');
+        $raw_results = $app['db']->fetchAll('SELECT *, date, CASE WHEN MONTH(date) < 9 THEN CONCAT(YEAR(date) - 1, " - ", YEAR(date)) ELSE CONCAT(YEAR(date), " - ", YEAR(date) + 1) END AS ACYEAR FROM rcc_caving.bolt_articles WHERE type = "trip" AND status = "published" ORDER BY date DESC');
+        $data = array();
+        foreach($raw_results as $result) {
+             $key = $result['ACYEAR'];
+             $result['link'] = $app['config']->get('general/siteurl').'/article/'.$result['slug'];
+             if(array_key_exists($key, $data)){
+             	array_push($data[$key], $result);
+             }else{
+             	$data[$key] = [ $result ];
+             }
+        }
+        return $data;
+        
         $articles = $app['query']->getContent((string) 'articles', ['type' => 'trip', 'order' => '-date', 'status' => 'published']);
         $data = array();
         foreach($articles as $article) {

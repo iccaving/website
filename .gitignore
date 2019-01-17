@@ -24,6 +24,7 @@ npm-debug.log
 .sass-cache
 
 # File-system cruft and temporary files
+*.save
 *.dist
 *.gz
 *.sublime-*
