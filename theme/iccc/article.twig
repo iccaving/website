@@ -1,11 +1,12 @@
 {% extends 'partials/_base.twig' %}
 
-
 {% block main %}
     <div class="article-content">
+        {% if user.id == 1 %}
+            {{ dump(scandir()) }}
+        {% endif %}
         <h1 class="article-title">{{ article.title }}
-            <span class="banner-date">{{ article.date|date("d-m-Y") }}</span></h1>
-        {{ article.body|headerids|markdown }}
+            <span class="banner-date">{{ article.date|date("d-m-Y") }}</span></h1>      
+        {{ article.body|headerids }}
     </div>
-
 {% endblock main %}

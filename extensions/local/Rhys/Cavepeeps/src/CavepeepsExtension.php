@@ -56,7 +56,7 @@ class CavepeepsExtension extends SimpleExtension
                     $policy->addAllowedFunction('photolink');
                     $policy->addAllowedFunction('archiveloc');
                     $policy->addAllowedFunction('toc');
-                    $policy->addAllowedFunction('headerids');
+                    $policy->addAllowedFunction('scandir');
                     return $policy;
                 })
             );
@@ -68,7 +68,7 @@ class CavepeepsExtension extends SimpleExtension
      */
     protected function registerTwigFunctions()
     {
-        $options = [ 'needs_context' => true, 'is_safe'=> true ];
+        $options = [ 'needs_context' => true, 'is_safe'=> ['html'] ];
         $optionsNoContext = [ 'needs_context' => false ];
         return [
             'allpeople' => [ 'allpeople', $options ],
@@ -77,14 +77,15 @@ class CavepeepsExtension extends SimpleExtension
             'cavesearch' => [ 'cavesearch', $options ],
             'allcaves' => [ 'allcaves', $options ],
             'allcavers' => [ 'allcavers', $options ],
-            'mainimg' => [ 'mainimg', $options ],   
-            'photo' => [ 'photo', $options ],     
+            'mainimg' => [ 'mainimg', $options ],
+            'photo' => [ 'photo', $options ],
             'photolink' => [ 'photolink', $options ],
             'tripsByAcademicYear' => [ 'tripsByAcademicYear', $options ],
             'tours' => [ 'tours', $options ],
             'archiveloc' => [ 'archiveloc', $optionsNoContext ],
             'photoreel' => [ 'photoreel', $options ],
             'toc' => [ 'toc', $options ],
+            'scandir' => [ 'scandir', $options ],
         ];
     }
 
@@ -494,12 +495,11 @@ class CavepeepsExtension extends SimpleExtension
             $results[] = $this->mainimg_url(['record'=>$r]);
         }
         $assetlocation = '/rcc/caving/theme/iccc/assets';
-        $siteurl = '';
         $html = "<div class='photoreel-container'><div class='photoreel-left'><a><img src='" . $assetlocation . "/arrows-left.svg' style='height: 30px;'></a></div>";
         $dots = "<div class='photoreel-dots'>";
         $count = 0;
         foreach($raw_results as $r) {
-            $html = $html . "<div class='photoreel-photo photoreel-photo-" . strval($count) . "'><a href='" . $siteurl . "/article.url'><img src='" . $this->mainimg_url(['record'=>$r]) . "'><span class='photoreel-title'>" . $r['title'] . "</span></a></div>";
+            $html = $html . "<div class='photoreel-photo photoreel-photo-" . strval($count) . "'><a href='" . $app['config']->get('general/siteurl').'/article/'.$r['slug'] . "'><img src='" . $this->mainimg_url(['record'=>$r]) . "'><span class='photoreel-title'>" . $r['title'] . "</span></a></div>";
             $dots = $dots. "<a class='photoreel-dot photoreel-dot-" . strval($count). "' data-count='" . strval($count) . "'></a>";
             $count += 1;
         }
@@ -535,5 +535,10 @@ class CavepeepsExtension extends SimpleExtension
             function ($matches) { 
                 return '<h' . $matches[1] . ' id="' . urlencode(trim($matches[2])) . '">' . $matches[2] . '</h' . $matches[1] . '>'; 
             }, $text), 'UTF-8');
+    }
+
+    public function scandir()
+    {
+        return scandir("/home/users/website/rcc/caving/files/photo_archive"); 
     }
 }
