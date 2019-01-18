@@ -39,9 +39,12 @@
             <div class="menu-icon">&#x2630;</div>
             <div class="banner-title">
                 {% block banner %}
-                    {%- if record.title is defined %}{{ record.title|striptags }}
-                        {{ record.date }}
-                    {% else %}Imperial College Caving Club{% endif -%}
+                    {% if record.title is defined %}
+                        {{ record.title|striptags }}
+                        {% if record.date is defined %}<span class="banner-date">{{ record.date }}</span>{% endif -%}
+                    {% else %}
+                        Imperial College Caving Club
+                    {% endif -%}
                 {% endblock %}
             </div>
         </div>

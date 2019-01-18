@@ -3,10 +3,9 @@
 
 {% block main %}
     <div class="article-content">
-        <h1 class="entry-title">{{ article.title }}
+        <h1 class="article-title">{{ article.title }}
             <span class="banner-date">{{ article.date|date("d-m-Y") }}</span></h1>
-
-        {{ article.body|markdown }}
+        {{ article.body|headerids|markdown }}
     </div>
 
 {% endblock main %}

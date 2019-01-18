@@ -2,8 +2,8 @@
 {% block main %}
     <div class="article-content">
     {% if not record.private or user is not empty %}
-          <h1 class="entry-title">{{ record.title }}</h1>
-          {{ record.body }}
+          <h1 class="article-title">{{ record.title }}</h1>
+              {{ record.body|headerids }}
           <div>
             <ul>
               <li>Path: {{ record.path }}</li>
@@ -12,7 +12,7 @@
             </ul>
           </div>
     {% else %}
-        Nothing to see here.
+        You need to be logged in to see this wiki article.
     {% endif %}
     </div>
 

@@ -55,7 +55,8 @@ class CavepeepsExtension extends SimpleExtension
                     $policy->addAllowedFunction('photo');
                     $policy->addAllowedFunction('photolink');
                     $policy->addAllowedFunction('archiveloc');
-                    $policy->addAllowedFunction('raw');
+                    $policy->addAllowedFunction('toc');
+                    $policy->addAllowedFunction('headerids');
                     return $policy;
                 })
             );
@@ -67,8 +68,8 @@ class CavepeepsExtension extends SimpleExtension
      */
     protected function registerTwigFunctions()
     {
-        $options = [ 'needs_context' => true, 'is_safe' => ['html'] ];
-        $optionsNoContext = [ 'needs_context' => false, 'is_safe' => ['html'] ];
+        $options = [ 'needs_context' => true, 'is_safe'=> true ];
+        $optionsNoContext = [ 'needs_context' => false ];
         return [
             'allpeople' => [ 'allpeople', $options ],
             'people' => [ 'people', $options ],
@@ -83,9 +84,19 @@ class CavepeepsExtension extends SimpleExtension
             'tours' => [ 'tours', $options ],
             'archiveloc' => [ 'archiveloc', $optionsNoContext ],
             'photoreel' => [ 'photoreel', $options ],
+            'toc' => [ 'toc', $options ],
         ];
     }
 
+    protected function registerTwigFilters()
+    {
+        $options = [ 'needs_context' => true ];
+        $optionsNoContext = [ 'needs_context' => false ];
+        return [
+            'headerids' => [ 'headerids', $options ],
+        ];
+    }
+    
     public function archiveloc($record) {
         $archive_loc = '';
         $photoarchive = $record['photoarchive'];
@@ -359,13 +370,14 @@ class CavepeepsExtension extends SimpleExtension
     public function allcaves($context)
     {
         $app = $this->getContainer();
-        $data = array();
-        $app = $this->getContainer();
+        $unpub_raw = $app['db']->fetchAll('SELECT id FROM rcc_caving.bolt_articles WHERE status != "published"');
+	$unpub = join(",", array_column($unpub_raw, 'id'));
         $raw_results = $app['db']->fetchAll(
             'SELECT * FROM (SELECT content_id, `grouping`, max(CASE WHEN fieldname = "Cave" THEN value_json_array END) AS Cave,
             MAX(CASE WHEN fieldname = "People" THEN value_json_array END) AS People,
             MAX(CASE WHEN fieldname = "Date" THEN value_date END) AS `Date`
             FROM rcc_caving.bolt_field_value
+            WHERE content_id NOT IN (' . $unpub . ')
             GROUP BY content_id, `grouping`) AS T');
         $data = array();
         $results = array();
@@ -388,19 +400,23 @@ class CavepeepsExtension extends SimpleExtension
         foreach($caves as $cave) {
             $data[$cave['id']]['cave'] = $cave;
         }
+        usort($data, function ($item1, $item2) {
+            return -1 * (strcmp($item2['cave']['name'], $item1['cave']['name']));
+        });
         return $data;
     }
 
     public function allcavers($context)
     {
         $app = $this->getContainer();
-        $data = array();
-        $app = $this->getContainer();
+        $unpub_raw = $app['db']->fetchAll('SELECT id FROM rcc_caving.bolt_articles WHERE status != "published"');
+	$unpub = join(",", array_column($unpub_raw, 'id'));
         $raw_results = $app['db']->fetchAll(
             'SELECT * FROM (SELECT content_id, `grouping`, max(CASE WHEN fieldname = "Cave" THEN value_json_array END) AS Cave,
             MAX(CASE WHEN fieldname = "People" THEN value_json_array END) AS People,
             MAX(CASE WHEN fieldname = "Date" THEN value_date END) AS `Date`
             FROM rcc_caving.bolt_field_value
+            WHERE content_id NOT IN (' . $unpub . ')
             GROUP BY content_id, `grouping`) AS T');
         $data = array();
         $results = array();
@@ -492,4 +508,32 @@ class CavepeepsExtension extends SimpleExtension
         return $html;
     }
 
+    public function toc($context, $max=10)
+    {
+        $pattern = "/^\s*(#+)(.*)/im";
+        $body = $context['record']->values['body'];
+        preg_match_all($pattern, $body, $matches, PREG_SET_ORDER);
+    	$base = min(array_map(function($val) {
+    	    return strlen($val);
+    	},array_column($matches, 1)));
+    	$html = '<ul>';
+    	foreach($matches as $match) {
+    	    $count = strlen($match[1]);
+            if ($count <= $max) {
+    	        $level = $count - $base;
+    	        $html = $html . str_repeat("<ul>",$level) .  '<li><a href="#' . urlencode(trim($match[2])) . '">' . $match[2] . '</a></li>' .  str_repeat("</ul>",$level);
+    	    }
+    	}
+    	$html = $html . '</ul>';
+    	return new Markup($html, 'UTF-8');
+    }
+
+    public function headerids($context, $text)
+    {
+        $pattern = "/<h(\d)>(.*)<\/h\d>/i";
+        return new Markup(preg_replace_callback($pattern, 
+            function ($matches) { 
+                return '<h' . $matches[1] . ' id="' . urlencode(trim($matches[2])) . '">' . $matches[2] . '</h' . $matches[1] . '>'; 
+            }, $text), 'UTF-8');
+    }
 }
