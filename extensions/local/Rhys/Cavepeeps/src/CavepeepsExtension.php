@@ -537,8 +537,34 @@ class CavepeepsExtension extends SimpleExtension
             }, $text), 'UTF-8');
     }
 
-    public function scandir()
+    public function scandir($context)
     {
-        return scandir("/home/users/website/rcc/caving/files/photo_archive"); 
+        $app = $this->getContainer();
+ 	$root = "/home/users/website/rcc/caving/files/photo_archive/";
+        $dir = urldecode(substr($app['request']->server->get('QUERY_STRING'),4));
+        $path = $root . $dir;
+        if (file_exists($path)) {
+            $urls = array();
+            $files = glob($path . "/*--thumb.{jpg,jpeg,JPG,JPEG}", GLOB_BRACE);
+            foreach($files as $file) {
+                $urls[] = [
+                    'thumb'=>[
+                        'info'=>getimagesize($file),
+                        'url'=>str_replace($root, "", $file)
+                     ],
+                    'image'=>[
+                        'info'=>getimagesize(str_replace("--thumb", "", $file)),
+                        'url'=>str_replace($root, "", str_replace("--thumb", "", $file))
+                     ],
+                    'orig'=>[
+                        'info'=>getimagesize(str_replace("--thumb", "--orig", $file)),
+                        'url'=>str_replace($root, "", str_replace("--thumb", "--orig", $file))
+                     ]
+                ];
+            }
+            return $urls;
+        }
+        return $path;
     }
 }
+

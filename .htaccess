@@ -49,6 +49,9 @@ Options -Indexes
   RewriteCond %{ENV:REDIRECT_STATUS} ^$
   RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
 
+  RewriteCond %{REQUEST_URI} ^/rcc/caving/photos/
+  RewriteRule ^photos/(.*)$ /rcc/caving/photos?dir=$1
+  
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_URI} ^/rcc/caving/FILES/ [OR]
   RewriteCond %{REQUEST_URI} ^/rcc/caving/photo_archive/ [OR]
