@@ -1,14 +1,11 @@
-{% set uri = app.request.server.get('REQUEST_URI')|replace({'/icccadmin/files':'','/icccadmin/files/files':''}) %}
+{% set uri = app.request.server.get('REQUEST_URI')|replace({(siteurl):''})|replace({'/icccadmin/files/files/':''}) %}
 
+{% if uri matches '/^photo_archive.*/' %}
 <div class="panel panel-default panel-news">
-    <div class="panel-heading">
-        <i class="fa fa-fw fa-smile-o"></i>
-    </div>
-
     <div class="panel-body">
-        <p>Currently in "{{ uri }}". If you need to generate the image thumbnails, click the button below.</p>
+        <p>Currently in "{{ uri }}". If you need to generate the image thumbnails, click the button below. A new tab will open. Wait for it to finish loading and it will tell you if your photos have been generated.</p>
         <p>
-            <a href="#" class="btn btn-default" id="generate">
+            <a a target="_blank" href="{{ siteurl }}/photos?dir={{ uri|replace({'photo_archive/':''}) }}&generate" class="btn btn-default" id="generate">
                 <i class="fa fa-thumbs-up"></i>
                 Generate
             </a>
@@ -16,3 +13,4 @@
     </div>
 
 </div>
+{% endif %}

@@ -1,75 +1,117 @@
 {% extends 'partials/_base.twig' %}
 
+{% block head %}
+    {{ parent() }}
+    <style>
+    .left-col {
+        display: none;
+    }
+    .article-content {
+        padding: 20px;
+        width: auto;
+    }
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .gallery > a {
+        margin: 5px 0;
+    }
+    .stal-img-left, .stal-img-right {
+        display: none;
+    }
+    </style>
+{% endblock %}
+
+
+{% block leftcol %}
+{% endblock %}
+
 {% block main %}
 <div class="article-content">
-    {% set images = scandir() %}
-    <div class="gallery">
-        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="pswp__bg"></div>
-            <div class="pswp__scroll-wrap">
-                <div class="pswp__container">
-                    <div class="pswp__item"></div>
-                    <div class="pswp__item"></div>
-                    <div class="pswp__item"></div>
-                </div>
-                <div class="pswp__ui pswp__ui--hidden">
-                    <div class="pswp__top-bar">
-                        <div class="pswp__counter"></div>
-                        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                        <button class="pswp__button pswp__button--share" title="Share"></button>
-                        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                        <div class="pswp__preloader">
-                            <div class="pswp__preloader__icn">
-                                <div class="pswp__preloader__cut">
-                                    <div class="pswp__preloader__donut"></div>
+    {% set response = dophotos() %}
+    {% if response.images is not empty %}
+        {% set images = response.images %}
+        <div class="gallery">
+            <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="pswp__bg"></div>
+                <div class="pswp__scroll-wrap">
+                    <div class="pswp__container">
+                        <div class="pswp__item"></div>
+                        <div class="pswp__item"></div>
+                        <div class="pswp__item"></div>
+                    </div>
+                    <div class="pswp__ui pswp__ui--hidden">
+                        <div class="pswp__top-bar">
+                            <div class="pswp__counter"></div>
+                            <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                            <button class="pswp__button pswp__button--share" title="Share"></button>
+                            <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                            <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                            <div class="pswp__preloader">
+                                <div class="pswp__preloader__icn">
+                                    <div class="pswp__preloader__cut">
+                                        <div class="pswp__preloader__donut"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                        <div class="pswp__share-tooltip"></div> 
-                    </div>
-                    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-                    </button>
-                    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-                    </button>
-                    <div class="pswp__caption">
-                        <div class="pswp__caption__center"></div>
+                        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                            <div class="pswp__share-tooltip"></div> 
+                        </div>
+                        <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                        </button>
+                        <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                        </button>
+                        <div class="pswp__caption">
+                            <div class="pswp__caption__center"></div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <link rel="stylesheet" href="{{ asset('css/photoswipe/photoswipe.css', 'theme') }}"> 
+            <link rel="stylesheet" href="{{ asset('css/photoswipe/default-skin.css', 'theme') }}"> 
+            <script src="{{ asset('js/photoswipe/photoswipe.min.js', 'theme') }}"></script> 
+            <script src="{{ asset('js/photoswipe/photoswipe-ui-default.min.js', 'theme') }}"></script> 
+            {% for image in images  %}
+            <a href="/rcc/caving/photo_archive/{{ image.thumb.url }}" class="image" data-index="{{ loop.index0 }}">
+                <img src="/rcc/caving/photo_archive/{{ image.thumb.url }}" />
+            </a>
+            {% endfor %}
+                <script>
+                    const slides = [
+                        {% for image in images %}
+                            {
+                                src: '/rcc/caving/photo_archive/{{ image.image.url }}',
+                                w: {{ image.image.info[0] }}, // image width
+                                h: {{ image.image.info[1] }}, // image height
+                                msrc: '/rcc/caving/photo_archive/{{ image.thumb.url }}',
+                                title: 'title'
+                            },
+                        {% endfor %}
+                        ]
+                    const pswpElement = document.querySelectorAll('.pswp')[0];
+                    const loadGallery = event => {
+                        event.preventDefault();
+                        const options = { index: parseInt(event.target.closest('.image').dataset.index, 10) };
+                        const gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, slides, options);
+                        gallery.init();
+                    }
+                    Array.from(document.querySelectorAll('.image')).forEach(image => image.addEventListener('click', loadGallery))
+                </script>
         </div>
-        <link rel="stylesheet" href="{{ asset('css/photoswipe/photoswipe.css', 'theme') }}"> 
-        <link rel="stylesheet" href="{{ asset('css/photoswipe/default-skin.css', 'theme') }}"> 
-        <script src="{{ asset('js/photoswipe/photoswipe.min.js', 'theme') }}"></script> 
-        <script src="{{ asset('js/photoswipe/photoswipe-ui-default.min.js', 'theme') }}"></script> 
-        {% for image in images  %}
-        <a href="{{ image.thumb.url }}" class="image" data-index="{{ loop.index0 }}">
-            <img src="/rcc/caving/photo_archive/{{ image.thumb.url }}" />
-        </a>
-        {% endfor %}
-        <script>
-            const slides = [
-                {% for image in images %}
-                    {
-                        src: '/rcc/caving/photo_archive/{{ image.image.url }}',
-                        w: {{ image.image.info[0] }}, // image width
-                        h: {{ image.image.info[1] }}, // image height
-                        msrc: '/rcc/caving/photo_archive/{{ image.thumb.url }}',
-                        title: 'title'
-                    },
-                {% endfor %}
-                ]
-            const pswpElement = document.querySelectorAll('.pswp')[0];
-            const loadGallery = event => {
-                event.preventDefault();
-                const options = { index: parseInt(event.target.closest('.image').dataset.index, 10) };
-                const gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, slides, options);
-                gallery.init();
-            }
-            Array.from(document.querySelectorAll('.image')).forEach(image => image.addEventListener('click', loadGallery))
-        </script>
-    </div>
+        {% else %}
+            <style>
+                .article-content {
+                    margin: auto;
+                    width: 800px;
+                }
+            </style>
+            <p>Done! Check the results below or click <a href="{{ app.request.server.get('REQUEST_URI')|replace({'generate':''}) }}">here</a> to see your photos.</p>
+            <pre>
+                {{ response.result }}
+            </pre>
+        {% endif %}
 </div>
 {% endblock main %}
