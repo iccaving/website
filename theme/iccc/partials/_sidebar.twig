@@ -1,131 +1,130 @@
 <div class="sidebar">
     <div class="logo">
         <div class="logo-text">Imperial College</div>
-        <a href="{{ config.get('general/siteurl') }}/"><img alt="Imperial College Caving Club logo" src="https://union.ic.ac.uk/rcc/caving/assets//iclogowhite.svg"></a>
+        <a href="{{ siteurl }}/"><img alt="Imperial College Caving Club logo" src="https://union.ic.ac.uk/rcc/caving/assets//iclogowhite.svg"></a>
         <div class="logo-text">Caving Club</div>
     </div>
     <div style="overflow-y: auto; overflow-x: hidden; height: 100%; display: flex; flex-flow: column nowrap;">
+        {% block sidebar %}
+            <hr class="hrsidebartop">
 
-        <hr class="hrsidebartop">
-
-        <div class="sidebar-content-box">
-            {% if user is not empty %}
+            <div class="sidebar-content-box">
+                {% if user is not empty %}
+                    <div class="sidebar-item">
+                        <a href="{{ siteurl }}{{ config.get('general/branding/path') }}">Admin</a>
+                    </div>
+                {% endif %}
                 <div class="sidebar-item">
-                    <a href="{{ config.get('general/siteurl') }}{{ config.get('general/branding/path') }}">Admin</a>
+                    <a href="{{ siteurl }}/">Home</a>
                 </div>
-            {% endif %}
-            <div class="sidebar-item">
-                <a href="{{ config.get('general/siteurl') }}/">Home</a>
+                <div class="sidebar-item">
+                    <a href="{{ siteurl }}/page/clubinfo">Club Info</a>
+                </div>
+                <div class="sidebar-item">
+                    <a href="{{ siteurl }}/page/clubinfo#faq">FAQ</a>
+                </div>
+                <div class="sidebar-item">
+                    <a href="{{ siteurl }}/page/contacts">Contacts</a>
+                </div>
             </div>
-            <div class="sidebar-item">
-                <a href="{{ config.get('general/siteurl') }}/page/clubinfo">Club Info</a>
-            </div>
-            <div class="sidebar-item">
-                <a href="{{ config.get('general/siteurl') }}/page/clubinfo#faq">FAQ</a>
-            </div>
-            <div class="sidebar-item">
-                <a href="{{ config.get('general/siteurl') }}/page/contacts">Contacts</a>
-            </div>
-        </div>
 
-        <hr class="hrsidebar">
+            <hr class="hrsidebar">
 
-        <div class="sidebar-content-box">
-            {% set trips = tripsByAcademicYear() %}
-            <div class="sidebar-item expandable-menu">
-                <a href="{{ config.get('general/siteurl') }}/archives.html" onclick="return false;">Trips</a>
-            </div>
-            <div class="sidebar-outer collapsed">
-                <div class="sidebar-inner nodisplay">
-                    {% for year, yeartrips in trips %}
-                        <div class="sidebar-sub-item expandable-menu">
-                            <a href="{{ config.get('general/siteurl') }}/archives.html" onclick="return false;">{{ year }}</a>
-                        </div>
-                        <div class="sidebar-outer collapsed">
-                            <div class="sidebar-inner nodisplay">
-                                {% for trip in yeartrips %}
-                                    <div class="sidebar-sub-sub-item">
-                                        <a href="{{ trip.link }}">{{ trip.title }}</a>
-                                    </div>
-                                {% endfor %}
+            <div class="sidebar-content-box">
+                {% set trips = tripsByAcademicYear() %}
+                <div class="sidebar-item expandable-menu">
+                    <a href="{{ siteurl }}/archives.html" onclick="return false;">Trips</a>
+                </div>
+                <div class="sidebar-outer collapsed">
+                    <div class="sidebar-inner nodisplay">
+                        {% for year, yeartrips in trips %}
+                            <div class="sidebar-sub-item expandable-menu">
+                                <a href="{{ siteurl }}/archives.html" onclick="return false;">{{ year }}</a>
                             </div>
-                        </div>
-                    {% endfor %}
+                            <div class="sidebar-outer collapsed">
+                                <div class="sidebar-inner nodisplay">
+                                    {% for trip in yeartrips %}
+                                        <div class="sidebar-sub-sub-item">
+                                            <a href="{{ trip.link }}">{{ trip.title }}</a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
-            {% setcontent tours = 'articles' where { type: 'tour'} orderby '-date' %}
-            <div class="sidebar-item expandable-menu">
-                <a href="{{ config.get('general/siteurl') }}/archives.html" onclick="return false;">Tours</a>
-            </div>
-            <div class="sidebar-outer collapsed">
-                <div class="sidebar-inner nodisplay">
-                    {% for tour in tours %}
+                {% setcontent tours = 'articles' where { type: 'tour'} orderby '-date' %}
+                <div class="sidebar-item expandable-menu">
+                    <a href="{{ siteurl }}/archives.html" onclick="return false;">Tours</a>
+                </div>
+                <div class="sidebar-outer collapsed">
+                    <div class="sidebar-inner nodisplay">
+                        {% for tour in tours %}
+                            <div class="sidebar-sub-sub-item">
+                                <a href="{{ tour.link }}">{{ tour.title }}
+                                    {{ tour.date|date("Y") }}</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="sidebar-item expandable-menu">
+                    <a href="{{ siteurl }}/archives.html" onclick="return false;">Expeditions</a>
+                </div>
+                <div class="sidebar-outer collapsed">
+                    <div class="sidebar-inner nodisplay">
                         <div class="sidebar-sub-sub-item">
-                            <a href="{{ tour.link }}">{{ tour.title }}
-                                {{ tour.date|date("Y") }}</a>
+                            <a href="{{ siteurl }}/slovenia/">Slovenia</a>
                         </div>
-                    {% endfor %}
+                        <div class="sidebar-sub-sub-item">
+                            <a href="{{ siteurl }}/newzealand/">New Zealand 2015</a>
+                        </div>
+                        <div class="sidebar-sub-sub-item">
+                            <a href="{{ siteurl }}/old/morocco/expo2001/report.php">Morocco 2001</a>
+                        </div>
+                        <div class="sidebar-sub-sub-item">
+                            <a href="{{ siteurl }}/old/morocco/recce99/morocco99.php">Morocco 1999</a>
+                        </div>
+                        <div class="sidebar-sub-sub-item">
+                            <a href="{{ siteurl }}/old/expeditions/">Expeditions Pre-1994</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-item">
+                    <a href="{{ siteurl }}/photo_archive/dirindex.html">Photos</a>
                 </div>
             </div>
 
-            <div class="sidebar-item expandable-menu">
-                <a href="{{ config.get('general/siteurl') }}/archives.html" onclick="return false;">Expeditions</a>
-            </div>
-            <div class="sidebar-outer collapsed">
-                <div class="sidebar-inner nodisplay">
-                    <div class="sidebar-sub-sub-item">
-                        <a href="/rcc/caving/slovenia/">Slovenia</a>
-                    </div>
-                    <div class="sidebar-sub-sub-item">
-                        <a href="/rcc/caving/newzealand/">New Zealand 2015</a>
-                    </div>
-                    <div class="sidebar-sub-sub-item">
-                        <a href="/rcc/caving/old/morocco/expo2001/report.php">Morocco 2001</a>
-                    </div>
-                    <div class="sidebar-sub-sub-item">
-                        <a href="/rcc/caving/old/morocco/recce99/morocco99.php">Morocco 1999</a>
-                    </div>
-                    <div class="sidebar-sub-sub-item">
-                        <a href="/rcc/caving/old/expeditions/">Expeditions Pre-1994</a>
-                    </div>
+            <hr class="hrsidebar">
+
+            <div class="sidebar-content-box">
+                <div class="sidebar-item">
+                    <a href="{{ siteurl }}/caves/">Caves</a>
+                </div>
+                <div class="sidebar-item">
+                    <a href="{{ siteurl }}/cavers/">Cavers</a>
+                </div>
+                <div class="sidebar-item">
+                    <a href="{{ siteurl }}/page/library">Library</a>
+                </div>
+                <div class="sidebar-item">
+                    <a href="{{ siteurl }}/wiki/">Wiki</a>
                 </div>
             </div>
 
-            <!-- <div class="sidebar-item"><a href="/photo_archive/">Photos</a></div> </div> -->
+            <div id="sidebar-fill" class="sidebar-content-box"></div>
 
-            <div class="sidebar-item">
-                <a href="/rcc/caving/photo_archive/dirindex.html">Photos</a>
+            <div class="sidebar-content-box">
+                <div class="sidebar-item">
+                    <a href="http://www.google.com/recaptcha/mailhide/d?k=01pKgPf4L76j23E4ymTAu8fw==&c=CoX_UvK7tWMqLjrzhcaEXTCP8fRKKSw-Cl1eAzdIcj4=">Email Us</a>
+                </div>
             </div>
-        </div>
-
-        <hr class="hrsidebar">
-
-        <div class="sidebar-content-box">
-            <div class="sidebar-item">
-                <a href="{{ config.get('general/siteurl') }}/caves/">Caves</a>
+            <div class="sidebar-content-box">
+                <div class="sidebar-item">
+                    <a href="{{ siteurl }}/old/index.php">Legacy Site</a>
+                </div>
             </div>
-            <div class="sidebar-item">
-                <a href="{{ config.get('general/siteurl') }}/cavers/">Cavers</a>
-            </div>
-            <div class="sidebar-item">
-                <a href="{{ config.get('general/siteurl') }}/page/library">Library</a>
-            </div>
-            <div class="sidebar-item">
-                <a href="{{ config.get('general/siteurl') }}/wiki/">Wiki</a>
-            </div>
-        </div>
-
-        <div id="sidebar-fill" class="sidebar-content-box"></div>
-
-        <div class="sidebar-content-box">
-            <div class="sidebar-item">
-                <a href="http://www.google.com/recaptcha/mailhide/d?k=01pKgPf4L76j23E4ymTAu8fw==&c=CoX_UvK7tWMqLjrzhcaEXTCP8fRKKSw-Cl1eAzdIcj4=">Email Us</a>
-            </div>
-        </div>
-        <div class="sidebar-content-box">
-            <div class="sidebar-item">
-                <a href="/rcc/caving/old/index.php">Legacy Site</a>
-            </div>
-        </div>
+        {% endblock sidebar %}
     </div>
 </div>

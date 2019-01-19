@@ -1,4 +1,8 @@
 extensions:
-    - Bundle\Site\CustomisationExtension
+    - Bundle\Site\BaseExtension
+    - Bundle\Site\TableOfContentsExtension
+    - Bundle\Site\CavepeepsExtension
+    - Bundle\Site\ArticleTagsExtension
+    - Bundle\Site\PhotoViewerExtension
 paths:
     web: '.'

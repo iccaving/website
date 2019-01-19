@@ -1,0 +1,2 @@
+#!/bin/bash
+cat backup.sql | mysql -u rcc_caving -p rcc_caving

@@ -1,7 +1,7 @@
 {% extends 'partials/_master.twig' %}
 
-{% block main %}
-
+{% block head %}
+    {{ parent() }}
     <script src="{{ asset('js/sorttable.js', 'theme') }}"></script>
     <script>
         //Script that gets url parameters
@@ -55,6 +55,10 @@
 
         });
     </script>
+{% endblock %}
+
+{% block main %}
+
     <div class="container">
         <div class="article-content">
             {% set data = allcaves()%}

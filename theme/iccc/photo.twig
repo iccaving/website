@@ -52,23 +52,23 @@
         <script>
             const slides = [
                 {% for image in images %}
-                {
-                    src: '/rcc/caving/photo_archive/{{ image.image.url }}',
-                    w: {{ image.image.info[0] }}, // image width
-                    h: {{ image.image.info[1] }}, // image height
-                    msrc: '/rcc/caving/photo_archive/{{ image.thumb.url }}',
-                    title: 'title'
-                },
-                    {% endfor %}
-                    ]
-                    const pswpElement = document.querySelectorAll('.pswp')[0];
-                     const loadGallery = event => {
-                         event.preventDefault();
-                         const options = { index: parseInt(event.target.closest('.image').dataset.index, 10) };
-                         const gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, slides, options);
-                         gallery.init();
-                     }
-                     Array.from(document.querySelectorAll('.image')).forEach(image => image.addEventListener('click', loadGallery))
+                    {
+                        src: '/rcc/caving/photo_archive/{{ image.image.url }}',
+                        w: {{ image.image.info[0] }}, // image width
+                        h: {{ image.image.info[1] }}, // image height
+                        msrc: '/rcc/caving/photo_archive/{{ image.thumb.url }}',
+                        title: 'title'
+                    },
+                {% endfor %}
+                ]
+            const pswpElement = document.querySelectorAll('.pswp')[0];
+            const loadGallery = event => {
+                event.preventDefault();
+                const options = { index: parseInt(event.target.closest('.image').dataset.index, 10) };
+                const gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, slides, options);
+                gallery.init();
+            }
+            Array.from(document.querySelectorAll('.image')).forEach(image => image.addEventListener('click', loadGallery))
         </script>
     </div>
 </div>

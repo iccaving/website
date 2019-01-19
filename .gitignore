@@ -16,6 +16,7 @@ app/database/
 cache/
 thumbs/
 vendor/
+*.dist
 
 # NPM, Gulp and Grunt stuff
 node_modules
@@ -24,8 +25,6 @@ npm-debug.log
 .sass-cache
 
 # File-system cruft and temporary files
-*.save
-*.dist
 *.gz
 *.sublime-*
 *.zip
@@ -48,16 +47,3 @@ composer.phar
 Thumbs.db
 Vagrantfile
 
-#ICCC specific
-.ftpconfig
-FILES/
-apps/
-assets/
-backup/
-newzealand/
-old/
-photo_archive/
-python/
-robots.txt
-topsecret/
-videos/

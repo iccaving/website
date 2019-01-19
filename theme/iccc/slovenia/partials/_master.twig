@@ -1,9 +1,10 @@
 {% extends 'partials/_master.twig' %}
 
 {% block head %}
+    {{ parent() }}
     <link rel="stylesheet" href="{{ asset('slovenia/css/main.css', 'theme') }}">
 {% endblock %}
 
-{% block sidebar %}
+{% block leftcol %}
     {% include('slovenia/partials/_sidebar.twig') %}
 {% endblock %}

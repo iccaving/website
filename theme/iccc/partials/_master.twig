@@ -2,35 +2,38 @@
 <html lang="{{ htmllang() }}">
 
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         {% block head %}
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <meta name="theme-color" content="#2D2D2D">
-        <meta name="msapplication-navbutton-color" content="#2D2D2D">
-        <meta name="apple-mobile-web-app-status-bar-style" content="#2D2D2D">
-        <link href="/rcc/caving/assets/iclogo.png" rel="icon">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" type="text/css"/>
-        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="{{ asset('css/main.css', 'theme') }}">
-        <script src="{{ asset('js/header.js', 'theme') }}"></script>
-        <script src="{{ asset('js/sidebar.js', 'theme') }}"></script>
+            <meta name="theme-color" content="#2D2D2D" />
+            <meta name="msapplication-navbutton-color" content="#2D2D2D" />
+            <meta name="apple-mobile-web-app-status-bar-style" content="#2D2D2D" />
+            <link href="{{ siteurl }}/assets/iclogo.png" rel="icon" />
+            <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" type="text/css"/>
+            <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700' rel='stylesheet' type='text/css'>
+            <link rel="stylesheet" href="{{ asset('css/main.css', 'theme') }}">
+            <script src="{{ asset('js/header.js', 'theme') }}"></script>
+            <script src="{{ asset('js/sidebar.js', 'theme') }}"></script>
 
-        <script>
-            window.ga = window.ga || function () {
-                (ga.q = ga.q || []).push(arguments)
-            };
-            ga.l = + new Date;
-            ga('create', 'UA-80065-2', 'auto');
-            ga('send', 'pageview');
-        </script>
-        <script async="async" src='https://www.google-analytics.com/analytics.js'></script>
-        <title>
-            {%- if record.title is defined %}{{ record.title|striptags }} | 
-            {% endif -%}
-            Imperial College Caving Club
-        </title>
-        {% block head %}{% endblock %}
-
+            <script>
+                window.ga = window.ga || function () {
+                    (ga.q = ga.q || []).push(arguments)
+                };
+                ga.l = + new Date;
+                ga('create', 'UA-80065-2', 'auto');
+                ga('send', 'pageview');
+            </script>
+            <script async="async" src='https://www.google-analytics.com/analytics.js'></script>
+            <title>
+                {% block title %}
+                    {%- if record.title is defined %}
+                    {{ record.title|striptags }} | 
+                    {% endif -%}
+                    Imperial College Caving Club
+                {% endblock %}
+            </title>
+       {% endblock %}
     </head>
     <body>
         <img async="async" class="stal-img-left" src="{{  asset('assets/leftstal.svg', 'theme')  }}">
@@ -52,7 +55,7 @@
         <div style="clear: both;"></div>
 
         <div class="left-col">
-            {% block sidebar %}
+            {% block leftcol %}
                 {{ include('partials/_sidebar.twig') }}
             {% endblock  %}
         </div>
@@ -60,8 +63,10 @@
         <div class="sidebar-closer mobile"></div>
 
         <div class="center-col">
-            {% block main %}{% endblock main %}
+            {% block main %}
+            {% endblock main %}
             <footer>
+                {% block footer %}
                 <div class="license">
                     This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
                 </div>
@@ -70,11 +75,9 @@
                         Hello {{ user.displayname }}. <a href="{{ app.config.get('general/siteurl') }}{{ app.config.get('general/branding/path') }}/editcontent/{{ record.contenttype.slug }}/{{ record.id }}">Edit this page</a>?
                     </div>
                 {% endif %}
+                {% endblock  %}
             </footer>
         </div>
-
-        <!--<div class="right-col"> </div>-->
-
         <div style="clear: both;"></div>
 </body>
 </html>

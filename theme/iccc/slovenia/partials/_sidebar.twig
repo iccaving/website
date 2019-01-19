@@ -10,12 +10,12 @@
         <div class="sidebar-content-box">
             {% if user is not empty %}
                 <div class="sidebar-item">
-                    <a href="{{ config.get('general/siteurl') }}{{ config.get('general/branding/path') }}">Admin</a>
+                    <a href="{{ siteurl }}{{ config.get('general/branding/path') }}">Admin</a>
                 </div>
             {% endif %}
-            <div class="sidebar-item"><a href="{{ config.get('general/siteurl') }}/slovenia/">Home</a></div>
-            <div class="sidebar-item"><a href="{{ config.get('general/siteurl') }}/pages/surveyrepo.html">Cave Data</a></div>
-            <div class="sidebar-item"><a href="{{ config.get('general/siteurl') }}/pages/hollowmountain.html">The Hollow Mountain</a></div>
+            <div class="sidebar-item"><a href="{{ siteurl }}/slovenia/">Home</a></div>
+            <div class="sidebar-item"><a href="{{ siteurl }}/page/surveyrepo.html">Cave Data</a></div>
+            <div class="sidebar-item"><a href="{{ siteurl }}/page/hollowmountain.html">The Hollow Mountain</a></div>
             <div class="sidebar-item"><a href="http://migovec.wordpress.com/">Migovec Blog</a></div>
         </div>
         <hr class="hrsidebar">
@@ -57,7 +57,7 @@
         </div>
     <hr class="hrsidebar">
     <div class="sidebar-content-box">
-        <div class="sidebar-item"><a href="{{ config.get('general/siteurl') }}">Main ICCC Site</a></div>
+        <div class="sidebar-item"><a href="{{ siteurl }}">Main ICCC Site</a></div>
     </div>
     </div>
 </div>
