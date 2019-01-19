@@ -21,51 +21,39 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
   RewriteEngine on
-
   RewriteRule cache/ - [F]
-
-  # Some servers require the RewriteBase to be set. If so, set to the correct folder.
   RewriteBase /rcc/caving
 
+  # BOLT STUFF - DO NOT TOUCH
   RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
-
   RewriteRule ^(.*) - [E=BASE:%1]
 
-  # Sets the HTTP_AUTHORIZATION header removed by Apache
   RewriteCond %{HTTP:Authorization} .
   RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-  # Redirect to URI without front controller to prevent duplicate content
-  # (with and without `/index.php`). Only do this redirect on the initial
-  # rewrite by Apache and not on subsequent cycles. Otherwise we would get an
-  # endless redirect loop (request -> rewrite to front controller ->
-  # redirect -> request -> ...).
-  # So in case you get a "too many redirects" error or you always get redirected
-  # to the start page because your Apache does not expose the REDIRECT_STATUS
-  # environment variable, you have 2 choices:
-  # - disable this feature by commenting the following 2 lines or
-  # - use Apache >= 2.3.9 and replace all L flags by END flags and remove the
-  #   following RewriteCond (best solution)
   RewriteCond %{ENV:REDIRECT_STATUS} ^$
   RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
-
+ 
+  # ICCC Stuff - maybe touch
   RewriteCond %{REQUEST_URI} ^/rcc/caving/photos/
   RewriteRule ^photos/(.*)$ /rcc/caving/photos?dir=$1
+
+  # Ensure old slov links still work
+  RewriteCond %{REQUEST_URI} ^/rcc/caving/slovenia/(page|article)s?/
+  RewriteRule ^slovenia/(.+?)(?=\.html$|$) /rcc/caving/$1 [R=301,L]
   
+  # Redirect files, photos, and videos to bolt accessible folder
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_URI} ^/rcc/caving/FILES/ [OR]
   RewriteCond %{REQUEST_URI} ^/rcc/caving/photo_archive/ [OR]
   RewriteCond %{REQUEST_URI} ^/rcc/caving/videos/
   RewriteRule ^(.*)$ files/$1 [L]
 
-  # If the requested filename exists, simply serve it.
-  # We only want to let Apache serve files and not directories.
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_URI} !=/favicon.ico
   RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
 
-  # Rewrite all other queries to the front controller.
   RewriteCond %{REQUEST_URI} !^/rcc/caving/old/
   RewriteCond %{REQUEST_URI} !^/rcc/caving/files/
   RewriteRule ^ %{ENV:BASE}/index.php [L]
