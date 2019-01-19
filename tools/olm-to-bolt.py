@@ -252,7 +252,7 @@ def doArticles(subdir, subsite = ""):
 
 def doIndex():
     md = markdown.Markdown(extensions=["markdown.extensions.meta"])
-    for root, dir, files in os.walk("../source/content/index/"):
+    for root, dir, files in os.walk(contentroot + "/index/"):
         for afile in files:
             if afile[-3:] != ".md":
                 continue
@@ -1047,12 +1047,11 @@ def doWiki():
 #clearLocations()
 #doLocations("trip")
 #doLocations("tour")
-clearTrips()
-doArticles("trip")
-doArticles("tour")
-doArticles("_slovenia/articles", 'Slovenia')
-print('aaa')
-#doIndex()
+#clearTrips()
+#doArticles("trip")
+#doArticles("tour")
+#doArticles("_slovenia/articles", 'Slovenia')
+doIndex()
 #clearPages()
 #doPages("pages")
 #doPages("_slovenia/pages", "Slovenia")

@@ -47,3 +47,12 @@ composer.phar
 Thumbs.db
 Vagrantfile
 
+.ftpconfig
+apps/
+assets/
+backup/
+newzealand/
+old/
+python/
+robots.txt
+topsecret/
