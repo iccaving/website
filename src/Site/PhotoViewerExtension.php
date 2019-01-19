@@ -51,8 +51,9 @@ class PhotoViewerExtension extends SimpleExtension
 
         // Construct file path to directory
         $root = $siteroot . "/files/photo_archive";
-        $dir = urldecode(preg_replace('/\/?photos\/?/', '', $app['request']->server->get('REQUEST_URI')));
-        $path = $root . '/' . $dir;
+        $baseurl = $siteurl . '/photos';
+        $dir = trim(urldecode(preg_replace('~'.$baseurl.'~', '', $app['request']->server->get('REQUEST_URI'))),'/');
+        $path = '/' . trim($root . '/' . $dir, '/');
         
         // Check if we should be displaying or generating
         parse_str($app['request']->server->get('QUERY_STRING'), $query);
@@ -64,21 +65,30 @@ class PhotoViewerExtension extends SimpleExtension
             if (file_exists($path)) {
                 $urls = array();
                 $files = glob($path . "/*--thumb.{jpg,jpeg,JPG,JPEG}", GLOB_BRACE);
-                foreach ($files as $file) {
-                    $urls[] = [
-                        'thumb' => [
-                            'info' => getimagesize($file),
-                            'url' => str_replace($root.'/', "", $file),
-                        ],
-                        'image' => [
-                            'info' => getimagesize(str_replace("--thumb", "", $file)),
-                            'url' => str_replace($root.'/', "", str_replace("--thumb", "", $file)),
-                        ],
-                        'orig' => [
-                            'info' => getimagesize(str_replace("--thumb", "--orig", $file)),
-                            'url' => str_replace($root.'/', "", str_replace("--thumb", "--orig", $file)),
-                        ],
-                    ];
+                foreach ($files as $file)
+                {
+                    $imagefile = file_exists_cs(str_replace("--thumb", "", $file));
+                    $thumbfile = file_exists_cs($file);
+                    $origfile = file_exists_cs(str_replace("--thumb", "--orig", $file));
+                    if ($thumbfile && $imagefile) {
+                        if (!$origfile) {
+                            $origfile = $imagefile;
+                        }
+                        $urls[] = [
+                            'thumb' => [
+                                'info' => getimagesize($thumbfile),
+                                'url' => str_replace($root.'/', "", $thumbfile),
+                            ],
+                            'image' => [
+                                'info' => getimagesize($imagefile),
+                                'url' => str_replace($root.'/', "", $imagefile),
+                            ],
+                            'orig' => [
+                                'info' => getimagesize($origfile),
+                                'url' => str_replace($root.'/', "", $origfile),
+                            ],
+                        ];
+                    }
                 }
                 // Create breadcrumbs
                 $breadcrumbs = array();
@@ -104,7 +114,7 @@ class PhotoViewerExtension extends SimpleExtension
                     $name = array_pop($explode);
                     $dirs[] = ["url" =>  str_replace(trim($root,'/').'/', "", trim($directory,'/')), "name" => $name];
                 }
-                return ["images" => $urls, "directories" => $dirs, "breadcrumbs" => $breadcrumbs];
+                return ["images" => $urls, "directories" => $dirs, "breadcrumbs" => $breadcrumbs, "directory" => $dir];
             } else {
                 return ["result" => "Folder does not exist '".$path."'"];
             }

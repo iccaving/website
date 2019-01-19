@@ -35,3 +35,21 @@ function mainimg_url($context)
     }
     return $image;
 }
+
+function file_exists_cs($fileName, $caseSensitive = false) {
+    if(file_exists($fileName)) {
+        return $fileName;
+    }
+    if($caseSensitive) return false;
+    // Handle case insensitive requests            
+    $directoryName = dirname($fileName);
+    $fileArray = glob($directoryName . '/*', GLOB_NOSORT);
+    $fileNameLowerCase = preg_replace('~\.[jJ][pP][eE][gG]~', '.jpg', strtolower($fileName));
+    foreach($fileArray as $file) {
+        $test = preg_replace('~\.[jJ][pP][eE][gG]~', '.jpg', strtolower($file));
+        if($test == $fileNameLowerCase) {
+            return $file;
+        }
+    }
+    return false;
+}

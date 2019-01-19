@@ -1,5 +1,7 @@
 {% extends 'partials/_base.twig' %}
 
+{% set response = dophotos() %}
+
 {% block head %}
     {{ parent() }}
     <style>
@@ -30,7 +32,6 @@
 
 {% block main %}
 <div class="article-content">
-    {% set response = dophotos() %}
     {% if response.result is empty %}
         {% set images = response.images %}
         {% set directories = response.directories %}
@@ -139,3 +140,12 @@
         {% endif %}
 </div>
 {% endblock main %}
+
+{% block footer %}
+    {{ parent() }}
+    {% if user is not empty and response.directory is not empty %}
+    <div class="logged-in">
+        Hello {{ user.displayname }}. <a href="{{ app.config.get('general/siteurl') }}{{ app.config.get('general/branding/path') }}/files/files/photo_archive/{{ response.directory }}">Upload more photos</a>?
+    </div>
+    {% endif %}
+{% endblock %}
