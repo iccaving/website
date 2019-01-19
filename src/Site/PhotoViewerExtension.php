@@ -47,13 +47,18 @@ class PhotoViewerExtension extends SimpleExtension
     {
         $app = $this->getContainer();
         $siteurl = $app['config']->get('general/siteurl');
-        $root = "/home/users/website/rcc/caving/files/photo_archive/";
-        $dir = urldecode(str_replace($siteurl.'/photos/', '', $app['request']->server->get('REQUEST_URI')));
-        $path = $root . $dir;
+        $siteroot = $app['config']->get('general/siteroot');
+
+        // Construct file path to directory
+        $root = $siteroot . "/files/photo_archive";
+        $dir = urldecode(preg_replace('/\/?photos\/?/', '', $app['request']->server->get('REQUEST_URI')));
+        $path = $root . '/' . $dir;
+        
+        // Check if we should be displaying or generating
         parse_str($app['request']->server->get('QUERY_STRING'), $query);
         if (array_key_exists('generate', $query)) {
             chdir(str_replace('?generate','',$path));
-            $output = shell_exec('/home/users/website/rcc/caving/files/photo_archive/scripts/do_photos -o');
+            $output = shell_exec($siteroot . '/files/photo_archive/scripts/do_photos -o');
             return ["result" => $output];
         } else {
             if (file_exists($path)) {
@@ -63,21 +68,45 @@ class PhotoViewerExtension extends SimpleExtension
                     $urls[] = [
                         'thumb' => [
                             'info' => getimagesize($file),
-                            'url' => str_replace($root, "", $file),
+                            'url' => str_replace($root.'/', "", $file),
                         ],
                         'image' => [
                             'info' => getimagesize(str_replace("--thumb", "", $file)),
-                            'url' => str_replace($root, "", str_replace("--thumb", "", $file)),
+                            'url' => str_replace($root.'/', "", str_replace("--thumb", "", $file)),
                         ],
                         'orig' => [
                             'info' => getimagesize(str_replace("--thumb", "--orig", $file)),
-                            'url' => str_replace($root, "", str_replace("--thumb", "--orig", $file)),
+                            'url' => str_replace($root.'/', "", str_replace("--thumb", "--orig", $file)),
                         ],
                     ];
                 }
-                return ["images" => $urls];
+                // Create breadcrumbs
+                $breadcrumbs = array();
+                $partial_path = '';
+                $explode = explode('/',$dir);
+                $first = true;
+                foreach($explode as $p) 
+                {   
+                    if (!$first) {
+                        $partial_path = $partial_path . '/' . $p;
+                    } else {
+                        $partial_path = $p;
+                    }
+                    $first = false;
+                    $breadcrumbs[] = ["url" => $partial_path, "name" => $p];
+                }
+                // Create directory listing
+                $dirs = array();
+                $directories = glob('/' . trim($path, '/') . "/*", GLOB_ONLYDIR);
+                foreach ($directories as $directory) 
+                {   
+                    $explode = explode('/',trim($directory,'/'));
+                    $name = array_pop($explode);
+                    $dirs[] = ["url" =>  str_replace(trim($root,'/').'/', "", trim($directory,'/')), "name" => $name];
+                }
+                return ["images" => $urls, "directories" => $dirs, "breadcrumbs" => $breadcrumbs];
             } else {
-                return ["result" => "Folder does not exist"];
+                return ["result" => "Folder does not exist '".$path."'"];
             }
         }
     }

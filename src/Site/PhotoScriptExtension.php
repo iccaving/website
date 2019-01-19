@@ -40,6 +40,6 @@ class PhotoScriptExtension extends SimpleExtension
 
 
         // Render the template, and return the results
-        return $this->renderTemplate('script.twig', $data);
+        return $this->renderTemplate('photowidget.twig', $data);
     }
 }

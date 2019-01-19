@@ -70,12 +70,12 @@ contentlisting:
 # Place your own routes here, that have a LOWER priority than the default routes.
 
 photos:
-    path: /photos/{slug}
+    path: /photos{slug}
     defaults:
         _controller: controller.frontend:template
         template: photo
     requirements:
-        slug: '.+'
+        slug: '.*'
 
 subsites:
      path: /{slug}
