@@ -4,5 +4,6 @@ extensions:
     - Bundle\Site\CavepeepsExtension
     - Bundle\Site\ArticleTagsExtension
     - Bundle\Site\PhotoViewerExtension
+    - Bundle\Site\PhotoScriptExtension
 paths:
     web: '.'
