@@ -46,12 +46,13 @@ class PhotoViewerExtension extends SimpleExtension
     public function dophotos($context)
     {
         $app = $this->getContainer();
+        $siteurl = $app['config']->get('general/siteurl');
         $root = "/home/users/website/rcc/caving/files/photo_archive/";
-        parse_str($app['request']->server->get('QUERY_STRING'), $query);
-        $dir = urldecode($query['dir']);
+        $dir = urldecode(str_replace($siteurl.'/photos/', '', $app['request']->server->get('REQUEST_URI')));
         $path = $root . $dir;
+        parse_str($app['request']->server->get('QUERY_STRING'), $query);
         if (array_key_exists('generate', $query)) {
-            chdir($path);
+            chdir(str_replace('?generate','',$path));
             $output = shell_exec('/home/users/website/rcc/caving/files/photo_archive/scripts/do_photos -o');
             return ["result" => $output];
         } else {

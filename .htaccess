@@ -35,9 +35,6 @@ Options -Indexes
   RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
  
   # ICCC Stuff - maybe touch
-  RewriteCond %{REQUEST_URI} ^/rcc/caving/photos/
-  RewriteRule ^photos/(.*)$ /rcc/caving/photos?dir=$1
-
   # Ensure old slov links still work
   RewriteCond %{REQUEST_URI} ^/rcc/caving/slovenia/(page|article)s?/
   RewriteRule ^slovenia/(.+?)(?=\.html$|$) /rcc/caving/$1 [R=301,L]

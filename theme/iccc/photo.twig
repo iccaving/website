@@ -108,7 +108,7 @@
                     width: 800px;
                 }
             </style>
-            <p>Done! Check the results below or click <a href="{{ app.request.server.get('REQUEST_URI')|replace({'generate':''}) }}">here</a> to see your photos.</p>
+            <p>Done! Check the results below or click <a href="{{ app.request.server.get('REQUEST_URI')|replace({'?generate':''}) }}">here</a> to see your photos.</p>
             <pre>
                 {{ response.result }}
             </pre>

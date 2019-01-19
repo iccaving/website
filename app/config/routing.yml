@@ -69,11 +69,13 @@ contentlisting:
 # ------------------------------------------------------------------------------
 # Place your own routes here, that have a LOWER priority than the default routes.
 
-templatebinding:
-    path: /photos
+photos:
+    path: /photos/{slug}
     defaults:
         _controller: controller.frontend:template
         template: photo
+    requirements:
+        slug: '.+'
 
 subsites:
      path: /{slug}
