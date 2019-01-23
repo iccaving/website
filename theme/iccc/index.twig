@@ -20,6 +20,8 @@
         {% endif %}
         {% if stickyindexes and app.pager.getPager().current == 1 %}
             {% for index in stickyindexes %}
+                {% set photoloc = photoviewloc(index) %}
+                {% set archiveloc = archiveloc(index) %}
                 <div class="content-box">
                     <div class="content-header">
                         <div class="content-left">
@@ -34,27 +36,27 @@
                     <div class="content">
                         {% if index.left_thumbnail is not empty %}
                             <div class="index-thumbl">
-                                <a href="{{ archiveloc(index) }}/{{ index.left_thumbnail|replace({'--thumb.jpg': '.html'}) }}">
-                                    <img alt="Thumbnail of photo from this article" src="{{ archiveloc(index) }}/{{ index.left_thumbnail }}">
+                                <a href="{{ photoloc }}/{{ index.left_thumbnail|replace({'--thumb': ''}) }}">
+                                    <img alt="Thumbnail of photo from this article" src="{{ archiveloc }}/{{ index.left_thumbnail }}">
                                 </a>
                             </div>
                         {% endif %}
                         {{ index.summary|markdown }}
                         {% if index.right_thumbnail is not empty %}
                             <div class="index-thumbr">
-                                <a href="{{ archiveloc(index) }}/{{ index.right_thumbnail|replace({'--thumb.jpg': '.html'}) }}">
-                                    <img alt="Thumbnail of photo from this article" src="{{ archiveloc(index) }}/{{ index.right_thumbnail }}">
+                                <a href="{{ photoloc }}/{{ index.right_thumbnail|replace({'--thumb': ''}) }}">
+                                    <img alt="Thumbnail of photo from this article" src="{{ archiveloc }}/{{ index.right_thumbnail }}">
                                 </a>
                             </div>
                         {% endif %}
                     </div>
                     <div class="content-footer">
-                        {% if index.metadata.archiveloc is defined %}
+                        {% if false %}
                             <div class="content-footer-left">
-                                <a class="footer-button" href="{{ index.link }}">{{ index.linktext }}</a>
+                                <a class="footer-button" href="{{ index.linkhref }}">{{ index.linktext }}</a>
                             </div>
                             <div class="content-footer-right">
-                                <a class="footer-button" href="{{ index.metadata.archiveloc }}">Photos</a>
+                                <a class="footer-button" href="{{ photoloc }}">Photos</a>
                             </div>
                         {% elseif index.linktext is not empty %}
                             <div class="content-footer-center">
@@ -68,6 +70,8 @@
         {% if articles %}
             {% for article in articles %}
                 {% if article.status != "unlisted" %}
+                {% set photoloc = photoviewloc(article) %}
+                {% set archiveloc = archiveloc(article) %}
                     <div class="content-box">
                         <div class="content-header">
                             <div class="content-left">
@@ -82,8 +86,8 @@
                         <div class="content">
                             {% if article.left_thumbnail is not empty %}
                                 <div class="index-thumbl">
-                                    <a href="{{ archiveloc(article) }}/{{ article.left_thumbnail|replace({'--thumb.jpg': '.html'}) }}">
-                                        <img alt="Thumbnail of photo from this article" src="{{ archiveloc(article) }}/{{ article.left_thumbnail }}">
+                                    <a href="{{ photoloc }}/{{ article.left_thumbnail|replace({'--thumb': ''}) }}">
+                                        <img alt="Thumbnail of photo from this article" src="{{ archiveloc }}/{{ article.left_thumbnail }}">
                                     </a>
                                 </div>
                             {% endif %}
@@ -92,14 +96,14 @@
                             </div>
                             {% if article.right_thumbnail is not empty %}
                                 <div class="index-thumbr">
-                                    <a href="{{ archiveloc(article) }}/{{ article.right_thumbnail|replace({'--thumb.jpg': '.html'}) }}">
-                                        <img alt="Thumbnail of photo from this article" src="{{ archiveloc(article) }}/{{ article.right_thumbnail }}">
+                                    <a href="{{ photoloc }}/{{ article.right_thumbnail|replace({'--thumb': ''}) }}">
+                                        <img alt="Thumbnail of photo from this article" src="{{ archiveloc }}/{{ article.right_thumbnail }}">
                                     </a>
                                 </div>
                             {% endif %}
                         </div>
                         <div class="content-footer">
-                            {% if article.photoarchive is not empty %}
+                            {% if photoloc is not empty %}
                                 <div class="content-footer-left">
                                     {% if article.linkhref is not empty %}
                                         <a class="footer-button" href="{{ article.linkhref }}">{{ article.linktext }}</a>
@@ -108,7 +112,7 @@
                                     {% endif %}
                                 </div>
                                 <div class="content-footer-right">
-                                    <a class="footer-button" href="{{ article.photoarchive }}">Photos</a>
+                                    <a class="footer-button" href="{{ photoloc }}">Photos</a>
                                 </div>
                             {% else  %}
                                 <div class="content-footer-center">

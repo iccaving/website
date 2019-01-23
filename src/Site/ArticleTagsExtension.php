@@ -21,6 +21,7 @@ class ArticleTagsExtension extends SimpleExtension
                     $policy->addAllowedFunction('photo');
                     $policy->addAllowedFunction('photolink');
                     $policy->addAllowedFunction('archiveloc');
+                    $policy->addAllowedFunction('photoviewloc');
                     return $policy;
                 })
             );
@@ -41,35 +42,38 @@ class ArticleTagsExtension extends SimpleExtension
             'photo' => ['photo', $options],
             'photolink' => ['photolink', $options],
             'archiveloc' => ['archiveloc', $optionsNoContext],
+            'photoviewloc' => ['photoviewloc', $optionsNoContext],
         ];
     }
 
     public function mainimg($context)
     {
         $archive_loc = archivelocFromContext($context);
+        $photoview_loc = photoviewlocFromContext($context);
         $mainimg = $context['record']['main_image'];
         if (!empty($mainimg)) {
             $image = $archive_loc . "/" . $mainimg;
         }
-        $html = "\n\n<span class='mainimg'><a href=" . $archive_loc . "><img src='" . $image . "'></a></span>\n\n";
+        $html = "\n\n<span class='mainimg'><a href=" . $photoview_loc . "><img src='" . $image . "'></a></span>\n\n";
         //$html = "</p>\n\n<a href='" . $archive_loc . "'><img src='" . $image . "'></a>\n\n";
         return new Markup($html, 'UTF-8');
     }
 
     public function photolink($context)
     {
-        $archive_loc = archivelocFromContext($context);
-        $html = '<span class="photo-button-wrapper"><a class="photo-button" href="' . $archive_loc . '">Photos</a></span>';
+        $photoview_loc = photoviewlocFromContext($context);
+        $html = '<span class="photo-button-wrapper"><a class="photo-button" href="' . $photoview_loc . '">Photos</a></span>';
         return new Markup($html, 'UTF-8');
     }
 
     public function photo($context, $imagelink, $position, $caption, $external, $a_link)
     {
+        $photoview_loc = photoviewlocFromContext($context);
         $archive_loc = archivelocFromContext($context);
         if (empty($external)) {
             $image = $archive_loc . "/" . $imagelink;
             if (empty($link)) {
-                $link = $archive_loc . "/" . str_replace(['.jpg', '.JPG', '.jpeg', '.JPEG', '.png', '.PNG', '.gif', '.GIF', '.svg', '.SVG'], '.html', $imagelink);
+                $link = $photoview_loc . "/" . $imagelink;
             }
         } else {
             $image = $imagelink;

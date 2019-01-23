@@ -104,15 +104,15 @@
                                 h: {{ image.image.info[1] }}, // image height
                                 msrc: '{{ siteurl }}/photo_archive/{{ image.thumb.url }}',
                                 title: 'title',
-                                orig: '{{ siteurl }}/photo_archive/{{ image.orig.url }}'
+                                orig: '{{ siteurl }}/photo_archive/{{ image.orig.url }}',
+                                pid: '{{ image.image.url|split('/')|last }}'
                             },
                         {% endfor %}
                         ]
                     const pswpElement = document.querySelectorAll('.pswp')[0];
-                    const loadGallery = event => {
-                        event.preventDefault();
+                    const loadGallery = index => {
                         const options = { 
-                            index: parseInt(event.target.closest('.image').dataset.index, 10),
+                            index: index,
                             addCaptionHTMLFn: function(item, captionEl, isFake) {
                                 console.log(captionEl)
                                 captionEl.children[0].innerHTML = `<div style="text-align:center;"><a target="_blank" href="${item.orig}">Original Size</a></div>`
@@ -123,7 +123,14 @@
                         const gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, slides, options);
                         gallery.init();
                     }
-                    Array.from(document.querySelectorAll('.image')).forEach(image => image.addEventListener('click', loadGallery))
+                    Array.from(document.querySelectorAll('.image')).forEach(image => image.addEventListener('click', event => {
+                        event.preventDefault();
+                        loadGallery(parseInt(event.target.closest('.image').dataset.index, 10));
+                    }))
+                    const filename = window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1);
+                    if (filename.includes('.')) {
+                           loadGallery(slides.findIndex(s => s.pid === filename ))
+                    }
                 </script>
         </div>
         {% else %}

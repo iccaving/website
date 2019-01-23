@@ -1,3 +1,3 @@
 #!/bin/bash
-php vendor/bin/nut database:export -f backup.json
+# php vendor/bin/nut database:export -f backup.json
 mysqldump -u rcc_caving -p rcc_caving > backup.sql

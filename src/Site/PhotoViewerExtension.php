@@ -53,6 +53,10 @@ class PhotoViewerExtension extends SimpleExtension
         $root = $siteroot . "/files/photo_archive";
         $baseurl = $siteurl . '/photos';
         $dir = trim(urldecode(preg_replace('~'.$baseurl.'~', '', $app['request']->server->get('REQUEST_URI'))),'/');
+        $pathinfo = pathinfo($dir);
+        if (array_key_exists('extension',$pathinfo)) {
+            $dir = $pathinfo['dirname'];
+        }
         $path = '/' . trim($root . '/' . $dir, '/');
         
         // Check if we should be displaying or generating

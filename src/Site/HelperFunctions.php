@@ -20,9 +20,18 @@ function archiveloc($record)
     return $archive_loc;
 }
 
+function photoviewloc($record) {
+    return rtrim(str_replace("photo_archive", "photos", archiveloc($record)),'/');
+}
+
 function archivelocFromContext($context)
 {
     return archiveloc($context['record']);
+}
+
+function photoviewlocFromContext($context)
+{
+    return photoviewloc($context['record']);
 }
 
 function mainimg_url($context)
