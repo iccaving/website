@@ -1,0 +1,58 @@
+.wiki-expander {
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 20px;
+    font-weight: bolder;
+}
+.wiki-button {
+    background: #b94444;
+    color: white;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+a.wiki-button {
+    text-decoration: none;
+    color: white;
+
+}
+.wiki-button.disabled,.wiki-button.disabled:hover {
+    background-color: #9e9e9e;
+    cursor: inherit
+}
+.wiki-button:hover {
+    background-color: #d46a6a;   
+}
+.wiki-breadcrumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;   
+}
+.wiki-breadcrumbs span {
+    margin: 10px 0 0;
+}
+.wiki-nav, .wiki-admin {
+    margin-top: 10px;    
+}
+.wiki-meta {
+    border: #b94444 2px dashed;
+    padding: 10px;   
+}
+.wiki-meta dt {
+    font-weight: bold;
+    color: #b94444;
+}
+.wiki-nav > ul {
+    border: #b94444 2px dashed;
+    padding: 10px;
+    margin-top: -2px;
+    padding-left: 40px;
+    overflow-y: auto;
+}

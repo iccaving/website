@@ -1,20 +1,76 @@
 {% extends 'partials/_master.twig' %}
+{% block head %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/wiki.css', 'theme') }}">
+<script src="{{ asset('js/wiki.js', 'theme') }}"></script>
+{% endblock %}
 {% block main %}
-    <div class="article-content">
+
+{% setcontent wikis = 'wikis' orderby 'path' %}
+<div class="article-content">
     {% if not record.private or user is not empty %}
-          <h1 class="article-title">{{ record.title }}</h1>
-              {{ record.body|headerids }}
-          <div>
-            <ul>
-              <li>Path: {{ record.path }}</li>
-              <li>Created on: {{ record.datecreated }}</li>
-              <li>Last changed on: {{ record.datechanged }}</li>
-            </ul>
-          </div>
-    {% else %}
-        You need to be logged in to see this wiki article.
-    {% endif %}
+    <h1 class="article-title">{{ record.title }}</h1>
+    {% if user is not empty %}
+    <div class="wiki-admin">
+        <a target="_blank" class="wiki-button" href="{{ app.config.get('general/siteurl') }}{{ app.config.get('general/branding/path') }}/editcontent/{{ record.contenttype.slug }}">New wiki page</a>
+        <a target="_blank" class="wiki-button" href="{{ app.config.get('general/siteurl') }}{{ app.config.get('general/branding/path') }}/editcontent/{{ record.contenttype.slug }}/{{ record.id }}">Edit this page</a>
     </div>
+    {% else %}
+    <p>Log in for wiki controls</p>
+    {% endif %}
+    {% set paths = record.path|split('/') %}
+    {% set pathSoFar = '' %}
+    <nav class="wiki-breadcrumbs">
+        <span><a class="wiki-button" href="{{ app.config.get('general/siteurl') }}/wiki">Home</a></span>
+        {% for path in paths %}
+        {% if path != "" %}
+        {% set pathSoFar = pathSoFar ~ '/' ~ path %}
+        <span>➔</span><span data-path="{{ pathSoFar|replace({'/':'.'}) }}"><a href="{{ app.config.get('general/siteurl') }}/wiki/{{ path }}">{{ path }}</a></span>
+        {% endif %}
+        {% endfor %}
+    </nav>
+    <nav class="wiki-nav">
+        <div style="display: none">
+            {% for wiki in wikis %}
+            {% if not wiki.private or user is not empty %}
+            <div>
+                {% set path = '' %}
+                {% if wiki.path is not empty %}
+                {% for pathbit in wiki.path|split('/') %}
+                {% set path = path ~ '/' ~ pathbit %}
+                {{ pathbit }} / 
+                {% endfor %}
+                {% endif %}
+                <a href="{{ wiki.link}}">{{ wiki.title }}</a>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </nav>
+    <dl class="wiki-meta">
+        <dt>Created on:</dt>
+        <dd>
+        {% if record.datecreated == "0000-00-00 00:00:00" %}
+        Before records began
+        {% else %}
+        {{ record.datecreated|date }}
+        {% endif %}
+        </dd>
+        <dt>Last changed on:</dt>
+        <dd>
+        {% if record.datechanged == "0000-00-00 00:00:00" %}
+        Before records began
+        {% else %}
+        {{ record.datechanged|date }}
+        {% endif %}
+        </dd>
+    </dl>
+    {{ record.body|headerids }}
+    {% else %}
+    You need to be logged in to see this wiki article.
+    {% endif %}
+</div>
+{% endblock %}
 
-
+{% block edit %}
 {% endblock %}

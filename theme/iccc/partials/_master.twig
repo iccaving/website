@@ -70,11 +70,13 @@
                 <div class="license">
                     This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
                 </div>
+                {% block edit %}
                 {% if user is not empty and record is defined %}
                     <div class="logged-in">
                         Hello {{ user.displayname }}. <a href="{{ app.config.get('general/siteurl') }}{{ app.config.get('general/branding/path') }}/editcontent/{{ record.contenttype.slug }}/{{ record.id }}">Edit this page</a>?
                     </div>
                 {% endif %}
+                {% endblock edit %}
                 {% endblock  %}
             </footer>
         </div>

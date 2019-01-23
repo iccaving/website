@@ -83,9 +83,7 @@ pre {
   overflow: auto;
   background: white;
   padding: 1rem;
-  width: fit-content;
   border-radius: 3px;
-  /*white-space: normal;*/
 }
 .left-col {
   height: 100%;
@@ -715,18 +713,6 @@ blockquote {
 .badge {
   display: inline-block;
   margin: 5px;
-}
-.wiki-nav-button {
-  cursor: pointer;
-}
-.wiki-dir-expander {
-  cursor: pointer;
-  font-weight: bold;
-  text-decoration: none;
-}
-.wiki-crumbs {
-  display: inline-block;
-  margin: 0;
 }
 .currlink,
 .nextlink,

@@ -1,59 +1,45 @@
 {% extends 'partials/_master.twig' %}
 
+{% block head %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/wiki.css', 'theme') }}">
+<script src="{{ asset('js/wiki.js', 'theme') }}"></script>
+{% endblock %}
+
 {% block main %}
 {% setcontent wikis = 'wikis' orderby 'path' %}
-
+{% setcontent home = 'wikis' where { title: 'Home' } returnsingle %}
 <div class="article-content">
+    <h1 class="article-title">Wiki</h1>
+    {% if user is not empty %}
+    <div class="wiki-admin">
+        <a target="_blank" class="wiki-button" href="{{ app.config.get('general/siteurl') }}{{ app.config.get('general/branding/path') }}/editcontent/wiki">New wiki page</a>
+        <a target="_blank" class="wiki-button" href="{{ app.config.get('general/siteurl') }}{{ app.config.get('general/branding/path') }}/editcontent/wiki/{{ home.id }}">Edit homepage</a>
+    </div>
+    {% else %}
+    <p>Log in for wiki controls</p>
+    {% endif %}
     <nav class="wiki-nav">
         <div style="display: none">
-        {% for wiki in wikis %}
-          {% if not wiki.private or user is not empty %}
+            {% for wiki in wikis %}
+            {% if not wiki.private or user is not empty %}
             <div>
-              {% set path = '' %}
-              {% if wiki.path is not empty %}
+                {% set path = '' %}
+                {% if wiki.path is not empty %}
                 {% for pathbit in wiki.path|split('/') %}
-                  {% set path = path ~ '/' ~ pathbit %}
-                  {{ pathbit }} / 
+                {% set path = path ~ '/' ~ pathbit %}
+                {{ pathbit }} / 
                 {% endfor %}
-              {% endif %}
-              <a href="{{ wiki.link}}">{{ wiki.title }}</a>
+                {% endif %}
+                <a href="{{ wiki.link}}">{{ wiki.title }}</a>
             </div>
             {% endif %}
-        {% endfor %}
+            {% endfor %}
         </div>
     </nav>
-    <script>
-        const paths = []
-        document.querySelectorAll('.article-content nav > div > div').forEach(div => {
-            const path = div.innerText.split('/').map(t => t.trim()).join('/');
-            if (path) paths.push({path: path, href: div.querySelector('a').href}) 
-        })
-        var hierarchy = paths.reduce(function(hier,path){
-            var x = hier;
-            path.path.split('/').forEach(function(item){
-                if(!x[item]){
-                    x[item] = {path: path.path.split('/').slice(0,-1).pop() || path.path};
-                }
-                x = x[item];
-            });
-            x.file = path.path.split('/').slice(-1).pop();
-            x.href = path.href
-            return hier;
-        }, {});
-        console.log(hierarchy)
-        var print = paths => {
-            return paths.reduce((acc,curr) => {
-                if (typeof(curr) !== 'string') {
-                    const paths = print(Object.values(curr));
-                    const filename = curr.file ? `<li><a href="${curr.href}">${curr.file}</a></li>` : `<li>${curr.path}</li>`;
-                    return `${filename}${paths ? `<ul>${paths}</ul>` : ''}` + acc
-                }
-                return acc
-            }, '')
-        }
-        html = `<ul>${print(Object.values(hierarchy))}</ul>`
-        document.querySelector('nav.wiki-nav').innerHTML = html;
-    </script>
+    {{ home.body|headerids }}
 </div>
+{% endblock %}
 
+{% block edit %}
 {% endblock %}
