@@ -39,6 +39,11 @@ Options -Indexes
   RewriteCond %{REQUEST_URI} ^/rcc/caving/slovenia/(page|article)s?/
   RewriteRule ^slovenia/(.+?)(?=\.html$|$) /rcc/caving/$1 [R=301,L]
   
+  RewriteCond %{REQUEST_URI} ^/rcc/caving/newzealand
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ $1 [L]
+
+  
   # Redirect files, photos, and videos to bolt accessible folder
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_URI} ^/rcc/caving/FILES/ [OR]

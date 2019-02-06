@@ -5,6 +5,5 @@ extensions:
     - Bundle\Site\ArticleTagsExtension
     - Bundle\Site\PhotoViewerExtension
     - Bundle\Site\BackendPhotoButtonExtension
-    - Bundle\Site\BackendScriptExtension
 paths:
     web: '.'

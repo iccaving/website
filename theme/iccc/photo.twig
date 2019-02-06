@@ -5,11 +5,15 @@
 {% block head %}
     {{ parent() }}
     <style>
-    .left-col {
-        display: none;
+    .banner, .left-col {
+        display: none;    
+    }
+    .center-col {
+        margin-top: 0;    
     }
     .article-content {
-        padding: 20px;
+        margin: 20px;
+        padding: 0;
         width: auto;
     }
     .gallery {
@@ -36,10 +40,12 @@
         {% set images = response.images %}
         {% set directories = response.directories %}
         {% set breadcrumbs = response.breadcrumbs %}
+        <nav>
         <a href="{{ siteurl}}" >ICCC</a> / <a href="{{ siteurl}}/photos" >photos</a>
         {% for dir in response.breadcrumbs  %}
            / <a href="{{ siteurl}}/photos/{{ dir.url }}" >{{ dir.name }}</a>  
-        {% endfor %}        
+        {% endfor %}
+        </nav>
         {% if directories is not empty %}
         <h2>Sub-directories</h2>
         <ul>
