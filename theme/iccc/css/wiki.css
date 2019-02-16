@@ -35,11 +35,9 @@ a.wiki-button {
     align-items: center;
     flex-wrap: wrap;   
 }
-.wiki-breadcrumbs span {
-    margin: 10px 0 0;
-}
 .wiki-nav, .wiki-admin {
-    margin-top: 10px;    
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .wiki-meta {
     border: #b94444 2px dashed;
