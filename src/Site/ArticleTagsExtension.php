@@ -102,7 +102,7 @@ class ArticleTagsExtension extends SimpleExtension
         return new Markup($html, 'UTF-8');
     }
 
-    public function people($context, $date, $caves_raw, $index)
+    public function people($context, $date, $caves_raw, $index="")
     {
         $app = $this->getContainer();
         $caves = array_map(function ($x) {return trim($x);}, preg_split("/>/", $caves_raw));
@@ -113,14 +113,21 @@ class ArticleTagsExtension extends SimpleExtension
         }
         sort($caveids);
         $people = '';
+        $curr_index = 1;
         foreach ($context['record']['cavepeeps'] as $row) {
+            if (date_format($row['Date'], 'Y-m-d') != $date) {
+                continue;
+            };
             $metacaveids = $row['Cave'];
             sort($metacaveids);
             if ($metacaveids === $caveids) {
-                $results = $app['query']->getContent((string) 'cavers', ['id' => join(' || ', $row['People'])]);
-                foreach ($results as $caver) {
-                    $people = $people . ", <a href='" . $caver->link() . "'>" . $caver->name . "</a>";
+                if ($index == '' || $curr_index == $index ) { 
+                    $results = $app['query']->getContent((string) 'cavers', ['id' => join(' || ', $row['People'])]);
+                    foreach ($results as $caver) {
+                        $people = $people . ", <a href='" . $caver->link() . "'>" . $caver->name . "</a>";
+                    }
                 }
+                $curr_index = $curr_index + 1;
             }
         }
         $html = substr($people, 2);
