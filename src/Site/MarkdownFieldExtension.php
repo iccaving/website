@@ -33,26 +33,29 @@ class MarkdownFieldExtension extends SimpleExtension
 
     protected function registerAssets()
     {
+		$app = $this->getContainer();
+		$siteurl = $app['config']->get('general/siteurl');
+
         $jsasset1 = JavaScript::create()
-            ->setFileName('/theme/iccc/js/editormd/editormd.js')
+            ->setFileName($siteurl . '/theme/iccc/js/editormd/editormd.js')
             ->setLate(true)
             ->setPriority(5)
             ->setZone(Zone::BACKEND)
         ;
         $jsasset2 = JavaScript::create()
-            ->setFileName('/theme/iccc/js/editormd/languages/en.js')
+            ->setFileName($siteurl . '/theme/iccc/js/editormd/languages/en.js')
             ->setLate(true)
             ->setPriority(5)
             ->setZone(Zone::BACKEND)
         ;
         $jsasset3 = JavaScript::create()
-        ->setFileName('/theme/iccc/js/editormd/init.js')
+        ->setFileName($siteurl . '/theme/iccc/js/editormd/init.js')
         ->setLate(true)
         ->setPriority(5)
         ->setZone(Zone::BACKEND)
     ;
         $cssasset = Stylesheet::create()
-            ->setFileName('/theme/iccc/js/editormd/css/editormd.min.css')
+            ->setFileName($siteurl . '/theme/iccc/js/editormd/css/editormd.min.css')
             ->setLate(true)
             ->setPriority(5)
             ->setZone(Zone::BACKEND)
