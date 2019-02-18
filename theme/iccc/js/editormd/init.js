@@ -3,11 +3,12 @@ window.addEventListener('load', md => {
         const editor = editormd(el.id, {
             width: "100%",
             height: 740,
-            path : '/theme/iccc/js/editormd/lib/',
+            path : siteurl + '/theme/iccc/js/editormd/lib/',
             appendMarkdown : md,
             searchReplace : true,
             htmlDecode : "style,script,iframe|on*", 
             tocm            : true,
+			placeholder      : "Write here...",
             toolbarIcons : function() {
                 return [
                     "undo", "redo", "|", 
@@ -16,17 +17,17 @@ window.addEventListener('load', md => {
                     "list-ul", "list-ol", "hr", "|",
                     "link", "table", "toc", "html-entities", "|",
                     "watch", "fullscreen", "search", "|",
-                    "mainimg", "photolink", "allpeople", "photo", "cavepeeps"
+                    "mainimg", "photolink", "photo", "|",
+					"allpeople" , "cavepeeps"
                 ]
             },
-            toolbarIconsClass : {
-                mainimg : "fa-image",
-                photolink: "fa-image",
-                allpeople : "fa-users",
-                photo: "fa-image",
-                cavepeeps: "fa-book",
-                toc: "fa-list-alt"
-            },
+			toolbarIconTexts : {
+                mainimg : "Main Image",
+                photolink: "Gallery Link",
+                allpeople : " All People",
+                photo: "Photo",
+                cavepeeps: "People",
+			},
             toolbarHandlers : {
                 mainimg : function(cm, icon, cursor, selection) {
                     cm.replaceSelection('\{\{ mainimg() \}\}')
@@ -58,10 +59,20 @@ window.addEventListener('load', md => {
                 }
             },
             watch: false,
-            //onload: function() { this.setMarkdown(`{{ context.content.get(contentkey)|default('') }}`)}
+            onload: function() { 
+				// Workaround for issue where [object Event] gets appended.
+				const text = this.markdownTextarea.contents().text();
+				if (text.endsWith('[object Event]')) {
+					this.setMarkdown(text.substring(0, text.length - 14))
+				}
+			}
         });
         document.querySelector('.nav-tabs').addEventListener('click', () => {
             editor.recreate();
+				const text = editor.markdownTextarea.contents().text();
+				if (text.endsWith('[object Event]')) {
+					editor.setMarkdown(text.substring(0, text.length - 14))
+				}
         })
     })
 })
