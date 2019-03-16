@@ -1,5 +1,65 @@
 {% extends 'partials/_master.twig' %}
 
+{% macro link(article) %}
+    {% if article.linkhref is not empty %}
+        <a class="footer-button" href="{{ article.linkhref }}">{{ article.linktext }}</a>
+    {% elseif article.type not in ['index', 'stickyindex'] %}
+        <a class="footer-button" href="{{ article.link }}">More</a>
+    {% endif %}
+{% endmacro %}
+
+{% macro thumb(archiveloc, thumbnail, side = "l") %}
+    {% if thumbnail is not empty %}
+        <div class="index-thumb{{side}}">
+            <a href="{{ photoloc }}/{{ thumbnail|replace({'--thumb': ''}) }}">
+                <img alt="Thumbnail of photo from this article" src="{{ archiveloc }}/{{ thumbnail }}">
+            </a>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro entry(article) %}
+    {% set photoloc = photoviewloc(article) %}
+    {% set archiveloc = archiveloc(article) %}
+    <div class="content-box">
+        <div class="content-header">
+            <div class="content-left">
+                <div>
+                    {% if article.type in ['index', 'stickyindex'] %}
+                        <a href="#">{{ article.title }}</a>
+                    {% else %}
+                        <a href="{{ article.link }}">{{ article.title }}</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="content-right">
+                <div>{{ article.date|date("d-m-Y") }}</div>
+            </div>
+        </div>
+        <div class="content">
+            {{ _self.thumb(archiveloc, article.left_thumbnail, 'l') }}
+            <div class="content-summary">
+                    {{ article.summary|markdown }}
+            </div>
+            {{ _self.thumb(archiveloc, article.right_thumbnail, 'r') }}
+        </div>
+        <div class="content-footer">
+            {% if galleryexists(article) %}
+                <div class="content-footer-left">
+                    {{ _self.link(article) }}
+                </div>
+                <div class="content-footer-right">
+                    <a class="footer-button" href="{{ photoloc }}">Photos</a>
+                </div>
+            {% else  %}
+                <div class="content-footer-center">
+                    {{ _self.link(article) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
 {% block main %}
     {% setcontent stickyindexes = 'articles'  where { type: 'stickyindex' } orderby '-date' %}
     {% setcontent articles = 'articles/latest/10'  where { type: 'trip || tour || index' } orderby '-date' allowpaging %}
@@ -20,111 +80,13 @@
         {% endif %}
         {% if stickyindexes and app.pager.getPager().current == 1 %}
             {% for index in stickyindexes %}
-                {% set photoloc = photoviewloc(index) %}
-                {% set archiveloc = archiveloc(index) %}
-                <div class="content-box">
-                    <div class="content-header">
-                        <div class="content-left">
-                            <div>
-                                <strong>{{ index.title }}</strong>
-                            </div>
-                        </div>
-                        <div class="content-right">
-                            <div>{{ index.date|date("d-m-Y") }}</div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        {% if index.left_thumbnail is not empty %}
-                            <div class="index-thumbl">
-                                <a href="{{ photoloc }}/{{ index.left_thumbnail|replace({'--thumb': ''}) }}">
-                                    <img alt="Thumbnail of photo from this article" src="{{ archiveloc }}/{{ index.left_thumbnail }}">
-                                </a>
-                            </div>
-                        {% endif %}
-                        {{ index.summary|markdown }}
-                        {% if index.right_thumbnail is not empty %}
-                            <div class="index-thumbr">
-                                <a href="{{ photoloc }}/{{ index.right_thumbnail|replace({'--thumb': ''}) }}">
-                                    <img alt="Thumbnail of photo from this article" src="{{ archiveloc }}/{{ index.right_thumbnail }}">
-                                </a>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="content-footer">
-                        {% if false %}
-                            <div class="content-footer-left">
-                                <a class="footer-button" href="{{ index.linkhref }}">{{ index.linktext }}</a>
-                            </div>
-                            <div class="content-footer-right">
-                                <a class="footer-button" href="{{ photoloc }}">Photos</a>
-                            </div>
-                        {% elseif index.linktext is not empty %}
-                            <div class="content-footer-center">
-                                <a class="footer-button" href="{{ index.linkhref }}">{{ index.linktext }}</a>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
+                {{ _self.entry(index) }}
             {% endfor %}
         {% endif %}
         {% if articles %}
             {% for article in articles %}
                 {% if article.status != "unlisted" %}
-                {% set photoloc = photoviewloc(article) %}
-                {% set archiveloc = archiveloc(article) %}
-                    <div class="content-box">
-                        <div class="content-header">
-                            <div class="content-left">
-                                <div>
-                                    <a href="{{ article.link }}">{{ article.title }}</a>
-                                </div>
-                            </div>
-                            <div class="content-right">
-                                <div>{{ article.date|date("d-m-Y") }}</div>
-                            </div>
-                        </div>
-                        <div class="content">
-                            {% if article.left_thumbnail is not empty %}
-                                <div class="index-thumbl">
-                                    <a href="{{ photoloc }}/{{ article.left_thumbnail|replace({'--thumb': ''}) }}">
-                                        <img alt="Thumbnail of photo from this article" src="{{ archiveloc }}/{{ article.left_thumbnail }}">
-                                    </a>
-                                </div>
-                            {% endif %}
-                            <div class="content-summary">
-                                    {{ article.summary|markdown }}
-                            </div>
-                            {% if article.right_thumbnail is not empty %}
-                                <div class="index-thumbr">
-                                    <a href="{{ photoloc }}/{{ article.right_thumbnail|replace({'--thumb': ''}) }}">
-                                        <img alt="Thumbnail of photo from this article" src="{{ archiveloc }}/{{ article.right_thumbnail }}">
-                                    </a>
-                                </div>
-                            {% endif %}
-                        </div>
-                        <div class="content-footer">
-                            {% if photoloc is not empty %}
-                                <div class="content-footer-left">
-                                    {% if article.linkhref is not empty %}
-                                        <a class="footer-button" href="{{ article.linkhref }}">{{ article.linktext }}</a>
-                                    {% elseif article.type != 'index' %}
-                                        <a class="footer-button" href="{{ article.link }}">More</a>
-                                    {% endif %}
-                                </div>
-                                <div class="content-footer-right">
-                                    <a class="footer-button" href="{{ photoloc }}">Photos</a>
-                                </div>
-                            {% else  %}
-                                <div class="content-footer-center">
-                                    {% if article.linkhref is not empty %}
-                                        <a class="footer-button" href="{{ article.linkhref }}">{{ article.linktext }}</a>
-                                    {% elseif article.type != 'index' %}
-                                        <a class="footer-button" href="{{ article.link }}">More</a>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {{ _self.entry(article) }}
                 {% endif %}
             {% endfor %}
             {{ pager() }}

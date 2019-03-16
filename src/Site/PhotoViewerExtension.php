@@ -17,6 +17,7 @@ class PhotoViewerExtension extends SimpleExtension
         return [
             'photoreel' => ['photoreel', $options],
             'dophotos' => ['dophotos', $options],
+            'galleryexists' => ['galleryexists', $options],
         ];
     }
 
@@ -123,5 +124,20 @@ class PhotoViewerExtension extends SimpleExtension
                 return ["result" => "Folder does not exist '".$path."'"];
             }
         }
+    }
+
+    public function galleryexists($context, $record)
+    {
+        $app = $this->getContainer();
+        $siteroot = $app['config']->get('general/siteroot');
+        // Construct file path to directory
+        $root = $siteroot . "/files/photo_archive";
+        $dir = trim(archivefileloc($record), '/');
+        $pathinfo = pathinfo($dir);
+        if (array_key_exists('extension',$pathinfo)) {
+            $dir = $pathinfo['dirname'];
+        }
+        $path = '/' . trim($root . '/' . $dir, '/');
+        return  file_exists($path);
     }
 }

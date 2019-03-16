@@ -1,5 +1,5 @@
 <?php
-function archiveloc($record)
+function archivefileloc($record)
 {
     $archive_loc = '';
     $photoarchive = $record['photoarchive'];
@@ -7,17 +7,28 @@ function archiveloc($record)
     $location = $record['location'];
     $date = $record['date'];
     if ($photoarchive == '') {
-        $archive_loc = 'https://union.ic.ac.uk/rcc/caving/photo_archive';
+        $archive_loc = '';
         if (!empty($type)) {
             $archive_loc = $archive_loc . '/' . strtolower($type) . 's';
         }
         if (!empty($location) && !empty($date)) {
-            $archive_loc = $archive_loc . '/' . $date . '%20-%20' . strtolower($location);
+            $archive_loc = $archive_loc . '/' . $date . ' - ' . strtolower($location);
         }
     } else {
         $archive_loc = $photoarchive;
     }
     return $archive_loc;
+}
+
+function archiveloc($record)
+{
+    $archive_loc = archivefileloc($record);
+    $photoarchive = $record['photoarchive'];
+    if ($photoarchive == '') {
+        return 'https://union.ic.ac.uk/rcc/caving/photo_archive'.$archive_loc;
+    } else {
+        return $archive_loc;
+    }
 }
 
 function photoviewloc($record) {
