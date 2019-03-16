@@ -13,7 +13,6 @@
 
 {% set heightOption = (option.height) ? 'height: ' ~ option.height ~ ' !important;' : '' %}
 
-{# NOTE: The toolbar option loop double taps the last array variable, hack around it here until we can replace #}
 {% set attributes = {
     text: {
         class:               option.class,
@@ -39,11 +38,12 @@
 {% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
+    {% set content = context.content.get(contentkey) %}
     {% if (key == 'body') and (bind_data.newRecord) and (content is empty) %}
 	    {% set content = '{{ mainimg() }}\n{{ photolink }}\n##### {{ allpeople() }}\n\n## Friday\n\nA report\n\n#### A Caver\n\n## Saturday\n### A cave: {{ people() }}\n### B cave: {{ people() }}\n\nA report\n\n#### A caver\n\nB report\n\n#### B caver\n\n## Sunday\n### A cave: {{ people() }}\n\nA report\n\n#### A caver' %}
     {% endif %}
-	<script>var siteurl="{{ app.config.get('general/siteurl') }}"</script>
+	<script>var siteurl="{{ app.config.get('general/siteurl') }}";</script>
     <div id="bettermarkdown-{{key}}">
-        <textarea {{ macro.attr(attributes.text) }}>{{ content }}</textarea>
+        <textarea {{ macro.attr(attributes.text) }}>{{ context.content.get(contentkey) }}</textarea>
     </div>
 {% endblock fieldset_controls %}

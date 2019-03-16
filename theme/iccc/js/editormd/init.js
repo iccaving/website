@@ -69,10 +69,10 @@ window.addEventListener('load', md => {
         });
         document.querySelector('.nav-tabs').addEventListener('click', () => {
             editor.recreate();
-				const text = editor.markdownTextarea.contents().text();
-				if (text.endsWith('[object Event]')) {
-					editor.setMarkdown(text.substring(0, text.length - 14))
-				}
+            const text = editor.markdownTextarea.contents().text();
+            if (text.endsWith('[object Event]')) {
+                editor.setMarkdown(text.substring(0, text.length - 14))
+            }
         })
     })
 })
