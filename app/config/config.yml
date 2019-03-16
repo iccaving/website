@@ -155,7 +155,7 @@ recordsperpage: 10
 caching:
     config: true
     templates: true
-    request: true
+    request: false
     duration: 30
     authenticated: false
     thumbnails: true
@@ -248,7 +248,7 @@ branding:
 # the debugbar is only shown to logged-in users. Use the 'debug_show_loggedoff'
 # option to show it to all users. You probably do not want to use this in a
 # production environment.
-debug: false
+debug: true
 debug_show_loggedoff: false
 debug_permission_audit_mode: false
 debug_error_level: 8181           # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING

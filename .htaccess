@@ -34,16 +34,20 @@ Options -Indexes
   RewriteCond %{ENV:REDIRECT_STATUS} ^$
   RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
  
-  # ICCC Stuff - maybe touch
+  ### ICCC Stuff - maybe touch ###
   # Ensure old slov links still work
   RewriteCond %{REQUEST_URI} ^/rcc/caving/slovenia/(page|article)s?/
   RewriteRule ^slovenia/(.+?)(?=\.html$|$) /rcc/caving/$1 [R=301,L]
   
-  RewriteCond %{REQUEST_URI} ^/rcc/caving/newzealand
+  RewriteCond %{REQUEST_URI} =/rcc/caving/apps/
+  RewriteRule ^ page/apps [R]
+
+  # Ensure static content does not redirect to bolt
+  RewriteCond %{REQUEST_URI} ^/rcc/caving/newzealand [OR]
+  RewriteCond %{REQUEST_URI} ^/rcc/caving/apps
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^(.*)$ $1 [L]
 
-  
   # Redirect files, photos, and videos to bolt accessible folder
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_URI} ^/rcc/caving/FILES/ [OR]

@@ -107,7 +107,7 @@
                                 <div class="content-footer-left">
                                     {% if article.linkhref is not empty %}
                                         <a class="footer-button" href="{{ article.linkhref }}">{{ article.linktext }}</a>
-                                    {% else %}
+                                    {% elseif article.type != 'index' %}
                                         <a class="footer-button" href="{{ article.link }}">More</a>
                                     {% endif %}
                                 </div>
