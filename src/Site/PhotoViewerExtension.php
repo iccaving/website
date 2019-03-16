@@ -127,7 +127,10 @@ class PhotoViewerExtension extends SimpleExtension
     }
 
     public function galleryexists($context, $record)
-    {
+    {   
+        if ($record['photoarchive'] != '') {
+            return true;
+        }
         $app = $this->getContainer();
         $siteroot = $app['config']->get('general/siteroot');
         // Construct file path to directory
