@@ -100,23 +100,27 @@ articles:
             group: Cavepeeps
             prefix: "<p>Cavepeeps go here</p>"
             class: "cavepeeps"
+            initial: 0
             fields:
                 Date:
                     type: date
                     variant: inline
                     class: "cavepeeps-date"
+                    required: true
                 Cave:
                     type: select
                     values: cave/name
                     autocomplete: true
                     multiple: true
                     class: "cavepeeps-cave"
+                    required: true
                 People:
                     type: select
                     values: caver/name
                     autocomplete: true
                     multiple: true
                     class: "cavepeeps-people"
+                    required: true
         slug:
             type: slug
             uses: [location, date]

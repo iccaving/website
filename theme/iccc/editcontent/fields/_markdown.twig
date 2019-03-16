@@ -38,15 +38,12 @@
 {% block fieldset_label_class 'control-label col-xs-12' %}
 {% block fieldset_label_for   key %}
 
-{% if key == 'body' %}
-	{% set default_text = '{{ mainimg() }}\n{{ photolink }}\n##### {{ allpeople() }}\n\n## Friday\n\nA report\n\n#### A Caver\n\n## Saturday\n### A cave: {{ people() }}\n### B cave: {{ people() }}\n\nA report\n\n#### A caver\n\nB report\n\n#### B caver\n\n## Sunday\n### A cave: {{ people() }}\n\nA report\n\n#### A caver' %}
-{% else %}
-	{% set default_text = '' %}
-{% endif %}
-
 {% block fieldset_controls %}
+    {% if (key == 'body') and (bind_data.newRecord) and (content is empty) %}
+	    {% set content = '{{ mainimg() }}\n{{ photolink }}\n##### {{ allpeople() }}\n\n## Friday\n\nA report\n\n#### A Caver\n\n## Saturday\n### A cave: {{ people() }}\n### B cave: {{ people() }}\n\nA report\n\n#### A caver\n\nB report\n\n#### B caver\n\n## Sunday\n### A cave: {{ people() }}\n\nA report\n\n#### A caver' %}
+    {% endif %}
 	<script>var siteurl="{{ app.config.get('general/siteurl') }}"</script>
     <div id="bettermarkdown-{{key}}">
-        <textarea {{ macro.attr(attributes.text) }}>{{ context.content.get(contentkey)|default(default_text) }}</textarea>
+        <textarea {{ macro.attr(attributes.text) }}>{{ content }}</textarea>
     </div>
 {% endblock fieldset_controls %}
