@@ -55,7 +55,7 @@ function clicked(event) {
   event.preventDefault();
   if (go) {
     go = false
-    var outerContainer =  event.target.parentElement.nextSibling.nextSibling;
+    var outerContainer =  event.target.parentElement.nextSibling;
     var innerContainer = outerContainer.children[0];
     var transitionEvent = whichTransitionEvent();
     transitionEvent && outerContainer.addEventListener(transitionEvent, function(event) {
