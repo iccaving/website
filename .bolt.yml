@@ -6,5 +6,6 @@ extensions:
     - Bundle\Site\PhotoViewerExtension
     - Bundle\Site\BackendPhotoButtonExtension
     - Bundle\Site\MarkdownFieldExtension
+    - Bundle\Site\SidebarExtension
 paths:
-    web: '.'
+    web: '%site%/.'

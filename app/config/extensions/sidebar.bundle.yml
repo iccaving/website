@@ -1,0 +1,5 @@
+widgets:
+    sidebar:
+        location: sidebar
+        template: widgets/sidebar.twig
+        cacheduration: 3600
