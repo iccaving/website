@@ -97,6 +97,9 @@ pre {
   background-color: #2d2d2d;
   z-index: 10;
 }
+.left-col > * {
+  width: 180px;
+}
 @media screen and (max-width: 750px) {
   .left-col {
     display: block;
@@ -109,7 +112,44 @@ pre {
     height: calc(100vh - 65px);
     transition: margin 0.5s;
   }
+  .left-col > * {
+    width: 185px;
+  }
 }
+.left-col::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+.left-col::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+.left-col::-webkit-scrollbar-thumb {
+  background: #e1e1e1;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+.left-col::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}
+.left-col::-webkit-scrollbar-thumb:active {
+  background: #000000;
+}
+.left-col::-webkit-scrollbar-track {
+  background: #666666;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+.left-col::-webkit-scrollbar-track:hover {
+  background: #666666;
+}
+.left-col::-webkit-scrollbar-track:active {
+  background: #333333;
+}
+.left-col::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 .center-col {
   float: left;
   vertical-align: top;
