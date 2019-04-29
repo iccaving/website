@@ -54,7 +54,7 @@ class ArticleTagsExtension extends SimpleExtension
         if (!empty($mainimg)) {
             $image = $archive_loc . "/" . $mainimg;
         }
-        $html = "\n\n<span class='mainimg'><a href=" . $photoview_loc . "><img src='" . $image . "'></a></span>\n\n";
+        $html = "\n\n<span class='mainimg'><a href='" . $photoview_loc . "'><img src='" . $image . "'></a></span>\n\n";
         //$html = "</p>\n\n<a href='" . $archive_loc . "'><img src='" . $image . "'></a>\n\n";
         return new Markup($html, 'UTF-8');
     }
