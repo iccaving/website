@@ -8,7 +8,7 @@
     {% endif %}
 {% endmacro %}
 
-{% macro thumb(archiveloc, thumbnail, side = "l") %}
+{% macro thumb(photoloc, archiveloc, thumbnail, side = "l") %}
     {% if thumbnail is not empty %}
         <div class="index-thumb{{side}}">
             <a href="{{ photoloc }}/{{ thumbnail|replace({'--thumb': ''}) }}">
@@ -37,11 +37,11 @@
             </div>
         </div>
         <div class="content">
-            {{ _self.thumb(archiveloc, article.left_thumbnail, 'l') }}
+            {{ _self.thumb(photoloc, archiveloc, article.left_thumbnail, 'l') }}
             <div class="content-summary">
                     {{ article.summary|markdown }}
             </div>
-            {{ _self.thumb(archiveloc, article.right_thumbnail, 'r') }}
+            {{ _self.thumb(photoloc, archiveloc, article.right_thumbnail, 'r') }}
         </div>
         <div class="content-footer">
             {% if galleryexists(article) %}

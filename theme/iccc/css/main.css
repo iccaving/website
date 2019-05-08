@@ -399,7 +399,11 @@ pre {
 .sidebar::-webkit-scrollbar-corner {
   background: transparent;
 }
-
+.sidebar .widgetholder-sidebar, .sidebar .widget {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
 .index-container {
   width: 800px;
   margin: 10px calc((100vw - 180px - 800px) / 2) 0
@@ -475,6 +479,7 @@ pre {
   vertical-align: top;
   display: table-cell;
   vertical-align: middle;
+  width: 100%;
 }
 @media screen and (max-width: 750px) {
   .content-summary {
@@ -880,6 +885,9 @@ table.sortable th {
   min-width: 4em;
   text-align: center;
 }
+table.sortable th {
+    cursor: pointer;
+}
 @media screen and (max-width: 750px) {
   table.sortable td,
   table.sortable th {
@@ -911,6 +919,10 @@ table.sortable
   overflow-x: scroll;
   overflow-y: hidden;
 }
+.content-summary table {
+  margin: 0 -15px -15px;
+  width: calc(100% + 30px);
+}
 @media screen and (max-width: 750px) {
   .table-container {
     margin: 0 -10px;
@@ -941,6 +953,9 @@ tbody > tr:nth-child(odd) {
 thead > tr {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   background-color: #ffffff;
+}
+td.date {
+  white-space: nowrap;
 }
 hr.hrstyle {
   border: 0;

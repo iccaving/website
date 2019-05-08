@@ -97,7 +97,7 @@
             <script src="{{ asset('js/photoswipe/photoswipe.min.js', 'theme') }}"></script> 
             <script src="{{ asset('js/photoswipe/photoswipe-ui-default.min.js', 'theme') }}"></script> 
             {% for image in images  %}
-            <a href="{{ siteurl }}/photo_archive/{{ image.thumb.url }}" class="image" data-index="{{ loop.index0 }}">
+            <a href="{{ siteurl }}/photo_archive/{{ image.orig.url }}" class="image" data-index="{{ loop.index0 }}">
                 <img src="{{  siteurl  }}/photo_archive/{{ image.thumb.url }}" />
             </a>
             {% endfor %}
