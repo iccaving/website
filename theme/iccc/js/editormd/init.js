@@ -5,7 +5,6 @@ window.addEventListener('load', md => {
             height: 740,
             path : siteurl + '/theme/iccc/js/editormd/lib/',
             searchReplace : true,
-            htmlDecode : "style,script,iframe|on*", 
             tocm            : true,
 			placeholder      : "Write here...",
             toolbarIcons : function() {
