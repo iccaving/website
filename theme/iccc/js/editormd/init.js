@@ -4,7 +4,6 @@ window.addEventListener('load', md => {
             width: "100%",
             height: 740,
             path : siteurl + '/theme/iccc/js/editormd/lib/',
-            appendMarkdown : md,
             searchReplace : true,
             htmlDecode : "style,script,iframe|on*", 
             tocm            : true,
@@ -58,21 +57,10 @@ window.addEventListener('load', md => {
                     toc: "A table of contents"
                 }
             },
-            watch: false,
-            onload: function() { 
-				// Workaround for issue where [object Event] gets appended.
-				const text = this.markdownTextarea.contents().text();
-				if (text.endsWith('[object Event]')) {
-					this.setMarkdown(text.substring(0, text.length - 14))
-				}
-			}
+            watch: false
         });
         document.querySelector('.nav-tabs').addEventListener('click', () => {
             editor.recreate();
-            const text = editor.markdownTextarea.contents().text();
-            if (text.endsWith('[object Event]')) {
-                editor.setMarkdown(text.substring(0, text.length - 14))
-            }
         })
     })
 })
