@@ -1,0 +1,33 @@
+{% extends 'partials/_base.twig' %}
+
+{% block head %}
+    {{ parent() }}
+    <script src="{{ asset('js/sorttable.js', 'theme') }}"></script>
+{% endblock head %}
+
+{% block main %}
+    <div class="article-content">
+        <h1 class="article-title">All articles</h1>
+        <p>There are {{ articles|length }} articles.</p>
+        <div class="table-container">
+            <table class="sortable widetable">
+                <tr>
+                    <th>Article</th>
+                    <th>Location</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                </tr>
+                {% for article in articles %}
+                    <tr>
+                        <td>
+                            <a href="{{ article.link }}">{{ article.title }}</a>
+                        </td>
+                        <td>{{ article.location }}</td>
+                        <td>{{ article.type|capitalize }}</td>
+                        <td>{{ article.date }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock main %}

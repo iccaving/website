@@ -134,7 +134,7 @@ articles:
             group: admin
     record_template: article.twig
     listing_template: articles.twig
-    listing_records: 10
+    listing_records: 1000
     default_status: draft
     sort: -datepublish
     recordsperpage: 20

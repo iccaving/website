@@ -23,13 +23,13 @@
     <div class="sidebar-content-box">
         {% set trips = tripsByAcademicYear() %}
         <div class="sidebar-item expandable-menu">
-            <a href="{{ siteurl }}/archives.html" onclick="return false;">Trips</a>
+            <a href="{{ siteurl }}/articles" onclick="return false;">Trips</a>
         </div>
         <div class="sidebar-outer collapsed">
             <div class="sidebar-inner nodisplay">
                 {% for year, yeartrips in trips %}
                 <div class="sidebar-sub-item expandable-menu">
-                    <a href="{{ siteurl }}/archives.html" onclick="return false;">{{ year }}</a>
+                    <a href="{{ siteurl }}/articles" onclick="return false;">{{ year }}</a>
                 </div>
                 <div class="sidebar-outer collapsed">
                     <div class="sidebar-inner nodisplay">
@@ -45,7 +45,7 @@
         </div>
         {% setcontent tours = 'articles' where { type: 'tour'} orderby '-date' %}
         <div class="sidebar-item expandable-menu">
-            <a href="{{ siteurl }}/archives.html" onclick="return false;">Tours</a>
+            <a href="{{ siteurl }}/articles" onclick="return false;">Tours</a>
         </div>
         <div class="sidebar-outer collapsed">
             <div class="sidebar-inner nodisplay">
@@ -59,7 +59,7 @@
         </div>
 
         <div class="sidebar-item expandable-menu">
-            <a href="{{ siteurl }}/archives.html" onclick="return false;">Expeditions</a>
+            <a href="{{ siteurl }}/articles" onclick="return false;">Expeditions</a>
         </div>
         <div class="sidebar-outer collapsed">
             <div class="sidebar-inner nodisplay">
