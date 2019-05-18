@@ -64,8 +64,8 @@ class PhotoViewerExtension extends SimpleExtension
         parse_str($app['request']->server->get('QUERY_STRING'), $query);
         if (array_key_exists('generate', $query)) {
             chdir(str_replace('?generate','',$path));
-            $output = shell_exec($siteroot . '/files/photo_archive/scripts/do_photos -o');
-            return ["result" => $output];
+            $output = shell_exec($siteroot . '/files/photo_archive/scripts/do_photos -o > /dev/null 2>/dev/null &');
+            return ["result" => 'ok'];
         } else {
             if (file_exists($path)) {
                 $urls = array();

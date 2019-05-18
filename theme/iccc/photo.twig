@@ -146,10 +146,7 @@
                     width: 800px;
                 }
             </style>
-            <p>Done! Check the results below or click <a href="{{ app.request.server.get('REQUEST_URI')|replace({'?generate':''}) }}">here</a> to see your photos.</p>
-            <pre>
-                {{ response.result }}
-            </pre>
+            <p>The photos are now processing. Click <a href="{{ app.request.server.get('REQUEST_URI')|replace({'?generate':''}) }}">here</a> to see your photos. They might take a while but you should see them appear gradually if you refresh.</p>
         {% endif %}
 </div>
 {% endblock main %}
