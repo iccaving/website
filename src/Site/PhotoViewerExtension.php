@@ -25,7 +25,7 @@ class PhotoViewerExtension extends SimpleExtension
     {
         $app = $this->getContainer();
         $raw_results = $app['db']->fetchAll(
-            'SELECT * FROM rcc_caving.bolt_articles WHERE main_image <> \'\' AND status = \'published\' ORDER BY `date` DESC LIMIT 6');
+            'SELECT * FROM rcc_caving.bolt_articles WHERE main_image <> \'\' AND status = \'published\' AND (subsite = \'\' or subsite is NULL) ORDER BY `date` DESC LIMIT 6');
         $results = array();
         foreach ($raw_results as $r) {
             $results[] = mainimg_url(['record' => $r]);
@@ -72,9 +72,26 @@ class PhotoViewerExtension extends SimpleExtension
                 $files = glob($path . "/*--thumb.{jpg,jpeg,JPG,JPEG}", GLOB_BRACE);
                 foreach ($files as $file)
                 {
-                    $imagefile = file_exists_cs(str_replace("--thumb", "", $file));
-                    $thumbfile = file_exists_cs($file);
-                    $origfile = file_exists_cs(str_replace("--thumb", "--orig", $file));
+                    $rootname = preg_replace("/--thumb\..*/", "", $file);
+                    $images = glob($rootname.'*', GLOB_BRACE);
+                    $thumbfile = '';
+                    $imagefile = '';
+                    $origfile = '';
+                    foreach ($images as $image) {
+                        if (strpos($image, '--orig') !== false) {
+                            $origfile = $image;
+                            continue;
+                        }
+                        if (strpos($image, '--thumb') !== false) {
+                            $thumbfile = $image;
+                            continue;
+                        }
+                        $imagefile = $image;
+                    }
+
+                    //$imagefile = file_exists_cs(str_replace("--thumb", "", $file));
+                    //$thumbfile = file_exists_cs($file);
+                    //$origfile = file_exists_cs(str_replace("--thumb", "--orig", $file));
                     if ($thumbfile && $imagefile) {
                         if (!$origfile) {
                             $origfile = $imagefile;

@@ -1,0 +1,16 @@
+{% set uri = app.request.server.get('REQUEST_URI')|replace({(siteurl):''}) %}
+
+{% if uri matches '/^\/icccadmin\/editcontent\/articles.*/' %}
+<div class="panel panel-default panel-news">
+    <div class="panel-body">
+        <p>Currently in "{{ uri }}". If you need to generate the image thumbnails, click the button below.</p>
+        <p>
+            <a a target="_blank" href="{{ siteurl }}/photos/{{ uri|replace({'photo_archive/':''}) }}?generate" class="btn btn-default" id="generate">
+                <i class="fa fa-thumbs-up"></i>
+                Generate
+            </a>
+        </p>
+    </div>
+
+</div>
+{% endif %}
