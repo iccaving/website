@@ -5,6 +5,7 @@ namespace Bundle\Site;
 use Bolt\Extension\SimpleExtension;
 use Silex\Application;
 use Twig\Markup;
+use ParsedownExtra as Markdown;
 
 class TableOfContentsExtension extends SimpleExtension
 {
@@ -32,7 +33,7 @@ class TableOfContentsExtension extends SimpleExtension
     {
         $options = ['needs_context' => true];
         return [
-            'headerids' => ['headerids', $options],
+            'markdownplus' => ['markdownplus', $options],
         ];
     }
     public function toc($context, $max = 10)
@@ -55,9 +56,14 @@ class TableOfContentsExtension extends SimpleExtension
         return new Markup($html, 'UTF-8');
     }
 
-    public function headerids($context, $text)
+    public function markdownplus($context, $text)
     {
         $pattern = "/<h(\d)>(.*)<\/h\d>/i";
+        $app = $this->getContainer();
+        if ($app['request']->get('_internal_route') === 'preview') {
+            $markdown = new Markdown();
+            $text = $markdown->text($text);
+        };
         return new Markup(preg_replace_callback($pattern,
             function ($matches) {
                 return '<h' . $matches[1] . ' id="' . urlencode(trim($matches[2])) . '">' . $matches[2] . '</h' . $matches[1] . '>';

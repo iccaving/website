@@ -1,8 +1,12 @@
+# Don't put config.yml in git, unless you're absolutely sure that all sensitive
+# info (database credentials, mail settings) are _only_ in config_local.yml
+app/config/config.yml
+
 # Usually we don't put 'uploaded files' into git either.
 files/
 
 # Modify this, only if you've changed the default folder in .bolt.yml
-bolt-public/
+public/bolt-public/
 
 # -----------------------------------------------------------------------------
 
@@ -16,7 +20,6 @@ app/database/
 cache/
 thumbs/
 vendor/
-*.dist
 
 # NPM, Gulp and Grunt stuff
 node_modules
@@ -47,12 +50,8 @@ composer.phar
 Thumbs.db
 Vagrantfile
 
-.ftpconfig
-apps/
-assets/
-backup/
-newzealand/
-old/
-python/
-robots.txt
-topsecret/
+# Bolt upgrade stuff
+*.dist
+src/Site/CustomisationExtension.php
+theme/base*
+theme/skeleton

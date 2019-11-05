@@ -65,7 +65,7 @@
         {% endif %}
         </dd>
     </dl>
-    {{ record.body|headerids }}
+    {{ record.body|markdownplus }}
     {% else %}
     You need to be logged in to see this wiki article.
     {% endif %}
