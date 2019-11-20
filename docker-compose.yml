@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  iccc-website:
+    build: ./
+    container_name: iccc-website
+    ports:
+      - "8080:80"
+  iccc-db:
+    image: mariadb:10.1.10
+    container_name: iccc-db
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: rcc_caving
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./backup.sql:/docker-entrypoint-initdb.d/dump.sql
