@@ -2,6 +2,18 @@ The ICCC website.
 
 # Development
 
+## Dockerised
+
+Ensure you have docker and docker-compose installed. Then run:
+
+```
+docker-compose up -d
+```
+
+And the website should be accessible at localhost:8080.
+
+Or you can do it without docker, see below.
+
 ## Prerequisites
 
 Ensure you have the following installed:
