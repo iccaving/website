@@ -6,6 +6,8 @@ RUN apt update
 RUN apt install -y rsync
 RUN docker-php-ext-install pdo_mysql
 
+# apache config
+RUN a2enmod rewrite
 
 # PHP config
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -28,6 +30,7 @@ RUN echo 'database:          \n\
     password: root           \n\
     host: iccc-db            \n\
     port: 3306               \n\
+siteurl:                     \n\
 debug: true                  \n\
 debug_show_loggedoff: true' > app/config/config_local.yml
 
@@ -36,5 +39,3 @@ RUN php app/nut init
 
 # Set permissions
 RUN chmod -R 777 app/cache/ app/config/ app/database/ extensions/ thumbs/ files/ theme/
-
-
