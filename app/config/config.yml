@@ -6,6 +6,11 @@
 #
 # If you're trying out Bolt, just keep it set to SQLite for now.
 # Database config in config_local.yml
+database:
+    charset: utf8mb4
+    collate: utf8mb4_unicode_ci
+
+
 sitename: ICCC
 theme: iccc
 
