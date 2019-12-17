@@ -13,19 +13,19 @@
             <p>
                 {% if record.country is not empty %}
                     <span class="highlight">Country:</span>
-                    <a href=".?search={{ record.country }}">{{ record.country }}</a><br>
+                    <a href="../caves?search={{ record.country }}">{{ record.country }}</a><br>
                 {% endif %}
                 {% if record.region is not empty %}
                     <span class="highlight">Region:</span>
-                    <a href=".?search={{ record.region }}">{{ record.region }}</a><br>
+                    <a href="../caves?search={{ record.region }}">{{ record.region }}</a><br>
                 {% endif %}
                 {% if record.subregion is not empty %}
                     <span class="highlight">Subregion:</span>
-                    <a href=".?search={{ record.subregion }}">{{ record.subregion }}</a><br>
+                    <a href="../caves?search={{ record.subregion }}">{{ record.subregion }}</a><br>
                 {% endif %}
                 {% if record.system is not empty %}
                     <span class="highlight">System:</span>
-                    <a href=".?search={{ record.system }}">{{ record.system }}</a><br>
+                    <a href="../caves?search={{ record.system }}">{{ record.system }}</a><br>
                 {% endif %}
             </p>
 
