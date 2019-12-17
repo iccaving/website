@@ -84,6 +84,20 @@ This will be a backup of all the article and page content. Images, videos, and f
 
 You should replace the `backup.sql` file when you make backups to ensure it is up to date.
 
+
+# Update Live Site
+
+You can keep the live site up-to-date with the git repo using [git-ftp](https://github.com/git-ftp/git-ftp).
+
+You don't need to edit your .git/config file, just clone a copy of this repo and call the command
+
+'''
+git ftp init -u "yourusernamehere123" "sftp://dougal.union.ic.ac.uk:10022/website/rcc/caving/" -P -vv --insecure
+'''
+
+which will overwrite the relevant files on the server.
+
+
 # Updating Bolt
 
 To update Bolt on the web server first update your local copy. Do not update directly on the web server.
@@ -104,5 +118,3 @@ Ensure this does not break the website by running it and clicking around.
 ```
 php app/nut server:run
 ```
-
-UNTESTED - Finally upload the local files to the web server using an SFTP client or SSH. This helps to retain file and folder permissions.
