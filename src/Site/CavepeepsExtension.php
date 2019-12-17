@@ -123,7 +123,7 @@ class CavepeepsExtension extends SimpleExtension
                 array_push($topCombined, ['cave' => $cavesById[$id], 'count' => $top[$id]]);
             }
             usort($topCombined, function ($item1, $item2) {
-                return strcmp($item2['count'], $item1['count']);
+                return $item2['count'] > $item1['count'] ? 1 : -1;
             });
             $data['caves'] = ['top' => $topCombined, 'count' => count($caveIDsCount)];
         }
@@ -141,7 +141,7 @@ class CavepeepsExtension extends SimpleExtension
                 array_push($topCombined, ['caver' => $caversById[$id], 'count' => $top[$id]]);
             }
             usort($topCombined, function ($item1, $item2) {
-                return strcmp($item2['count'], $item1['count']);
+                return $item2['count'] > $item1['count'] ? 1 : -1;
             });
             $data['cavers'] = ['top' => $topCombined, 'count' => count($caverIDsCount)];
         }
