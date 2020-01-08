@@ -6,7 +6,7 @@ app/config/config.yml
 files/
 
 # Modify this, only if you've changed the default folder in .bolt.yml
-public/bolt-public/
+bolt-public/
 
 # -----------------------------------------------------------------------------
 
@@ -50,8 +50,8 @@ composer.phar
 Thumbs.db
 Vagrantfile
 
-# Bolt upgrade stuff
+# Stuff that gets vomited out if you unzip a bolt release
 *.dist
-src/Site/CustomisationExtension.php
-theme/base*
-theme/skeleton
+theme/base-2016/
+theme/base-2018/
+theme/skeleton/

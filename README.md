@@ -1,6 +1,6 @@
 The ICCC website.
 
-# Development
+# Setup
 
 ## Dockerised
 
@@ -14,17 +14,19 @@ And the website should be accessible at localhost:8080.
 
 Or you can do it without docker, see below.
 
-## Prerequisites
+## Non-docker
+
+### Prerequisites
 
 Ensure you have the following installed:
 
-- php 
+- php
 - php-mysql
 - mysql
 
 Ensure this repo is downloaded.
 
-## Install Bolt
+### Install Bolt
 
 The simplest way to install is to unzip the bolt distribution into this folder. We are using the `flat` distribution.
 
@@ -39,7 +41,7 @@ If it was succesful you should be able to run the Bolt init command.
 php app/nut init
 ```
 
-## Set up database
+### Set up database
 
 Ensure mysql is running and then create a user and database that use can access.
 
@@ -57,7 +59,7 @@ database:
 
 If the database is running you can import the current site data into it. This is normally backed up as a `backup.sql` file. This is an sql file that you need to run against your mysql instance. This should find the `rcc_caving` database, clear it, and fill it with the most recently committed data.
 
-## Run a local server
+### Run a local server
 
 With Bolt installed and the mysql database running and populated you can run a local server.
 
@@ -67,23 +69,40 @@ php app/nut server:run
 
 You should be able to access the site on `0.0.0.0:8000`.
 
+# Debugging
+
+These instructions are for the docker version and vscode. The docker version has `xdebug` enabled by default and has `remote_connect_back` enabled as well. This means that when you navigate to the docker hosted website it will attempt to connect to a debugging session on port 9000 on the same IP.
+
+## Prerequisites
+
+You need to have unpacked the bolt distribution into the workspace so that the debugger has files to look at. Also undo the overwrites of the readme and apache config files.
+
+```
+curl -O https://bolt.cm/distribution/bolt-latest-flat-structure.tar.gz
+tar -xzf bolt-v3.6.6-flat-structure.tar.gz --strip-components=1
+git checkout README.md .htaccess
+```
+
+## Run the debugger
+
+In VSCode install the `PHP Debug` extension. Then in the debug sidebar you should be able to run the `Listen for XDebug` configuration which is included with this repo. Then navigate to the website (`localhost:8080`) in your browser and in VScode you should see a connection has been made. Now you can place breakpoints, watch variables, step through code and generally debug like a normal human being.
+
 # Data backup
 
 The data is stored in a mysql database. There are two ways make a backup of the live instance.
 
 - `ssh` into the web server and run the backup script
 - Make a backup using the web ui
-    - Log into the phpmyadmin instance
-    - Go to the export tab.
-    - Select `Custom - display all possible options` under `Export method`
-    - Ensure `Add DROP TABLE / VIEW / PROCEDURE / FUNCTION / EVENT / TRIGGER statement` is enabled
-    - Leave everything else as is.
-    - Click go and save the file at the resulting prompt.
+  - Log into the phpmyadmin instance
+  - Go to the export tab.
+  - Select `Custom - display all possible options` under `Export method`
+  - Ensure `Add DROP TABLE / VIEW / PROCEDURE / FUNCTION / EVENT / TRIGGER statement` is enabled
+  - Leave everything else as is.
+  - Click go and save the file at the resulting prompt.
 
-This will be a backup of all the article and page content. Images, videos, and files are not stored in the DB so need to be backed up seperately (rsync for example). 
+This will be a backup of all the article and page content. Images, videos, and files are not stored in the DB so need to be backed up seperately (rsync for example).
 
 You should replace the `backup.sql` file when you make backups to ensure it is up to date.
-
 
 # Update Live Site
 
@@ -96,7 +115,6 @@ git ftp push -u "yourusernamehere123" "sftp://dougal.union.ic.ac.uk:10022/websit
 ```
 
 which will overwrite the relevant files on the server.
-
 
 # Updating Bolt
 
