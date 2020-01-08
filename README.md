@@ -80,7 +80,7 @@ You need to have unpacked the bolt distribution into the workspace so that the d
 ```
 curl -O https://bolt.cm/distribution/bolt-latest-flat-structure.tar.gz
 tar -xzf bolt-v3.6.6-flat-structure.tar.gz --strip-components=1
-git checkout README.md .htaccess
+git checkout README.md .htaccess .gitignore
 ```
 
 ## Run the debugger

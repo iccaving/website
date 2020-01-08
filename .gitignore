@@ -50,8 +50,8 @@ composer.phar
 Thumbs.db
 Vagrantfile
 
-# Stuff that gets vomited out if you unzip a bolt release
+# Bolt release/upgrade
 *.dist
-theme/base-2016/
-theme/base-2018/
+theme/base*
 theme/skeleton/
+src/Site/CustomisationExtension.php
