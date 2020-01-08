@@ -233,10 +233,12 @@ cavers:
             type: html
             height: 150px
             allowtwig: true
+            group: content
         body:
             type: html
             height: 300px
             allowtwig: true
+            group: content
     record_template: caver.twig
     listing_template: cavers.twig
     listing_records: 1000
