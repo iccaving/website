@@ -211,7 +211,7 @@ class CavepeepsExtension extends SimpleExtension
             $result['Cave'] = json_decode($result['Cave']);
             $result['People'] = json_decode($result['People']);
             array_push($results, $result);
-            foreach ($result['Cave'] as $caveId) {
+            foreach ((array) $result['Cave'] as $caveId) {
                 if (array_key_exists($caveId, $data)) {
                     $data[$caveId]['count'] = $data[$caveId]['count']  + 1;
                     if ($data[$caveId]['date'] < $result['Date']) {
@@ -251,7 +251,7 @@ class CavepeepsExtension extends SimpleExtension
             $result['Cave'] = json_decode($result['Cave']);
             $result['People'] = json_decode($result['People']);
             array_push($results, $result);
-            foreach ($result['People'] as $caverId) {
+            foreach ((array) $result['People'] as $caverId) {
                 if (array_key_exists($caverId, $data)) {
                     $data[$caverId]['count'] = $data[$caverId]['count']  + 1;
                     if ($data[$caverId]['date'] < $result['Date']) {

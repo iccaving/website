@@ -202,6 +202,30 @@ cavers:
             type: text
             variant: inline
             group: content
+        committees:
+            type: repeater
+            group: Committees
+            prefix: "Specify start year, and each role assumed."
+            class: "committees"
+            initial: 0
+            fields:
+                year:
+                    type: integer
+                    min: 1900
+                    max: 2100
+                    default: 2020
+                    variant: inline
+                    class: "committee-start"
+                    required: true
+                    multiple: false
+                positions:
+                    type: select
+                    values: [ "President", "Treasurer", "Secretary", "Tackle Master", "Social Secretary", "Medical Officer", "Health and Safety Officer", "Tours Secretary" ]
+                    variant: inline
+                    multiple: true
+                    class: "committee-positions"
+                    required: true
+                    autocomplete: true
         slug:
             type: slug
             uses: name

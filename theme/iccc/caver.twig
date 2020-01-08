@@ -11,6 +11,39 @@
         <div class="article-content">
             <h1 class="article-title">{{ record.title }}</h1>
             {{ record.body|markdown }}
+            <!-- count total number of committee positions held -->
+            {% set counter = 0 %}
+            {% for entry in record.committees %}
+                {% set counter = counter + entry.positions|length %}
+            {% endfor %}
+            <!-- Only render for people with at least one position. -->
+            {% if counter > 0 %}
+                <h2>Committee Positions</h2> 
+                <!-- get names of possible committee positions -->
+                {% set rolenames = record.contenttype.fields.committees.fields.positions.values %}
+                <p>{{ record.title }} has held {{ counter }} committee positions.</p>
+                <div class="table-container">
+                    <table class="sortable widetable">
+                        <tr>
+                            <th>Year</th>
+                            <th>Role</th>
+                        </tr>
+                        {% for entry in record.committees %}
+                            {% for roleid in entry.positions %}
+                                <tr>
+                                    <td> 
+                                        <a href="../../page/contacts">
+                                            {{ entry.year }} — {{ entry.year+1 }}
+                                        </a>
+                            </td>
+                                    <td> {{ rolenames[roleid] }} </td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                </div>
+            {% endif %}
+
             <h2>Reports</h2>
             <p>{{ record.title }}
                 has attended
