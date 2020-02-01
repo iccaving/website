@@ -111,7 +111,7 @@ You can keep the live site up-to-date with the git repo using [git-ftp](https://
 You don't need to edit your .git/config file, just clone a copy of this repo and call the command
 
 ```
-git ftp push -u "yourusernamehere123" "sftp://dougal.union.ic.ac.uk:10022/website/rcc/caving/" -P -vv --insecure
+git ftp push -u "yourusernamehere123" "sftp://dougal.union.ic.ac.uk:10022/website/rcc/caving/" -P --insecure
 ```
 
 which will overwrite the relevant files on the server.
