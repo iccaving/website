@@ -99,7 +99,15 @@ class CavepeepsExtension extends SimpleExtension
                 foreach ($result['Cave'] as $cave) {
                     array_push($caves, $cavesById[$cave]);
                 };
-                array_push($trips, ['article' => $articlesById[$result['content_id']], 'caves' => $caves, 'date' => $result['Date']]);
+                $attendees = array();
+                foreach ($result['People'] as $othercaverID) {
+                    // Don't include self as an attendee.
+                    if ($othercaverID != $caverId){
+                        array_push($attendees, $caversById[$othercaverID]);    
+                    }
+                };
+                array_push($trips, ['article' => $articlesById[$result['content_id']], 'caves' => $caves,
+                                    'date' => $result['Date'], 'attendees' => $attendees]);
             }
         }
         usort($trips, function ($item1, $item2) {

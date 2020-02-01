@@ -44,24 +44,23 @@
                 </div>
             {% endif %}
 
-            <h2>Reports</h2>
-            <p>{{ record.title }}
-                has attended
-                {{data['trips']|length}}
-                trips.</p>
-            <div class="table-container">
-                <table class="sortable widetable">
+            <h2>Trips</h2>
+            <p>{{ record.title }} has attended {{data['trips']|length}} trips. </p>
+            <div style="text-align:right"> <a id="detail-view" href="#">Detailed View</a></div>
+            <div class="table-container" style="overflow-x:auto;">
+                <table class="sortable widetable" id="triptable">
                     <tr>
                         <th>Report</th>
                         <th>Cave</th>
+                        <th class="extra-detail" style="display:None; min-width:60ch;">Cavers</th>
                         <th>Date</th>
                     </tr>
                     {% for trip in data['trips'] %}
-                        <tr>
-                            <td>
+                        <tr>  
+                            <td> <!-- Report -->
                                 <a href="{{ trip['article'].link() }}">{{ trip['article'].title }}</a>
                             </td>
-                            <td>
+                            <td> <!-- Cave -->
                                 {% for cave in trip['caves'] %}
                                     {% if not loop.first %}
                                         >
@@ -69,12 +68,20 @@
                                     <a href="{{ cave.link() }}">{{ cave.name }}</a>
                                 {% endfor %}
                             </td>
-                            <td>{{ trip['date'] }}</td>
+                            <!-- Cavers (hidden). 60ch means around 4 full names per row. -->
+                            <td class="extra-detail" style="display:None; min-width:60ch;">  
+                                {% for caver in trip['attendees'] %}
+                                    <a href="{{ caver.link }}">{{ caver.title }}</a>
+                                {% endfor %}
+                            </td>
+                            <!-- Date -->
+                            <td class="date">
+                            {{ trip['date'] }}</td>
                         </tr>
                     {% endfor %}
                 </table>
             </div>
-
+            <p style="text-align:right"><a id="download-trip" href="#">Generate CSV</a></p>
             <h2>Authored</h2>
             <p>{{ record.title }}
                 has written
@@ -91,7 +98,7 @@
                             <td>
                                 <a href="{{ article.link }}">{{ article.title }}</a>
                             </td>
-                            <td>{{ article.date|date("Y-m-d") }}</td>
+                            <td class="date">{{ article.date|date("Y-m-d") }}</td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -140,5 +147,77 @@
             </div>
         </div>
     </div>
+    {% block javascripts %}
+        <script type="text/javascript">
+            // Script for displaying detailed trip information and csv generation.     
 
+            document.addEventListener('DOMContentLoaded', function(event) {
+
+                let dl_link = document.getElementById('download-trip');
+                let detail_view_btn = document.getElementById('detail-view');
+                let show_detail = false;
+                
+                dl_link.onclick = function(){
+                    // CSV Generation and Download
+                    // Reads data directly from html table.
+                    // Assumes table column order of "Report", "Cave", "Cavers", "Date".
+
+                    let table_rows = document.getElementById("triptable").rows
+                    let output_rows = [["Date", "Report", "Cave", "Cavers", "Report URL"]]
+
+                    for (let i = 1; i < table_rows.length; i++) {
+                            let rowhtml = table_rows[i].children;
+
+                            // Date, Report, Cave
+                            let row_out = [rowhtml[3].innerText, rowhtml[0].innerText, rowhtml[1].innerText];
+                            
+                            // Cavers. Comma seperated.
+                            let caver_a = rowhtml[2].children; // hopefully this is an array of <a>
+                            let s = []
+                            for (let j = 0; j < caver_a.length; j++) {
+                                s.push(caver_a[j].innerText)
+                            }
+                            row_out.push(s.join("; "));
+                    
+                            // URL of Trip
+                            row_out.push(rowhtml[0].children[0].href);
+
+                            output_rows.push(row_out);
+                        }
+
+                    const fname = "{{ record.title }}".split(" ").join("") + "_trips.csv";
+                    let csvContent = "data:text/csv;charset=utf-8," 
+                        + output_rows.map(e => e.join(",")).join("\n");
+
+                    this.setAttribute("href", encodeURI(csvContent));
+                    this.setAttribute("download", fname);
+                    this.innerHTML = "Download CSV";
+
+                    // Disable function call after generation - it's only required once.
+                    this.onclick = null;
+                };
+                
+                detail_view_btn.onclick = function(){
+                    // Display extra information to trips table. Currently this means 
+                    // displaying a column showing names of all cavers who attended a trip.
+
+                    show_detail = !show_detail;
+                    let extra_tds = document.getElementsByClassName("extra-detail");
+                    console.log(extra_tds)
+                    for (let i = 0; i < extra_tds.length; i++ ) {
+                        extra_tds[i].style.display = show_detail ? "block" : "none";
+                    }
+                    // Detailed column has x-scrollbar, so give report/cave name more space.
+
+                    let headings = document.getElementById("triptable").rows[0].children
+
+                    headings[0].style.minWidth = show_detail ? "15ch" : "auto";
+                    headings[1].style.minWidth = show_detail ? "15ch" : "auto";
+
+                    detail_view_btn.innerHTML = show_detail ? "Reduced View" : "Detailed View";
+                    console.log(headings)
+                };
+            });
+        </script>
+    {% endblock %}
 {% endblock main %}
