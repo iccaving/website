@@ -4,10 +4,20 @@
         <a href="{{ siteurl }}/"><img alt="Imperial College Caving Club logo" src="https://union.ic.ac.uk/rcc/caving/assets//iclogowhite.svg"></a>
         <div class="logo-text">Caving Club</div>
         {% if user is not empty %}
-        <div class="welcome">
-            Signed in as {{ user.displayname }}.
-        </div>
+        <div class="welcome">{{ user.displayname }}</div>
         {% endif %}
+    </div>
+
+    <div class="sidebar-content-box">
+        <div class="sidebar-content-box">
+            <div class="sidebar-item">
+                {% if user is empty %}
+                    <a href="{{ siteurl }}{{ config.get('general/branding/path') }}">Sign in</a>
+                {% else %}
+                    <a href="{{ siteurl }}{{ config.get('general/branding/path') }}">Admin</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
     {{ widgets('sidebar') }}
 </div>
