@@ -34,10 +34,14 @@ RUN echo 'database:          \n\
     username: root           \n\
     password: root           \n\
     host: iccc-db            \n\
-    port: 3306               \n\
-    siteurl:                     \n\
-    debug: true                  \n\
-    debug_show_loggedoff: true' > app/config/config_local.yml
+    port: 3306               \n\    
+siteurl:                     \n\
+debug: true                  \n\
+debug_show_loggedoff: true   \n\
+debuglog:                    \n\
+  enabled: true              \n\
+  filename: bolt-debug.log   \n\
+  level: DEBUG' > app/config/config_local.yml
 
 # Install bolt
 RUN php app/nut init

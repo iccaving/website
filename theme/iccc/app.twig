@@ -1,0 +1,14 @@
+<html>
+    <head>
+        {{ app.head|raw }}
+        {% for entry in app.scripts %}
+           <script>{{ entry.script|raw }}</script>
+        {% endfor %}
+        {% for entry in app.styles %}
+           <style>{{ entry.style|raw }}</style>
+        {% endfor %}
+    </head>
+    <body>
+        {{ app.body|raw }}
+    </body>
+</html>
