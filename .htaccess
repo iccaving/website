@@ -39,9 +39,6 @@ Options -Indexes
   RewriteCond %{REQUEST_URI} ^/rcc/caving/slovenia/(page|article)s?/
   RewriteRule ^slovenia/(.+?)(?=\.html$|$) /rcc/caving/$1 [R=301,L]
   
-  RewriteCond %{REQUEST_URI} =/rcc/caving/apps/
-  RewriteRule ^ page/apps [R]
-
   # Ensure static content does not redirect to bolt
   RewriteCond %{REQUEST_URI} ^/rcc/caving/newzealand
   RewriteCond %{REQUEST_FILENAME} !-f
