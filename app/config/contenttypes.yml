@@ -240,9 +240,33 @@ cavers:
       variant: inline
       group: content
     badges:
-      type: text
-      variant: inline
-      group: content
+      type: repeater
+      group: Badges
+      prefix: "Oh God, what have they done now?"
+      class: "badges"
+      initial: 0
+      fields:
+        badge_name:
+          type: select
+          values:
+            - "Lightning"
+            - "For Evans' Sake"
+            - "Herman Herz"
+            - "Morale Officer"
+          variant: inline
+          multiple: false
+          class: "badge-name"
+          required: true
+          autocomplete: true
+        year:
+          type: integer
+          min: 1900
+          max: 2100
+          default: 2020
+          variant: inline
+          class: "badge-year"
+          required: true
+          multiple: false
     committees:
       type: repeater
       group: Committees

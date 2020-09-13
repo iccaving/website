@@ -141,6 +141,15 @@
                     alt="{{ caveyears }}+ years of caving with the club."
                     title="{{ caveyears }}+ years of caving with the club." width="32px" height="32px"></img>
                 {% endif %}
+
+                <!-- And now for the specially awarded badges. -->
+                {% set badgenames = record.contenttype.fields.badges.fields.badge_name.values %}
+                {% for entry in record.badges %}
+                    {# these svgs will have some awful filenames e.g. "For Evans' Sake.svg"... but does it matter in 2020? #}
+                    <img src="https://union.ic.ac.uk/rcc/caving/photo_archive/badges/{{badgenames[entry.badge_name]}}.svg"
+                    alt="{{ badgenames[entry.badge_name] }} ({{ entry.year }})"
+                    title="{{ badgenames[entry.badge_name] }} ({{ entry.year }})" width="32px" height="32px"></img>
+                {% endfor %}
             </div>
             <!-- COMMITEE Only render for people with at least one position. -->
             {% if counter > 0 %}
@@ -162,6 +171,8 @@
                                             {{ entry.year }} — {{ entry.year+1 }}
                                         </a>
                             </td>
+                                    {# WARNING: this might mess up if new roles are prepended to the list of roles,  #}
+                                    {# causing every exisiting role to advance by one. #}
                                     <td> {{ rolenames[roleid] }} </td>
                                 </tr>
                             {% endfor %}
