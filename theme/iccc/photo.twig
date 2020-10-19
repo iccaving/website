@@ -36,7 +36,7 @@
 
 {% block main %}
 <div class="article-content">
-    {% if response.result is empty %}
+    {% if response.status == "200" %}
         {% set images = response.images %}
         {% set directories = response.directories %}
         {% set breadcrumbs = response.breadcrumbs %}
@@ -139,7 +139,7 @@
                     }
                 </script>
         </div>
-        {% else %}
+        {% elseif response.status == "202" %}
             <style>
                 .article-content {
                     margin: auto;
@@ -147,13 +147,15 @@
                 }
             </style>
             <p>The photos are now processing. Click <a href="{{ app.request.server.get('REQUEST_URI')|replace({'?generate':''}) }}">here</a> to see your photos. They might take a while but you should see them appear gradually if you refresh.</p>
+        {% else %}
+            {{ include('partials/_not_found.twig') }}
         {% endif %}
 </div>
 {% endblock main %}
 
 {% block footer %}
     {{ parent() }}
-    {% if user is not empty and response.directory is not empty %}
+    {% if user is not empty and response.directory is not empty and response.status == "200" %}
     <div class="logged-in">
         Hello {{ user.displayname }}. <a href="{{ app.config.get('general/siteurl') }}{{ app.config.get('general/branding/path') }}/files/files/photo_archive/{{ response.directory }}">Upload more photos</a>?
     </div>

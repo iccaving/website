@@ -65,7 +65,7 @@ class PhotoViewerExtension extends SimpleExtension
         if (array_key_exists('generate', $query)) {
             chdir(str_replace('?generate','',$path));
             $output = shell_exec($siteroot . '/files/photo_archive/scripts/do_photos -o > /dev/null 2>/dev/null &');
-            return ["result" => 'ok'];
+            return ["status" => "202"];
         } else {
             if (file_exists($path)) {
                 $urls = array();
@@ -136,9 +136,9 @@ class PhotoViewerExtension extends SimpleExtension
                     $name = array_pop($explode);
                     $dirs[] = ["url" =>  str_replace(trim($root,'/').'/', "", trim($directory,'/')), "name" => $name];
                 }
-                return ["images" => $urls, "directories" => $dirs, "breadcrumbs" => $breadcrumbs, "directory" => $dir];
+                return ["status" => "200","images" => $urls, "directories" => $dirs, "breadcrumbs" => $breadcrumbs, "directory" => $dir];
             } else {
-                return ["result" => "Folder does not exist '".$path."'"];
+                return [ "status" => "404", "text" => "Folder does not exist '".$path."'"];
             }
         }
     }
