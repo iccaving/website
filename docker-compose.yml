@@ -6,6 +6,9 @@ services:
     container_name: iccc-website
     ports:
       - "8080:80"
+    volumes:
+      - ./theme:/var/www/html/theme
+      - ./src/:/var/www/html/src
   iccc-db:
     image: mariadb:10.1.10
     container_name: iccc-db
