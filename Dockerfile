@@ -9,8 +9,8 @@ RUN docker-php-ext-install pdo_mysql
 RUN a2enmod rewrite
 
 # Get bolt
-RUN curl -O https://bolt.cm/distribution/archive/3.6/bolt-v3.6.6-flat-structure.tar.gz
-RUN tar -xzf bolt-v3.6.6-flat-structure.tar.gz --strip-components=1
+RUN curl -O https://bolt.cm/distribution/archive/3.6/bolt-v3.6.7-flat-structure.tar.gz
+RUN tar -xzf bolt-v3.6.7-flat-structure.tar.gz --strip-components=1
 
 # PHP config
 RUN pecl install xdebug-2.5.5
@@ -25,6 +25,7 @@ RUN echo '[Date] \n\
 
 # Get our files and config
 COPY . ./website
+RUN rm -rf ./website/vendor
 RUN rsync -aPI ./website/ .
 
 # Create a local config file
