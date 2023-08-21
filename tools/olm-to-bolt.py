@@ -7,7 +7,7 @@ from slugify import slugify
 import json
 import re
 
-conn = MySQLdb.connect(host="localhost", user="rcc_caving", passwd="BX6yvOclelntsjyh", db="rcc_caving")
+conn = MySQLdb.connect(host="localhost", user="u666684881_rcc_caving", passwd="BX6yvOclelntsjyh", db="u666684881_rcc_caving")
 x = conn.cursor()
 
 contentroot = 'backup/source/content/'
@@ -37,9 +37,9 @@ def replacer(match):
     return '{{ ' + 'photo("{}","{}","{}","{}","{}")'.format(image,align,caption,external,url) + ' }}'
 
 def clearTrips():
-    query = """TRUNCATE TABLE rcc_caving.bolt_articles"""
+    query = """TRUNCATE TABLE u666684881_rcc_caving.bolt_articles"""
     x.execute(query)
-    query = """TRUNCATE TABLE rcc_caving.bolt_field_value"""
+    query = """TRUNCATE TABLE u666684881_rcc_caving.bolt_field_value"""
     x.execute(query)
     conn.commit()
 
@@ -97,7 +97,7 @@ def doArticles(subdir, subsite = ""):
                 authorids = []
                 for author in authors:
                     query = (
-                        """SELECT id FROM rcc_caving.bolt_cavers WHERE name='%s'"""
+                        """SELECT id FROM u666684881_rcc_caving.bolt_cavers WHERE name='%s'"""
                         % author.replace("""'""", """''""")
                     )
                     x.execute(query)
@@ -106,13 +106,13 @@ def doArticles(subdir, subsite = ""):
                 location_raw = md.Meta["location"][0] if "location" in md.Meta else ""
                 location = location_raw.strip().capitalize()
                 #query = (
-                #    """SELECT id FROM rcc_caving.bolt_locations WHERE name='%s'"""
+                #    """SELECT id FROM u666684881_rcc_caving.bolt_locations WHERE name='%s'"""
                 #    % location.capitalize()
                 #)
                 #print(query)
                 #x.execute(query)
                 #locationid = str(x.fetchall()[0][0])
-                sql = """INSERT INTO rcc_caving.bolt_articles
+                sql = """INSERT INTO u666684881_rcc_caving.bolt_articles
     (slug, datecreated, datechanged, datepublish, ownerid, status, templatefields, title, summary, body, location, `date`, `type`, main_image, left_thumbnail, right_thumbnail, authors, photoarchive, subsite)
     VALUES('%s','%s','%s','%s',0,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s', '%s');
     """
@@ -146,7 +146,7 @@ def doArticles(subdir, subsite = ""):
                     for data in datas:
                         parts = data.split("=")
                         if parts[0].strip() == "DATE":
-                            sql = """INSERT INTO rcc_caving.bolt_field_value
+                            sql = """INSERT INTO u666684881_rcc_caving.bolt_field_value
     (contenttype, content_id, name, `grouping`, fieldname, fieldtype, value_date, value_json_array)
     VALUES('articles', %s, 'cavepeeps', %s, '%s', '%s', '%s', '%s');"""
                             data = (articleid, index, "Date", "date", parts[1], "")
@@ -155,12 +155,12 @@ def doArticles(subdir, subsite = ""):
                             caveids = []
                             for cave in caves:
                                 query = (
-                                    """SELECT id FROM rcc_caving.bolt_caves WHERE name='%s'"""
+                                    """SELECT id FROM u666684881_rcc_caving.bolt_caves WHERE name='%s'"""
                                     % cave.replace("""'""", """''""")
                                 )
                                 x.execute(query)
                                 caveids.append(str(x.fetchall()[0][0]))
-                            sql = """INSERT INTO rcc_caving.bolt_field_value
+                            sql = """INSERT INTO u666684881_rcc_caving.bolt_field_value
     (contenttype, content_id, name, `grouping`, fieldname, fieldtype, value_date, value_json_array)
     VALUES('articles', %s, 'cavepeeps', %s, '%s', '%s', '%s', '%s');"""
                             data = (
@@ -176,12 +176,12 @@ def doArticles(subdir, subsite = ""):
                             peopleids = []
                             for person in people:
                                 query = (
-                                    """SELECT id FROM rcc_caving.bolt_cavers WHERE name='%s'"""
+                                    """SELECT id FROM u666684881_rcc_caving.bolt_cavers WHERE name='%s'"""
                                     % person.replace("""'""", """''""")
                                 )
                                 x.execute(query)
                                 peopleids.append(str(x.fetchall()[0][0]))
-                            sql = """INSERT INTO rcc_caving.bolt_field_value
+                            sql = """INSERT INTO u666684881_rcc_caving.bolt_field_value
     (contenttype, content_id, name, `grouping`, fieldname, fieldtype, value_date, value_json_array)
     VALUES('articles', %s, 'cavepeeps', %s, '%s', '%s', '%s', '%s');"""
                             data = (
@@ -197,12 +197,12 @@ def doArticles(subdir, subsite = ""):
                             caveids = []
                             for cave in caves:
                                 query = (
-                                    """SELECT id FROM rcc_caving.bolt_caves WHERE name='%s'"""
+                                    """SELECT id FROM u666684881_rcc_caving.bolt_caves WHERE name='%s'"""
                                     % cave.replace("""'""", """''""")
                                 )
                                 x.execute(query)
                                 caveids.append(str(x.fetchall()[0][0]))
-                            sql = """INSERT INTO rcc_caving.bolt_field_value
+                            sql = """INSERT INTO u666684881_rcc_caving.bolt_field_value
     (contenttype, content_id, name, `grouping`, fieldname, fieldtype, value_date, value_json_array)
     VALUES('articles', %s, 'cavepeeps', %s, '%s', '%s', '%s', '%s');"""
                             data = (
@@ -221,12 +221,12 @@ def doArticles(subdir, subsite = ""):
                             peopleids = []
                             for person in people:
                                 query = (
-                                    """SELECT id FROM rcc_caving.bolt_cavers WHERE name='%s'"""
+                                    """SELECT id FROM u666684881_rcc_caving.bolt_cavers WHERE name='%s'"""
                                     % person.replace("""'""", """''""")
                                 )
                                 x.execute(query)
                                 peopleids.append(str(x.fetchall()[0][0]))
-                            sql = """INSERT INTO rcc_caving.bolt_field_value
+                            sql = """INSERT INTO u666684881_rcc_caving.bolt_field_value
     (contenttype, content_id, name, `grouping`, fieldname, fieldtype, value_date, value_json_array)
     VALUES('articles', %s, 'cavepeeps', %s, '%s', '%s', '%s', '%s');"""
                             data = (
@@ -278,11 +278,11 @@ def doIndex():
                 location_raw = md.Meta["location"][0] if "location" in md.Meta else ""
                 location = location_raw.strip()
                 query = (
-                    """SELECT id FROM rcc_caving.bolt_locations WHERE name='%s'"""
+                    """SELECT id FROM u666684881_rcc_caving.bolt_locations WHERE name='%s'"""
                     % "Index"
                 )
                 x.execute(query)
-                sql = """INSERT INTO rcc_caving.bolt_articles
+                sql = """INSERT INTO u666684881_rcc_caving.bolt_articles
     (slug, datecreated, datechanged, datepublish, ownerid, status, templatefields, title, summary, body, location, `date`, `type`, main_image, left_thumbnail, right_thumbnail, photoarchive,linktext,linkhref)
     VALUES('%s','%s','%s','%s',0,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');
     """
@@ -312,7 +312,7 @@ def doIndex():
                 conn.commit()
 
 def clearPages():
-    query = """TRUNCATE TABLE rcc_caving.bolt_pages"""
+    query = """TRUNCATE TABLE u666684881_rcc_caving.bolt_pages"""
     x.execute(query)
 
 def doPages(subdir, subsite=""):
@@ -342,7 +342,7 @@ def doPages(subdir, subsite=""):
                 title = md.Meta["title"][0] if "title" in md.Meta else None
                 slug = afile[:-3]
                 date = "2000-01-01"
-                sql = """INSERT INTO rcc_caving.bolt_pages
+                sql = """INSERT INTO u666684881_rcc_caving.bolt_pages
     (slug, datecreated, datechanged, datepublish, ownerid, status, templatefields, title, body, subsite)
     VALUES('%s','%s','%s','%s',0,'%s','%s','%s','%s','%s');
     """
@@ -364,7 +364,7 @@ def doPages(subdir, subsite=""):
 
 
 def doCaves():
-    query = """TRUNCATE TABLE rcc_caving.bolt_caves"""
+    query = """TRUNCATE TABLE u666684881_rcc_caving.bolt_caves"""
     x.execute(query)
     md = markdown.Markdown(extensions=["markdown.extensions.meta"])
     for root, dir, files in os.walk("../source/content/caves"):
@@ -405,12 +405,12 @@ def doCaves():
                     if "location" in md.Meta
                     else ""
                 )
-                query = """SELECT id FROM rcc_caving.bolt_caves WHERE name='%s'""" % name
+                query = """SELECT id FROM u666684881_rcc_caving.bolt_caves WHERE name='%s'""" % name
                 x.execute(query)
                 result = x.fetchall()
                 if result:
                     continue
-                sql = """INSERT INTO rcc_caving.bolt_caves
+                sql = """INSERT INTO u666684881_rcc_caving.bolt_caves
 (slug, ownerid, status, name, body, country, region, subregion, `system`, location)
 VALUES('%s', 0, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');
 """
@@ -432,7 +432,7 @@ VALUES('%s', 0, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');
                 print(sql % data)
                 x.execute(query)
                 conn.commit()
-    sql = """INSERT INTO rcc_caving.bolt_caves
+    sql = """INSERT INTO u666684881_rcc_caving.bolt_caves
 (slug, ownerid, status, name, body, country, region, subregion, `system`, location)
 VALUES('%s', 0, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');
 """
@@ -453,7 +453,7 @@ VALUES('%s', 0, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');
     conn.commit()
 
 def clearLocations():
-    query = """TRUNCATE TABLE rcc_caving.bolt_locations"""
+    query = """TRUNCATE TABLE u666684881_rcc_caving.bolt_locations"""
     x.execute(query)
 
 def doLocations(subdir):
@@ -472,12 +472,12 @@ def doLocations(subdir):
                 )
                 if location is None:
                     continue
-                query = """SELECT id FROM rcc_caving.bolt_locations WHERE name='%s'""" % location
+                query = """SELECT id FROM u666684881_rcc_caving.bolt_locations WHERE name='%s'""" % location
                 x.execute(query)
                 result = x.fetchall()
                 if result:
                     continue
-                sql = """INSERT INTO rcc_caving.bolt_locations
+                sql = """INSERT INTO u666684881_rcc_caving.bolt_locations
 (ownerid, status, name)
 VALUES(0, 'published', '%s');
 """
@@ -489,7 +489,7 @@ VALUES(0, 'published', '%s');
                 x.execute(query)
                 conn.commit()
     query = (
-        """SELECT id FROM rcc_caving.bolt_locations WHERE name='%s'"""
+        """SELECT id FROM u666684881_rcc_caving.bolt_locations WHERE name='%s'"""
         % "Index"
     )
     x.execute(query)
@@ -497,7 +497,7 @@ VALUES(0, 'published', '%s');
     result = x.fetchall()
     if result:
         return
-    sql = """INSERT INTO rcc_caving.bolt_locations
+    sql = """INSERT INTO u666684881_rcc_caving.bolt_locations
 (ownerid, status, name)
 VALUES(0, 'published', '%s');
 """
@@ -973,10 +973,10 @@ def doCavers():
         "Harry Locke",
         "ICCC"
     ]
-    query = """TRUNCATE TABLE rcc_caving.bolt_cavers"""
+    query = """TRUNCATE TABLE u666684881_rcc_caving.bolt_cavers"""
     x.execute(query)
     for caver in cavers:
-        sql = """INSERT INTO rcc_caving.bolt_cavers
+        sql = """INSERT INTO u666684881_rcc_caving.bolt_cavers
 (slug, ownerid, status, name, summary, body)
 VALUES('%s', 0, 'published', '%s', '', '');"""
         data = (slugify(caver), caver.replace("""'""", """''"""))
@@ -990,7 +990,7 @@ def convertCamel(name, divider):
     return re.sub('([a-z0-9])([A-Z])',r'\1' + divider + r'\2', s1)
 
 def doWiki():
-    query = """TRUNCATE TABLE rcc_caving.bolt_wiki"""
+    query = """TRUNCATE TABLE u666684881_rcc_caving.bolt_wiki"""
     x.execute(query)
     md = markdown.Markdown(extensions=["markdown.extensions.meta"])
     for root, dir, files in os.walk("../source/content/wiki"):
@@ -1022,7 +1022,7 @@ def doWiki():
                 path = md.Meta["path"][0] if "path" in md.Meta else ''
                 slug = convertCamel(afile[:-3], '-').lower()
                 print("'" + slug + "'")
-                sql = """INSERT INTO rcc_caving.bolt_wiki
+                sql = """INSERT INTO u666684881_rcc_caving.bolt_wiki
     (slug, datecreated, datechanged, datepublish, ownerid, status, templatefields, title, body, path)
     VALUES('%s','%s','%s','%s',0,'%s','%s','%s','%s','%s');
     """

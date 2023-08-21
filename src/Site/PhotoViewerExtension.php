@@ -25,7 +25,7 @@ class PhotoViewerExtension extends SimpleExtension
     {
         $app = $this->getContainer();
         $raw_results = $app['db']->fetchAll(
-            'SELECT * FROM rcc_caving.bolt_articles WHERE main_image <> \'\' AND status = \'published\' AND (subsite = \'\' or subsite is NULL) ORDER BY `date` DESC LIMIT 6');
+            'SELECT * FROM u666684881_rcc_caving.bolt_articles WHERE main_image <> \'\' AND status = \'published\' AND (subsite = \'\' or subsite is NULL) ORDER BY `date` DESC LIMIT 6');
         $results = array();
         foreach ($raw_results as $r) {
             $results[] = mainimg_url(['record' => $r]);

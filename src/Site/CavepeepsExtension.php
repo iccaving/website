@@ -26,7 +26,7 @@ class CavepeepsExtension extends SimpleExtension
     {
         $app = $this->getContainer();
         $articles = [];
-        $results = $app['db']->fetchAll('SELECT id FROM rcc_caving.bolt_articles WHERE authors LIKE "%\"' . $caverId . '\"%"');
+        $results = $app['db']->fetchAll('SELECT id FROM u666684881_rcc_caving.bolt_articles WHERE authors LIKE "%\"' . $caverId . '\"%"');
         if (count($results) < 1) {
             return [];
         }
@@ -51,7 +51,7 @@ class CavepeepsExtension extends SimpleExtension
             'SELECT * FROM (SELECT content_id, `grouping`, max(CASE WHEN fieldname = "Cave" THEN value_json_array END) AS Cave,
             MAX(CASE WHEN fieldname = "People" THEN value_json_array END) AS People,
             MAX(CASE WHEN fieldname = "Date" THEN value_date END) AS `Date`
-            FROM rcc_caving.bolt_field_value
+            FROM u666684881_rcc_caving.bolt_field_value
             GROUP BY content_id, `grouping`) AS T
             WHERE People LIKE "%\"' . $caverId . '\"%"'
         );
@@ -165,7 +165,7 @@ class CavepeepsExtension extends SimpleExtension
             'SELECT * FROM (SELECT content_id, `grouping`, max(CASE WHEN fieldname = "Cave" THEN value_json_array END) AS Cave,
             MAX(CASE WHEN fieldname = "People" THEN value_json_array END) AS People,
             MAX(CASE WHEN fieldname = "Date" THEN value_date END) AS `Date`
-            FROM rcc_caving.bolt_field_value
+            FROM u666684881_rcc_caving.bolt_field_value
             GROUP BY content_id, `grouping`) AS T
             WHERE Cave LIKE "%\"' . $caveId . '\"%"'
         );
@@ -203,13 +203,13 @@ class CavepeepsExtension extends SimpleExtension
     public function allcaves($context)
     {
         $app = $this->getContainer();
-        $unpub_raw = $app['db']->fetchAll('SELECT id FROM rcc_caving.bolt_articles WHERE status != "published"');
+        $unpub_raw = $app['db']->fetchAll('SELECT id FROM u666684881_rcc_caving.bolt_articles WHERE status != "published"');
         $unpub = join(",", array_column($unpub_raw, 'id'));
         $raw_results = $app['db']->fetchAll(
             'SELECT * FROM (SELECT content_id, `grouping`, max(CASE WHEN fieldname = "Cave" THEN value_json_array END) AS Cave,
             MAX(CASE WHEN fieldname = "People" THEN value_json_array END) AS People,
             MAX(CASE WHEN fieldname = "Date" THEN value_date END) AS `Date`
-            FROM rcc_caving.bolt_field_value
+            FROM u666684881_rcc_caving.bolt_field_value
             WHERE content_id NOT IN (' . $unpub . ')
             GROUP BY content_id, `grouping`) AS T'
         );
@@ -243,13 +243,13 @@ class CavepeepsExtension extends SimpleExtension
     public function allcavers($context)
     {
         $app = $this->getContainer();
-        $unpub_raw = $app['db']->fetchAll('SELECT id FROM rcc_caving.bolt_articles WHERE status != "published"');
+        $unpub_raw = $app['db']->fetchAll('SELECT id FROM u666684881_rcc_caving.bolt_articles WHERE status != "published"');
         $unpub = join(",", array_column($unpub_raw, 'id'));
         $raw_results = $app['db']->fetchAll(
             'SELECT * FROM (SELECT content_id, `grouping`, max(CASE WHEN fieldname = "Cave" THEN value_json_array END) AS Cave,
             MAX(CASE WHEN fieldname = "People" THEN value_json_array END) AS People,
             MAX(CASE WHEN fieldname = "Date" THEN value_date END) AS `Date`
-            FROM rcc_caving.bolt_field_value
+            FROM u666684881_rcc_caving.bolt_field_value
             WHERE content_id NOT IN (' . $unpub . ')
             GROUP BY content_id, `grouping`) AS T'
         );
@@ -287,7 +287,7 @@ class CavepeepsExtension extends SimpleExtension
     public function tripsByAcademicYear($context)
     {
         $app = $this->getContainer();
-        $raw_results = $app['db']->fetchAll('SELECT *, date, CASE WHEN MONTH(date) < 9 THEN CONCAT(YEAR(date) - 1, " - ", YEAR(date)) ELSE CONCAT(YEAR(date), " - ", YEAR(date) + 1) END AS ACYEAR FROM rcc_caving.bolt_articles WHERE type = "trip" AND status = "published" ORDER BY date DESC');
+        $raw_results = $app['db']->fetchAll('SELECT *, date, CASE WHEN MONTH(date) < 9 THEN CONCAT(YEAR(date) - 1, " - ", YEAR(date)) ELSE CONCAT(YEAR(date), " - ", YEAR(date) + 1) END AS ACYEAR FROM u666684881_rcc_caving.bolt_articles WHERE type = "trip" AND status = "published" ORDER BY date DESC');
         $data = array();
         foreach ($raw_results as $result) {
             $key = $result['ACYEAR'];
