@@ -1,27 +1,25 @@
-FROM php:5.6.40-apache
+FROM debian:12
 
 # Install dependencies
-RUN apt update
-RUN apt install -y rsync
-RUN docker-php-ext-install pdo_mysql
+RUN apt update && \
+    apt install -y rsync apt-transport-https lsb-release ca-certificates wget apache2 curl
+RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
+    echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list 
+RUN apt update && \
+    apt install -y php7.2 php-pear php7.2-mysql php7.2-xml
 
 # apache config
 RUN a2enmod rewrite
+# RUN sed -i "s,/var/www/html,/var/www/html/public,g" /etc/apache2/sites-enabled/000-default.conf
+WORKDIR /var/www/html
+RUN rm -rf index.html
+COPY default.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Get bolt
-RUN curl -O https://bolt.cm/distribution/archive/3.6/bolt-v3.6.7-flat-structure.tar.gz
-RUN tar -xzf bolt-v3.6.7-flat-structure.tar.gz --strip-components=1
-
-# PHP config
-RUN pecl install xdebug-2.5.5
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
-RUN echo 'zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so' >> "$PHP_INI_DIR/php.ini"
-RUN echo '[XDebug] \n\
-    xdebug.remote_enable = 1 \n\
-    xdebug.remote_autostart = 1 \n\
-    xdebug.remote_connect_back = 1' >> "$PHP_INI_DIR/php.ini"
-RUN echo '[Date] \n\
-    date.timezone = GB' >> "$PHP_INI_DIR/php.ini"
+# RUN curl -O https://bolt.cm/distribution/archive/3.7/bolt-3.7.2.tar.gz
+# RUN tar -xzf bolt-3.7.2.tar.gz --strip-components=1
+RUN curl -O https://bolt.cm/distribution/archive/3.7/bolt-3.7.2-flat-structure.tar.gz
+RUN tar -xzf bolt-3.7.2-flat-structure.tar.gz --strip-components=1
 
 # Get our files and config
 COPY . ./website
@@ -49,3 +47,9 @@ RUN php app/nut init
 
 # Set permissions
 RUN chmod -R 777 app/cache/ app/config/ app/database/ extensions/ thumbs/ files/ theme/
+# RUN chmod -R 777 app/cache/ app/config/ app/database/ extensions/
+# RUN chmod -R 777 public/thumbs/ public/extensions/ public/files/ public/theme/
+
+# Run apache
+EXPOSE 80
+CMD apachectl -D FOREGROUND

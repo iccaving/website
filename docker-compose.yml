@@ -9,6 +9,7 @@ services:
     volumes:
       - ./theme:/var/www/html/theme
       - ./src/:/var/www/html/src
+      - ./.htaccess:/var/www/html/.htaccess
   iccc-db:
     image: mariadb:10.1.10
     container_name: iccc-db

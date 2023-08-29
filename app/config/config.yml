@@ -448,4 +448,4 @@ compatibility:
     # Set to 'false' to enable using a newer version of the setcontent parser.
     setcontent_legacy: true
     
-siteurl: /rcc/caving
+siteurl: /

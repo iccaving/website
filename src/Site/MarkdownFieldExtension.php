@@ -27,7 +27,7 @@ class MarkdownFieldExtension extends SimpleExtension
     protected function registerTwigPaths()
     {
         return [
-            'theme/iccc' => ['position' => 'prepend', 'namespace'=>'bolt']
+            'public/theme/iccc' => ['position' => 'prepend', 'namespace'=>'bolt']
         ];
     }
 

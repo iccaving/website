@@ -22,7 +22,7 @@ Options -Indexes
 <IfModule mod_rewrite.c>
   RewriteEngine on
   RewriteRule cache/ - [F]
-  RewriteBase /rcc/caving
+  RewriteBase /
 
   # BOLT STUFF - DO NOT TOUCH
   RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
