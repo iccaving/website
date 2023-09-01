@@ -47,13 +47,13 @@ class PhotoViewerExtension extends SimpleExtension
     public function dophotos($context)
     {
         $app = $this->getContainer();
-        $siteurl = $app['config']->get('general/siteurl');
         $siteroot = $app['config']->get('general/siteroot');
 
         // Construct file path to directory
         $root = $siteroot . "/files/photo_archive";
-        $baseurl = $siteurl . '/photos';
-        $dir = trim(urldecode(preg_replace('~'.$baseurl.'~', '', $app['request']->server->get('REQUEST_URI'))),'/');
+        $baseuri = '/photos';
+        $uri = $app['request']->server->get('REQUEST_URI');
+        $dir = trim(urldecode(preg_replace('~'.$baseuri.'~', '', $uri)),'/');
         $pathinfo = pathinfo($dir);
         if (array_key_exists('extension',$pathinfo)) {
             $dir = $pathinfo['dirname'];
