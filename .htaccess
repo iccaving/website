@@ -67,17 +67,6 @@ Options -Indexes
 </IfModule>
 
 
-# set the correct mime type for woff2 font type
-# =============================================
-# if you don't set your own mimetypes or you aren't using
-# HTML5 Boilerplate Server Configs https://github.com/h5bp/server-configs-apache
-# then you can uncomment (delete the hash/pound/octothorpe/number symbol)
-# the section below:
-
-#<IfModule mod_mime.c>
-#  AddType application/font-woff2    woff2
-#</IfModule>
-
 # Block access to all hidden files and directories. These types of files
 # usually contain user preferences and can include private information like,
 # for example, the `.git` or `.svn` directories.

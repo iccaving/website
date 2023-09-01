@@ -1,4 +1,4 @@
-{% set uri = app.request.server.get('REQUEST_URI')|replace({(siteurl):''})|replace({'/icccadmin/files/files/':''}) %}
+{% set uri = app.request.server.get('REQUEST_URI')|replace({(siteurl):''})|replace({'/admin/files/files/':''}) %}
 
 {% if uri matches '/^photo_archive.*/' %}
 <div class="panel panel-default panel-news">
