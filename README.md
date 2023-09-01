@@ -1,6 +1,6 @@
 The ICCC website.
 
-# Local Setup
+# Local
 
 ## Dockerised
 
@@ -118,7 +118,25 @@ git ftp push --insecure
 
 ```
 
-# Update Live Site
+## Server Configuration
+
+Make a file in `app/config` called `config_local.yml`. This will contain the server database settings and any other settings overrides:
+
+For example:
+
+```
+database:
+    driver: mysql
+    databasename: u666684881_rcc_caving
+    username: u666684881_rcc_caving
+    password: blah
+
+siteurl: https://imperialcaving.com
+siteroot: /home/u666684881/public_html
+debug: false
+```
+
+## Update Live Site
 
 Make any changes to themes or plugins in this repository, test them locally, then commit them. To push your changes to the live site use `git-ftp`:
 
