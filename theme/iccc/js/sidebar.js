@@ -1,7 +1,7 @@
 // Check for stored sidebar state and if exists open specified sidebar elements
 function load() {
   var list;
-  if (window.location.href.indexOf("https://union.ic.ac.uk/rcc/caving/slovenia/") > -1) {
+  if (window.location.href.indexOf("/slovenia/") > -1) {
     list = window.localStorage.getItem("slovenia-sidebar");
   } else {
     list = window.localStorage.getItem("sidebar");
@@ -30,7 +30,7 @@ function store() {
       list.push(1);
     };
   };
-  if (window.location.href.indexOf("https://union.ic.ac.uk/rcc/caving/slovenia/") > -1) {
+  if (window.location.href.indexOf("/slovenia/") > -1) {
     window.localStorage.setItem("slovenia-sidebar", list);
   } else {
     window.localStorage.setItem("sidebar", list);

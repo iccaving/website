@@ -25,7 +25,7 @@ function archiveloc($record)
     $archive_loc = archivefileloc($record);
     $photoarchive = $record['photoarchive'];
     if ($photoarchive == '') {
-        return 'https://union.ic.ac.uk/rcc/caving/photo_archive'.$archive_loc;
+        return '/photo_archive'.$archive_loc;
     } else {
         return $archive_loc;
     }

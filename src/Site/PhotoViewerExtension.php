@@ -30,7 +30,7 @@ class PhotoViewerExtension extends SimpleExtension
         foreach ($raw_results as $r) {
             $results[] = mainimg_url(['record' => $r]);
         }
-        $assetlocation = '/rcc/caving/theme/iccc/assets';
+        $assetlocation = '/theme/iccc/assets';
         $html = "<div class='photoreel-container'><div class='photoreel-left'><a><img src='" . $assetlocation . "/arrows-left.svg' style='height: 30px;'></a></div>";
         $dots = "<div class='photoreel-dots'>";
         $count = 0;
