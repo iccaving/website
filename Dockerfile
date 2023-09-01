@@ -10,14 +10,11 @@ RUN apt update && \
 
 # apache config
 RUN a2enmod rewrite
-# RUN sed -i "s,/var/www/html,/var/www/html/public,g" /etc/apache2/sites-enabled/000-default.conf
 WORKDIR /var/www/html
 RUN rm -rf index.html
 COPY default.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Get bolt
-# RUN curl -O https://bolt.cm/distribution/archive/3.7/bolt-3.7.2.tar.gz
-# RUN tar -xzf bolt-3.7.2.tar.gz --strip-components=1
 RUN curl -O https://bolt.cm/distribution/archive/3.7/bolt-3.7.2-flat-structure.tar.gz
 RUN tar -xzf bolt-3.7.2-flat-structure.tar.gz --strip-components=1
 
@@ -29,7 +26,7 @@ RUN rsync -aPI ./website/ .
 # Create a local config file
 RUN echo 'database:          \n\
     driver: mysql            \n\
-    databasename: rcc_caving \n\
+    databasename: u666684881_rcc_caving \n\
     username: root           \n\
     password: root           \n\
     host: iccc-db            \n\
@@ -47,8 +44,6 @@ RUN php app/nut init
 
 # Set permissions
 RUN chmod -R 777 app/cache/ app/config/ app/database/ extensions/ thumbs/ files/ theme/
-# RUN chmod -R 777 app/cache/ app/config/ app/database/ extensions/
-# RUN chmod -R 777 public/thumbs/ public/extensions/ public/files/ public/theme/
 
 # Run apache
 EXPOSE 80

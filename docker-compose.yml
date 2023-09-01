@@ -16,7 +16,7 @@ services:
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: rcc_caving
+      MYSQL_DATABASE: u666684881_rcc_caving
     ports:
       - "3306:3306"
     volumes:
