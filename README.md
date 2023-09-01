@@ -1,6 +1,6 @@
 The ICCC website.
 
-# Setup
+# Local Setup
 
 ## Dockerised
 
@@ -31,7 +31,7 @@ Ensure this repo is downloaded.
 The simplest way to install is to unzip the bolt distribution into this folder. We are using the `flat` distribution.
 
 ```
-curl -O https://bolt.cm/distribution/bolt-latest-flat-structure.tar.gz
+curl -O https://bolt.cm/distribution/archive/3.7/bolt-3.7.2-flat-structure.tar.gz
 tar -xzf bolt-v3.6.6-flat-structure.tar.gz --strip-components=1
 ```
 
@@ -69,23 +69,45 @@ php app/nut server:run
 
 You should be able to access the site on `0.0.0.0:8000`.
 
-# Debugging
+# Installing or Updating Bolt On the Server
 
-These instructions are for the docker version and vscode. The docker version has `xdebug` enabled by default and has `remote_connect_back` enabled as well. This means that when you navigate to the docker hosted website it will attempt to connect to a debugging session on port 9000 on the same IP.
-
-## Prerequisites
-
-You need to have unpacked the bolt distribution into the workspace so that the debugger has files to look at. Also undo the overwrites of the readme and apache config files.
+To update Bolt on the web server first update your local copy. Do not update directly on the web server.
 
 ```
-curl -O https://bolt.cm/distribution/bolt-latest-flat-structure.tar.gz
+curl -O https://bolt.cm/distribution/archive/3.7/bolt-3.7.2-flat-structure.tar.gz
 tar -xzf bolt-v3.6.6-flat-structure.tar.gz --strip-components=1
-git checkout README.md .htaccess .gitignore
 ```
 
-## Run the debugger
+Check in git what has been replaced. This update will overwrite a few files we don't want to change so ensure you revert changes to the following files:
 
-In VSCode install the `PHP Debug` extension. Then in the debug sidebar you should be able to run the `Listen for XDebug` configuration which is included with this repo. Then navigate to the website (`localhost:8080`) in your browser and in VScode you should see a connection has been made. Now you can place breakpoints, watch variables, step through code and generally debug like a normal human being.
+```
+git checkout README.md .htaccess .gitignore
+rm -rf theme/base-2016/ theme/base-2018/ theme/skeleton/
+```
+
+Ensure this does not break the website by running it and clicking around.
+
+```
+php app/nut server:run
+```
+
+Then push the files:
+
+```
+git ftp init -u "u666684881" "sftp://141.136.33.34:65002/~/public_html/" -P --insecure
+```
+
+# Update Live Site
+
+You can keep the live site up-to-date with the git repo using [git-ftp](https://github.com/git-ftp/git-ftp).
+
+You don't need to edit your .git/config file, just clone a copy of this repo and call the command
+
+```
+git ftp push -u "u666684881" "sftp://141.136.33.34:65002/~/public_html/" -P --insecure
+```
+
+which will overwrite the relevant files on the server.
 
 # Data backup
 
@@ -103,36 +125,3 @@ The data is stored in a mysql database. There are two ways make a backup of the 
 This will be a backup of all the article and page content. Images, videos, and files are not stored in the DB so need to be backed up seperately (rsync for example).
 
 You should replace the `backup.sql` file when you make backups to ensure it is up to date.
-
-# Update Live Site
-
-You can keep the live site up-to-date with the git repo using [git-ftp](https://github.com/git-ftp/git-ftp).
-
-You don't need to edit your .git/config file, just clone a copy of this repo and call the command
-
-```
-git ftp push -u "yourusernamehere123" "sftp://dougal.union.ic.ac.uk:10022/website/rcc/caving/" -P --insecure
-```
-
-which will overwrite the relevant files on the server.
-
-# Updating Bolt
-
-To update Bolt on the web server first update your local copy. Do not update directly on the web server.
-
-```
-curl -O https://bolt.cm/distribution/bolt-latest-flat-structure.tar.gz
-tar -xzf bolt-v3.6.6-flat-structure.tar.gz --strip-components=1
-```
-
-Check in git what has been replaced. This update will overwrite a few files we don't want to change so ensure you reverty changes to the following files:
-
-- `.gitignore`
-- `.htaccess`
-- `README.md`
-
-Ensure this does not break the website by running it and clicking around.
-
-```
-php app/nut server:run
-```
