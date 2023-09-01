@@ -69,9 +69,23 @@ php app/nut server:run
 
 You should be able to access the site on `0.0.0.0:8000`.
 
-# Installing or Updating Bolt On the Server
+# Server
 
-To update Bolt on the web server first update your local copy. Do not update directly on the web server.
+## Prerequisites
+
+Install [git-ftp](https://github.com/git-ftp/git-ftp).
+
+Configure `git-ftp`:
+
+```
+git config git-ftp.user u666684881
+git config git-ftp.password password
+git config git-ftp.url "sftp://141.136.33.34:65002/~/public_html/"
+```
+
+## Update / Install Bolt
+
+To update or install Bolt on the web server first update your local copy. Do not update directly on the web server.
 
 ```
 curl -O https://bolt.cm/distribution/archive/3.7/bolt-3.7.2-flat-structure.tar.gz
@@ -91,20 +105,25 @@ Ensure this does not break the website by running it and clicking around.
 php app/nut server:run
 ```
 
-Then push the files:
+Then push the files. If this is the first time then use:
 
 ```
-git ftp init -u "u666684881" "sftp://141.136.33.34:65002/~/public_html/" -P --insecure
+git ftp init --insecure
+```
+
+Otherwise:
+
+```
+git ftp push --insecure
+
 ```
 
 # Update Live Site
 
-You can keep the live site up-to-date with the git repo using [git-ftp](https://github.com/git-ftp/git-ftp).
-
-You don't need to edit your .git/config file, just clone a copy of this repo and call the command
+Make any changes to themes or plugins in this repository, test them locally, then commit them. To push your changes to the live site use `git-ftp`:
 
 ```
-git ftp push -u "u666684881" "sftp://141.136.33.34:65002/~/public_html/" -P --insecure
+git ftp push --insecure
 ```
 
 which will overwrite the relevant files on the server.
