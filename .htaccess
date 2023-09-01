@@ -35,15 +35,18 @@ Options -Indexes
   RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
  
   ### ICCC Stuff - maybe touch ###
+
+  # Ensure old rcc/caving links still work
+  RewriteCond %{REQUEST_URI} ^/caving
+  RewriteRule ^caving(.*)$ $1 [R=301,NE,L]
+
+  RewriteCond %{REQUEST_URI} ^/rcc/caving
+  RewriteRule ^rcc/caving(.*)$ $1 [R=301,NE,L]
+
   # Ensure old slov links still work
   RewriteCond %{REQUEST_URI} ^/slovenia/(page|article)s?/
   RewriteRule ^slovenia/(.+?)(?=\.html$|$) /$1 [R=301,L]
   
-  # Ensure static content does not redirect to bolt
-  RewriteCond %{REQUEST_URI} ^/newzealand
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteRule ^(.*)$ $1 [L]
-
   # Redirect files, photos, and videos to bolt accessible folder
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_URI} ^/FILES/ [OR]
@@ -58,6 +61,7 @@ Options -Indexes
 
   RewriteCond %{REQUEST_URI} !^/old/
   RewriteCond %{REQUEST_URI} !^/files/
+  RewriteCond %{REQUEST_URI} !^/newzealand/
   RewriteRule ^ %{ENV:BASE}/index.php [L]
 
 </IfModule>
