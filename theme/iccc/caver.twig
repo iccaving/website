@@ -21,22 +21,22 @@
                 <!-- Automated badges! No point being clever about it.-->
                 <!-- BADGE Trip Count-->
                 {% if data['trips']|length < 5 %}
-                    <img src="/photo_archive/badges/auto-badges/trips/trips-1.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/trips/trips-1.svg", "theme") }}
                     alt="Trips I" title="Fresher: Attended at least one trip" width="32px" height="32px"></img>
                 {% elseif data['trips']|length < 20 %}
-                    <img src="/photo_archive/badges/auto-badges/trips/trips-5.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/trips/trips-5.svg", "theme") }}
                     alt="Trips II" title="Regular: Attended 5+ trips" width="32px" height="32px"></img>
                 {% elseif data['trips']|length < 50 %}
-                    <img src="/photo_archive/badges/auto-badges/trips/trips-20.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/trips/trips-20.svg", "theme") }}
                     alt="Trips III" title="Cave Enthusiast: Attended 20+ trips" width="32px" height="32px"></img>
                 {% elseif data['trips']|length < 100 %}
-                    <img src="/photo_archive/badges/auto-badges/trips/trips-50.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/trips/trips-50.svg", "theme") }}
                     alt="Trips IV" title="Cave Addict: Attended 50+ trips" width="32px" height="32px"></img>
                 {% elseif data['trips']|length < 200 %}
-                    <img src="/photo_archive/badges/auto-badges/trips/trips-100.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/trips/trips-100.svg", "theme") }}
                     alt="Trips V" title="Troglodyte: Attended 100+ trips" width="32px" height="32px"></img>
                 {% elseif data['trips']|length >= 200 %}
-                    <img src="/photo_archive/badges/auto-badges/trips/trips-200.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/trips/trips-200.svg", "theme") }}
                     alt="Trips VI" title="Old Lag: Attended 200+ trips" width="32px" height="32px"></img>
                 {% endif %}
 
@@ -44,22 +44,22 @@
                 {% if data['authored']|length == 0 %}
                     {# do nothing #}
                 {% elseif data['authored']|length < 5 %}
-                    <img src="/photo_archive/badges/auto-badges/reports/reports-1.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/reports/reports-1.svg", "theme") }}
                     alt="Reporter I" title="Reporter I: Written at least one trip report" width="32px" height="32px"></img>
                 {% elseif data['authored']|length < 10 %}
-                    <img src="/photo_archive/badges/auto-badges/reports/reports-5.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/reports/reports-5.svg", "theme") }}
                     alt="Reporter II" title="Reporter II: Written 5+ trip reports" width="32px" height="32px"></img>
                 {% elseif data['authored']|length < 20 %}
-                    <img src="/photo_archive/badges/auto-badges/reports/reports-10.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/reports/reports-10.svg", "theme") }}
                     alt="Reporter III" title="Reporter III: Written 10+ trip reports" width="32px" height="32px"></img>
                 {% elseif data['authored']|length < 50 %}
-                    <img src="/photo_archive/badges/auto-badges/reports/reports-20.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/reports/reports-20.svg", "theme") }}
                     alt="Reporter IV" title="Reporter IV: Written 20+ trip reports" width="32px" height="32px"></img>
                 {% elseif data['authored']|length < 100 %}
-                    <img src="/photo_archive/badges/auto-badges/reports/reports-50.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/reports/reports-50.svg", "theme") }}
                     alt="Reporter V" title="Reporter V: Written 50+ trip reports" width="32px" height="32px"></img>
                 {% elseif data['authored']|length >= 100 %}
-                    <img src="/photo_archive/badges/auto-badges/reports/reports-100.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/reports/reports-100.svg", "theme") }}
                     alt="Reporter VI" title="Reporter: Written 100+ trip reports" width="32px" height="32px"></img>
                 {% endif %}
                 
@@ -67,22 +67,22 @@
                 {% if data['caves']['count'] < 5 %}
                     {# do nothing  #}
                 {% elseif data['caves']['count'] < 10 %}
-                    <img src="/photo_archive/badges/auto-badges/caves/caves-5.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/caves/caves-5.svg", "theme") }}
                     alt="Explorer I" title="Explorer I: Explored 5+ different caves" width="32px" height="32px"></img>
                 {% elseif data['caves']['count'] < 20 %}
-                    <img src="/photo_archive/badges/auto-badges/caves/caves-10.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/caves/caves-10.svg", "theme") }}
                     alt="Explorer II" title="Explorer II: Explored 10+ different caves" width="32px" height="32px"></img>
                 {% elseif data['caves']['count'] < 50 %}
-                    <img src="/photo_archive/badges/auto-badges/caves/caves-20.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/caves/caves-20.svg", "theme") }}
                     alt="Explorer III" title="Explorer III: Explored 20+ different caves" width="32px" height="32px"></img>
                 {% elseif data['caves']['count'] < 100 %}
-                    <img src="/photo_archive/badges/auto-badges/caves/caves-50.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/caves/caves-50.svg", "theme") }}
                     alt="Explorer IV" title="Explorer IV: Explored 50+ different caves" width="32px" height="32px"></img>
                 {% elseif data['caves']['count'] < 150 %}
-                    <img src="/photo_archive/badges/auto-badges/caves/caves-100.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/caves/caves-100.svg", "theme") }}
                     alt="Explorer V" title="Explorer V: Explored 100+ different caves" width="32px" height="32px"></img>
                 {% else %}
-                    <img src="/photo_archive/badges/auto-badges/caves/caves-150.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/caves/caves-150.svg", "theme") }}
                     alt="Explorer VI" title="Explorer VI: Explored 150+ different caves" width="32px" height="32px"></img>
                 {% endif %}
 
@@ -90,22 +90,22 @@
                 {% if data['cavers']['count'] < 10 %}
                     {# do nothing #}
                 {% elseif data['cavers']['count'] < 25 %}
-                    <img src="/photo_archive/badges/auto-badges/cavers/cavers-10.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/cavers/cavers-10.svg", "theme") }}
                     alt="Social I" title="Social I: Caved with 10+ cavers" width="32px" height="32px"></img>
                 {% elseif data['cavers']['count'] < 50 %}
-                    <img src="/photo_archive/badges/auto-badges/cavers/cavers-25.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/cavers/cavers-25.svg", "theme") }}
                     alt="Social II" title="Social II: Caved with 25+ cavers" width="32px" height="32px"></img>
                 {% elseif data['cavers']['count'] < 100 %}
-                    <img src="/photo_archive/badges/auto-badges/cavers/cavers-50.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/cavers/cavers-50.svg", "theme") }}
                     alt="Social III" title="Social III: Caved with 50+ cavers" width="32px" height="32px"></img>
                 {% elseif data['cavers']['count'] < 150 %}
-                    <img src="/photo_archive/badges/auto-badges/cavers/cavers-100.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/cavers/cavers-100.svg", "theme") }}
                     alt="Social IV" title="Social IV: Caved with 100+ cavers" width="32px" height="32px"></img>
                 {% elseif data['cavers']['count'] < 200 %}
-                    <img src="/photo_archive/badges/auto-badges/cavers/cavers-150.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/cavers/cavers-150.svg", "theme") }}
                     alt="Social V" title="Social V: Caved with 150+ cavers" width="32px" height="32px"></img>
                 {% else %}
-                    <img src="/photo_archive/badges/auto-badges/cavers/cavers-200.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/cavers/cavers-200.svg", "theme") }}
                     alt="Social VI" title="Social VI: Caved with 200+ cavers" width="32px" height="32px"></img>
                 {% endif %}
 
@@ -115,28 +115,28 @@
                 {% if caveyears < 1 %}
                     {# do nothing #}
                 {% elseif caveyears == 1 %}
-                    <img src="/photo_archive/badges/auto-badges/years/years-1.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/years/years-1.svg", "theme") }}
                     alt="1 year of caving with the club."
                     title="1 year of caving with the club." width="32px" height="32px"></img>
                 {% elseif caveyears < 5 %}
                     {# Give years 1 to 5 their own badge, since that'll cover almost all students.  #}
-                    <img src="/photo_archive/badges/auto-badges/years/years-{{ caveyears }}.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/years/years-".$caveyears.".svg", "theme") }}
                     alt="{{ caveyears }} years of caving with the club."
                     title="{{ caveyears }} years of caving with the club." width="32px" height="32px"></img>
                 {% elseif caveyears < 10 %}
-                    <img src="/photo_archive/badges/auto-badges/years/years-5.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/years/years-5.svg", "theme") }}
                     alt="5+ years of caving with the club."
                     title="5+ years of caving with the club." width="32px" height="32px"></img>
                 {% elseif caveyears < 15 %}
-                    <img src="/photo_archive/badges/auto-badges/years/years-10.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/years/years-10.svg", "theme") }}
                     alt="10+ years of caving with the club."
                     title="10+ years of caving with the club." width="32px" height="32px"></img>
                 {% elseif caveyears < 20 %}
-                    <img src="/photo_archive/badges/auto-badges/years/years-15.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/years/years-15.svg", "theme") }}
                     alt="15+ years of caving with the club."
                     title="15+ years of caving with the club." width="32px" height="32px"></img>
                 {% else %}
-                    <img src="/photo_archive/badges/auto-badges/years/years-20.svg"
+                    <img src={{ asset("/assets/badges/auto-badges/years/years-20.svg", "theme") }}
                     alt="20+ years of caving with the club."
                     title="20+ years of caving with the club." width="32px" height="32px"></img>
                 {% endif %}
@@ -145,7 +145,7 @@
                 {% set badgenames = record.contenttype.fields.badges.fields.badge_name.values %}
                 {% for entry in record.badges %}
                     {# these svgs will have some awful filenames e.g. "For Evans' Sake.svg"... but does it matter in 2020? #}
-                    <img src="/photo_archive/badges/{{badgenames[entry.badge_name]}}.svg"
+                    <img src={{ asset("/assets/badges/".badgenames[entry.badge_name].".svg", "theme") }}
                     alt="{{ badgenames[entry.badge_name] }} ({{ entry.year }})"
                     title="{{ badgenames[entry.badge_name] }} ({{ entry.year }})" width="32px" height="32px"></img>
                 {% endfor %}
