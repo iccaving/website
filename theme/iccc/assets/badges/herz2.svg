@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g id="Cracks">
+        <g transform="matrix(1,0,0,1,-3.1168,-3.39056)">
+            <path d="M60.28,19.96L64,30.093L59.935,33.302L66.883,42.736L56.948,42.736L64,67.062L67.586,64L67.586,84.833L60.711,95.869L67.217,115.462L64.872,124.603C64.584,124.607 64.292,124.609 64,124.609C30.398,124.609 3.117,97.451 3.117,64C3.117,30.549 30.398,3.391 64,3.391L60.28,19.96Z" style="fill:rgb(255,190,0);stroke:black;stroke-width:2.71px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,-3.1168,-3.39056)">
+            <path d="M60.537,20.66L64,30.093L59.935,33.302L66.883,42.736L56.948,42.736L64,67.062L67.586,64L67.586,84.833L65.804,87.694L64,86.383L31.514,109.986L43.922,71.796L11.436,48.193L51.591,48.193L60.537,20.66Z" style="fill:rgb(235,235,235);stroke:black;stroke-width:2.71px;"/>
+        </g>
+        <g transform="matrix(0.99967,0.0256768,-0.0256768,0.99967,4.78104,-1.63235)">
+            <path d="M64.393,3.392C97.815,3.602 124.883,30.679 124.883,64C124.883,97.16 98.075,124.136 64.872,124.603L67.217,115.462L60.711,95.869L67.586,84.833L67.586,64L64,67.062L56.948,42.736L66.883,42.736L59.935,33.302L64,30.093L60.28,19.96L64,3.391L64.393,3.392Z" style="fill:rgb(255,190,0);stroke:black;stroke-width:2.71px;"/>
+        </g>
+        <g transform="matrix(0.99967,0.0256768,-0.0256768,0.99967,4.78104,-1.63235)">
+            <path d="M60.537,20.66L64,10.004L76.409,48.193L116.564,48.193L84.078,71.796L96.486,109.986L65.804,87.694L67.586,84.833L67.586,64L64,67.062L56.948,42.736L66.883,42.736L59.935,33.302L64,30.093L60.537,20.66Z" style="fill:rgb(235,235,235);stroke:black;stroke-width:2.71px;"/>
+        </g>
+    </g>
+    <g id="Layer2">
+    </g>
+</svg>

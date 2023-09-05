@@ -10,6 +10,12 @@ bolt-public/
 
 # -----------------------------------------------------------------------------
 
+# newzealand has its own repo
+newzealand/
+
+# legacy files
+old/
+
 # Config files with '_local' should *never* go into git
 app/config/*_local.yml
 app/config/extensions/*_local.yml
