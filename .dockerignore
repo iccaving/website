@@ -1,1 +1,5 @@
 *.tar.gz
+vendor/
+files/
+bolt-public/
+thumbs/

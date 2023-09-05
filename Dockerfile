@@ -19,9 +19,13 @@ RUN curl -O https://bolt.cm/distribution/archive/3.7/bolt-3.7.2-flat-structure.t
 RUN tar -xzf bolt-3.7.2-flat-structure.tar.gz --strip-components=1
 
 # Get our files and config
-COPY . ./website
-RUN rm -rf ./website/vendor
-RUN rsync -aPI ./website/ .
+COPY ./app/config ./app/config
+COPY ./theme ./theme
+COPY ./.htaccess ./.htaccess
+COPY ./src ./src
+COPY ./.bolt.yml ./.bolt.yml
+COPY composer.json composer.json
+COPY composer.lock composer.lock
 
 # Create a local config file
 RUN echo 'database:          \n\
@@ -43,7 +47,7 @@ debuglog:                    \n\
 RUN php app/nut init
 
 # Set permissions
-RUN chmod -R 777 app/cache/ app/config/ app/database/ extensions/ thumbs/ files/ theme/
+RUN chmod -R 777 app/cache/ app/config/ app/database/ extensions/ thumbs/ files/ theme/ .htaccess
 
 # Run apache
 EXPOSE 80

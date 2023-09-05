@@ -32,7 +32,7 @@ The simplest way to install is to unzip the bolt distribution into this folder. 
 
 ```
 curl -O https://bolt.cm/distribution/archive/3.7/bolt-3.7.2-flat-structure.tar.gz
-tar -xzf bolt-v3.6.6-flat-structure.tar.gz --strip-components=1
+tar -xzf bolt-3.7.2-flat-structure.tar.gz --strip-components=1
 ```
 
 If it was succesful you should be able to run the Bolt init command.
@@ -85,11 +85,11 @@ git config git-ftp.url "sftp://141.136.33.34:65002/~/public_html/"
 
 ## Update / Install Bolt
 
-To update or install Bolt on the web server first update your local copy. Do not update directly on the web server.
+To update or install Bolt on the web server first update your local and the copy on the server:
 
 ```
 curl -O https://bolt.cm/distribution/archive/3.7/bolt-3.7.2-flat-structure.tar.gz
-tar -xzf bolt-v3.6.6-flat-structure.tar.gz --strip-components=1
+tar -xzf bolt-3.7.2-flat-structure.tar.gz --strip-components=1
 ```
 
 Check in git what has been replaced. This update will overwrite a few files we don't want to change so ensure you revert changes to the following files:
@@ -99,22 +99,16 @@ git checkout README.md .htaccess .gitignore
 rm -rf theme/base-2016/ theme/base-2018/ theme/skeleton/
 ```
 
-Ensure this does not break the website by running it and clicking around.
-
-```
-php app/nut server:run
-```
-
 Then push the files. If this is the first time then use:
 
 ```
-git ftp init --insecure
+git ftp init
 ```
 
 Otherwise:
 
 ```
-git ftp push --insecure
+git ftp push
 
 ```
 
