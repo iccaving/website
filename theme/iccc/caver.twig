@@ -120,7 +120,7 @@
                     title="1 year of caving with the club." width="32px" height="32px"></img>
                 {% elseif caveyears < 5 %}
                     {# Give years 1 to 5 their own badge, since that'll cover almost all students.  #}
-                    <img src={{ asset("/assets/badges/auto-badges/years/years-".$caveyears.".svg", "theme") }}
+                    <img src={{ asset("/assets/badges/auto-badges/years/years-" ~ caveyears ~ ".svg", "theme") }}
                     alt="{{ caveyears }} years of caving with the club."
                     title="{{ caveyears }} years of caving with the club." width="32px" height="32px"></img>
                 {% elseif caveyears < 10 %}
@@ -145,7 +145,7 @@
                 {% set badgenames = record.contenttype.fields.badges.fields.badge_name.values %}
                 {% for entry in record.badges %}
                     {# these svgs will have some awful filenames e.g. "For Evans' Sake.svg"... but does it matter in 2020? #}
-                    <img src={{ asset("/assets/badges/".badgenames[entry.badge_name].".svg", "theme") }}
+                    <img src="{{ asset("/assets/badges/" ~ badgenames[entry.badge_name] ~ ".svg", "theme") }}"
                     alt="{{ badgenames[entry.badge_name] }} ({{ entry.year }})"
                     title="{{ badgenames[entry.badge_name] }} ({{ entry.year }})" width="32px" height="32px"></img>
                 {% endfor %}
