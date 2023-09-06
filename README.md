@@ -71,21 +71,9 @@ You should be able to access the site on `0.0.0.0:8000`.
 
 # Server
 
-## Prerequisites
-
-Install [git-ftp](https://github.com/git-ftp/git-ftp).
-
-Configure `git-ftp`:
-
-```
-git config git-ftp.user u666684881
-git config git-ftp.password password
-git config git-ftp.url "sftp://141.136.33.34:65002/~/public_html/"
-```
-
 ## Update / Install Bolt
 
-To update or install Bolt on the web server first update your local and the copy on the server:
+To update or install Bolt on the web server first ssh into the server and install Bolt the same way you'd update it locally:
 
 ```
 curl -O https://bolt.cm/distribution/archive/3.7/bolt-3.7.2-flat-structure.tar.gz
@@ -97,19 +85,6 @@ Check in git what has been replaced. This update will overwrite a few files we d
 ```
 git checkout README.md .htaccess .gitignore
 rm -rf theme/base-2016/ theme/base-2018/ theme/skeleton/
-```
-
-Then push the files. If this is the first time then use:
-
-```
-git ftp init
-```
-
-Otherwise:
-
-```
-git ftp push
-
 ```
 
 ## Server Configuration
@@ -132,13 +107,9 @@ debug: false
 
 ## Update Live Site
 
-Make any changes to themes or plugins in this repository, test them locally, then commit them. To push your changes to the live site use `git-ftp`:
+This repo has been cloned onto the web server. To update the live site, ssh into the web server and run `git pull` in the public_html directory.
 
-```
-git ftp push --insecure
-```
-
-which will overwrite the relevant files on the server.
+If you make changes directly on the web server (not recommended), you can commit and push them to GitHub just like you would from a local copy. If you do this, *DO NOT* store your git credentials on the web server and *DO NOT* create persistent name and email configuration with `git config`. Instead, commit your changes with `git -c user.name=<Your Name> -c user.email<your.email@example.com> commit` and, when you push, authenticate using a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
 
 # Data backup
 
