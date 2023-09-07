@@ -19,6 +19,18 @@ Options -Indexes
   </IfModule>
 </FilesMatch>
 
+<FilesMatch "\.(jpg|jpeg)$">
+    ForceType image/jpeg
+</FilesMatch>
+
+<FilesMatch "\.(gif)$">
+    ForceType image/gif
+</FilesMatch>
+
+<FilesMatch "\.(png)$">
+    ForceType image/png
+</FilesMatch>
+
 <IfModule mod_rewrite.c>
   RewriteEngine on
   RewriteRule cache/ - [F]
