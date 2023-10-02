@@ -162,6 +162,7 @@ articles:
           multiple: true
           class: "cavepeeps-people"
           required: true
+          limit: 10000
     slug:
       type: slug
       uses: [location, date]
