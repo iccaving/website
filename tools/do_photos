@@ -5,23 +5,14 @@ resizeAndOptimise()
 trap "exit 0" 2
 for f in "${1}"/*;
 do
-        #Could be recursive. Scary.
-	#echo "${f}"
-	#if [ -d "${f}" ]
-	#then
-		#echo "Entering ${f}"
-		#cd "${f}"
-		#resizeAndOptimise "${f}"
-		#cd ..
-	#fi
 	filename=$(basename "${f}");
 	extension="${filename##*.}";
+	lowextension=$(echo "$extension" | tr '[:upper:]' '[:lower:]')
 	filename="${filename%.*}";
 
-	if [[ $extension == "jpg" || $extension == "JPG" || $extension == "png" || $extension == "PNG" || $extension == "gif" || $extension == "GIF" ]]
+	if [[ $lowextension == "jpg" || $lowextension == "jpeg" || $lowextension == "png" || $lowextension == "gif" ]]
 	then
 		echo "File is ${filename}.${extension}";
-		lowextension=$(echo "$extension" | tr '[:upper:]' '[:lower:]')
 		if [[ "$filename" =~ "--thumb" || "$filename" =~ "--orig" ]]
 		then
 			if [[ "$filename" =~ "--orig" && "$force_regen" = true ]]
@@ -107,5 +98,4 @@ done
 
 CWD=$(pwd)
 resizeAndOptimise "${CWD}" $optimise $force_regen
-# /usr/bin/python2.7 /home/users/website/rcc/caving/photo_archive/curator.py -s 225 --new-magick -t /home/users/website/rcc/caving/photo_archive/ -k
 exit
