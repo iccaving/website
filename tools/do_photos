@@ -1,0 +1,111 @@
+#!/bin/sh
+
+resizeAndOptimise()
+{
+trap "exit 0" 2
+for f in "${1}"/*;
+do
+        #Could be recursive. Scary.
+	#echo "${f}"
+	#if [ -d "${f}" ]
+	#then
+		#echo "Entering ${f}"
+		#cd "${f}"
+		#resizeAndOptimise "${f}"
+		#cd ..
+	#fi
+	filename=$(basename "${f}");
+	extension="${filename##*.}";
+	filename="${filename%.*}";
+
+	if [[ $extension == "jpg" || $extension == "JPG" || $extension == "png" || $extension == "PNG" || $extension == "gif" || $extension == "GIF" ]]
+	then
+		echo "File is ${filename}.${extension}";
+		lowextension=$(echo "$extension" | tr '[:upper:]' '[:lower:]')
+		if [[ "$filename" =~ "--thumb" || "$filename" =~ "--orig" ]]
+		then
+			if [[ "$filename" =~ "--orig" && "$force_regen" = true ]]
+			then
+			    echo "Recreating thumbnail"
+			    /usr/bin/gm convert -auto-orient "${filename}.${extension}" -resize 225x225 "${filename//--orig/}--thumb.jpg"
+			    echo "Recreating small image";
+			    /usr/bin/gm convert  -auto-orient "${filename}.${extension}" -resize 800x600 "${filename//--orig/}.${lowextension}";
+			else
+			    echo "Not resizing";
+			fi
+		else
+			if [[ ! -e "${filename}--thumb.${lowextension}" ]]
+			then
+				echo "Creating thumbnail";
+				/usr/bin/gm convert -auto-orient "${filename}.${extension}[0]" -resize 225x225 "${filename}--thumb.jpg";
+			else
+				echo "Already a thumbnail...";
+			fi
+			if [[ ! -e "${filename}--orig.${extension}" ]]
+			then
+				echo "Creating a small image"
+				mv "${f}" "${filename}--orig.${lowextension}";
+				/usr/bin/gm convert  -auto-orient "${filename}--orig.${lowextension}" -resize 800x600 "${filename}.${lowextension}";
+			else
+				echo "Already a small image...";
+			fi
+		fi
+	fi
+echo ""
+done
+if [ "$optimise" = true ] ; then
+    echo "Beginning Optimisation"
+    for f in "${1}"/*;
+    do
+            filename=$(basename "${f}");
+            extension="${filename##*.}";
+            filename="${filename%.*}";
+            if [[ $extension == "jpg" || $extension == "JPG" ]]
+	    then
+		before=` ls -l "${filename}.${extension}" | cut -f5 -d\  `
+		if [[ $filename == *"--orig"* ]]; then
+		    	echo "Optimising original image ${filename}.${extension}, keeping exif etc."
+			/usr/bin/jpegoptim --max=100 --all-progressive --dest=tmp.jpg "${filename}.${extension}"
+		else
+			echo "Optimising image ${filename}.${extension}, discarding exif etc."
+			/usr/bin/jpegoptim --max=100 --strip-all --all-progressive --dest=tmp.jpg "${filename}.${extension}"
+		fi
+		after=` ls -l tmp.jpg | cut -f5 -d\  `
+		echo "Before: ${before} bytes After: ${after} bytes."
+		mv tmp.jpg "${filename}.${extension}"
+	    fi
+     done
+fi
+}
+
+usage="Usage:
+
+do_photos.sh [-h -o -r]
+
+where:
+     -h show this help text
+     -o optimise images
+     -r force regen of small images and thumbnails
+
+Run from the the photo folder you want to do.
+"
+
+optimise=false
+force_regen=false
+
+while getopts ":hor" option; do
+    case "$option" in
+        h) echo "$usage"
+           exit
+           ;;
+        o) optimise=true
+           ;;
+        r) force_regen=true
+           ;;
+    esac
+done
+
+CWD=$(pwd)
+resizeAndOptimise "${CWD}" $optimise $force_regen
+# /usr/bin/python2.7 /home/users/website/rcc/caving/photo_archive/curator.py -s 225 --new-magick -t /home/users/website/rcc/caving/photo_archive/ -k
+exit
