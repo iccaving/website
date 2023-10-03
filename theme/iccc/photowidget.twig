@@ -3,11 +3,15 @@
 {% if uri matches '/^photo_archive.*/' %}
 <div class="panel panel-default panel-news">
     <div class="panel-body">
-        <p>Currently in "{{ uri }}". If you need to generate the image thumbnails, click the button below.</p>
+        <p>Currently in "{{ uri }}". If you need to create new image thumbnails, click the "Generate" button below. If you need to completely re-create all the thumbnails in this folder then use the "Regenerate" button.</p>
         <p>
             <a a target="_blank" href="{{ siteurl }}/photos/{{ uri|replace({'photo_archive/':''}) }}?generate" class="btn btn-default" id="generate">
                 <i class="fa fa-thumbs-up"></i>
                 Generate
+            </a>
+            <a a target="_blank" style="margin-left: 4px;" href="{{ siteurl }}/photos/{{ uri|replace({'photo_archive/':''}) }}?generate&force" class="btn btn-default" id="regenerate">
+                <i class="fa fa-warning"></i>
+                Regenerate
             </a>
         </p>
     </div>

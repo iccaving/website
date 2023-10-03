@@ -63,8 +63,12 @@ class PhotoViewerExtension extends SimpleExtension
         // Check if we should be displaying or generating
         parse_str($app['request']->server->get('QUERY_STRING'), $query);
         if (array_key_exists('generate', $query)) {
+            $force = '';
+            if (array_key_exists('force', $query)) {
+                $force = '-r ';
+            }
             chdir(str_replace('?generate','',$path));
-            $output = shell_exec($siteroot . '/tools/do_photos -o > /dev/null 2>/dev/null &');
+            $output = shell_exec($siteroot . '/tools/do_photos -o ' . $force . '> /dev/null 2>/dev/null &');
             return ["status" => "202"];
         } else {
             if (file_exists($path)) {
