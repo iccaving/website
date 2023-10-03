@@ -67,7 +67,7 @@ class PhotoViewerExtension extends SimpleExtension
             if (array_key_exists('force', $query)) {
                 $force = '-r ';
             }
-            chdir(str_replace('?generate','',$path));
+            chdir(strtok($path, '?'));
             $output = shell_exec($siteroot . '/tools/do_photos -o ' . $force . '> /dev/null 2>/dev/null &');
             return ["status" => "202"];
         } else {
