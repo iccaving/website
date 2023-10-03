@@ -155,6 +155,7 @@ articles:
           multiple: true
           class: "cavepeeps-cave"
           required: true
+          sortable: true
         People:
           type: select
           values: caver/name
