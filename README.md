@@ -109,7 +109,7 @@ debug: false
 
 This repo has been cloned onto the web server. To update the live site, ssh into the web server and run `git pull` in the public_html directory.
 
-If you make changes directly on the web server (not recommended), you can commit and push them to GitHub just like you would from a local copy. If you do this, *DO NOT* store your git credentials on the web server and *DO NOT* create persistent name and email configuration with `git config`. Instead, commit your changes with `git -c user.name=<Your Name> -c user.email<your.email@example.com> commit` and, when you push, authenticate using a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+If you make changes directly on the web server (not recommended), you can commit and push them to GitHub just like you would from a local copy. If you do this, *DO NOT* store your git credentials on the web server and *DO NOT* create persistent name and email configuration with `git config`. Instead, commit your changes with `git -c user.name=<Your Name> -c user.email=<your.email@example.com> commit` and, when you push, authenticate using a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
 
 # Data backup
 
