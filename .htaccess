@@ -31,6 +31,10 @@ Options -Indexes
     ForceType image/png
 </FilesMatch>
 
+<FilesMatch "\.(pdf)$">
+    ForceType application/pdf
+</FilesMatch>
+
 <IfModule mod_rewrite.c>
   RewriteEngine on
   RewriteRule cache/ - [F]
