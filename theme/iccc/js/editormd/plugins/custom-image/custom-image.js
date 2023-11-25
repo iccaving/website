@@ -69,7 +69,7 @@
                             var url  = this.find("[data-url]").val();
                             var caption  = this.find("[data-caption]").val();
                             var position  = this.find("[data-position]").val();
-                            var external  = this.find("[data-external]").val();
+                            var external  = this.find("[data-external]").prop('checked');
                             var link = this.find("[data-link]").val();
                             
                             cm.replaceSelection(`{{ photo("${url}", "${position}", "${caption}", "${external ? '1' : ''}", "${link}") }}`);
