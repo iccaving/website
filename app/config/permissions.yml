@@ -99,6 +99,7 @@ global:
     # Likewise, 'logout' needs to be granted to 'everyone', otherwise people
     # cannot log out anymore.
     logout: [ everyone ]
+    changelogrecordsingle: [ admin ]
 
 # For content type related actions, permissions can be set individually for
 # each content type. For this, we define three groups of permission sets.

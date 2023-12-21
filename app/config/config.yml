@@ -171,7 +171,7 @@ caching:
 # Unless you need to rigorously monitor every change to your site's content, it
 # is recommended to keep this disabled.
 changelog:
-    enabled: false
+    enabled: true
 
 # Default settings for thumbnails.
 #
