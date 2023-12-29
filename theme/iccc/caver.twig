@@ -34,10 +34,10 @@
                     alt="Trips IV" title="Cave Addict: Attended 50+ trips" width="32px" height="32px"></img>
                 {% elseif data['trips']|length < 200 %}
                     <img src={{ asset("/assets/badges/auto-badges/trips/trips-100.svg", "theme") }}
-                    alt="Trips V" title="Troglodyte: Attended 100+ trips" width="32px" height="32px"></img>
+                    alt="Trips V" title="Old Lag: Attended 100+ trips" width="32px" height="32px"></img>
                 {% elseif data['trips']|length >= 200 %}
                     <img src={{ asset("/assets/badges/auto-badges/trips/trips-200.svg", "theme") }}
-                    alt="Trips VI" title="Old Lag: Attended 200+ trips" width="32px" height="32px"></img>
+                    alt="Trips VI" title="Troglodyte: Attended 200+ trips" width="32px" height="32px"></img>
                 {% endif %}
 
                 <!--BADGE Trip Reports. Ignore 0. -->
@@ -75,15 +75,15 @@
                 {% elseif data['caves']['count'] < 50 %}
                     <img src={{ asset("/assets/badges/auto-badges/caves/caves-20.svg", "theme") }}
                     alt="Explorer III" title="Explorer III: Explored 20+ different caves" width="32px" height="32px"></img>
-                {% elseif data['caves']['count'] < 100 %}
+                {% elseif data['caves']['count'] < 75 %}
                     <img src={{ asset("/assets/badges/auto-badges/caves/caves-50.svg", "theme") }}
                     alt="Explorer IV" title="Explorer IV: Explored 50+ different caves" width="32px" height="32px"></img>
-                {% elseif data['caves']['count'] < 150 %}
-                    <img src={{ asset("/assets/badges/auto-badges/caves/caves-100.svg", "theme") }}
-                    alt="Explorer V" title="Explorer V: Explored 100+ different caves" width="32px" height="32px"></img>
+                {% elseif data['caves']['count'] < 100 %}
+                    <img src={{ asset("/assets/badges/auto-badges/caves/caves-75.svg", "theme") }}
+                    alt="Explorer V" title="Explorer V: Explored 75+ different caves" width="32px" height="32px"></img>
                 {% else %}
-                    <img src={{ asset("/assets/badges/auto-badges/caves/caves-150.svg", "theme") }}
-                    alt="Explorer VI" title="Explorer VI: Explored 150+ different caves" width="32px" height="32px"></img>
+                    <img src={{ asset("/assets/badges/auto-badges/caves/caves-100.svg", "theme") }}
+                    alt="Explorer VI" title="Explorer VI: Explored 100+ different caves" width="32px" height="32px"></img>
                 {% endif %}
 
                 <!--BADGE Number of cavers.-->
