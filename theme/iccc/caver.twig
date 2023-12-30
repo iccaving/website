@@ -20,7 +20,9 @@
             <div>
                 <!-- Automated badges! No point being clever about it.-->
                 <!-- BADGE Trip Count-->
-                {% if data['trips']|length < 5 %}
+                {% if data['trips']|length == 0 %}
+                    {# do nothing #}
+                {% elseif data['trips']|length < 5 %}
                     <img src={{ asset("/assets/badges/auto-badges/trips/trips-1.svg", "theme") }}
                     alt="Trips I" title="Fresher: Attended at least one trip" width="32px" height="32px"></img>
                 {% elseif data['trips']|length < 20 %}
@@ -35,9 +37,12 @@
                 {% elseif data['trips']|length < 200 %}
                     <img src={{ asset("/assets/badges/auto-badges/trips/trips-100.svg", "theme") }}
                     alt="Trips V" title="Old Lag: Attended 100+ trips" width="32px" height="32px"></img>
-                {% elseif data['trips']|length >= 200 %}
+                {% elseif data['trips']|length < 500 %}
                     <img src={{ asset("/assets/badges/auto-badges/trips/trips-200.svg", "theme") }}
                     alt="Trips VI" title="Troglodyte: Attended 200+ trips" width="32px" height="32px"></img>
+                {% elseif data['trips']|length >= 500 %}
+                    <img src={{ asset("/assets/badges/auto-badges/trips/trips-500.svg", "theme") }}
+                    alt="Trips VII" title="Balrog: Attended 500+ trips" width="32px" height="32px"></img>
                 {% endif %}
 
                 <!--BADGE Trip Reports. Ignore 0. -->
