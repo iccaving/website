@@ -305,7 +305,7 @@ wysiwyg:
     copypaste: true         # Adds buttons to 'cut', 'copy' and 'paste'.
     ck:
         autoParagraph: true  # If set to 'true', any pasted content is wrapped in `<p>`-tags for multiple line-breaks
-        disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
+        disableNativeSpellChecker: false # If set to 'true' it will stop browsers from underlining spelling mistakes
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
 
 # Bolt uses the Google maps API for it's geolocation field and Google now
