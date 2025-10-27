@@ -68,7 +68,10 @@
                 <table class="sortable widetable">
                     <tr>
                         <th>Caver</th>
-                        <th>No. of Trips</th>
+                        <th>Trips</th>
+                        <th>Caves</th>
+                        <th>Caved With</th>
+                        <th>Reports</th>
                         <th>Most Recent</th>
                     </tr>
                     {% for caver in data %}
@@ -77,6 +80,9 @@
                                 <a href="{{ caver['caver'].link }}">{{ caver['caver'].title }}</a>
                             </td>
                             <td class="count">{{ caver['count'] }}</td>
+                            <td class="count">{{ caver['caves']|length }}</td>
+                            <td class="count">{{ caver['cavedwith']|length }}</td>
+                            <td class="count">{{ caver['authored'] }}</td>
                             <td>{{ caver['date'] }}</td>
                         </tr>
                     {% endfor %}

@@ -265,8 +265,24 @@ class CavepeepsExtension extends SimpleExtension
                     if ($data[$caverId]['date'] < $result['Date']) {
                         $data[$caverId]['date'] = $result['Date'];
                     }
+                    // Add caves to the caver's cave list
+                    foreach ((array) $result['Cave'] as $caveId) {
+                        if (!in_array($caveId, $data[$caverId]['caves'])) {
+                            array_push($data[$caverId]['caves'], $caveId);
+                        }
+                    }
+                    // Add other cavers to the caver's caved-with list (excluding self)
+                    foreach ((array) $result['People'] as $otherCaverId) {
+                        if ($otherCaverId != $caverId && !in_array($otherCaverId, $data[$caverId]['cavedwith'])) {
+                            array_push($data[$caverId]['cavedwith'], $otherCaverId);
+                        }
+                    }
                 } else {
-                    $data[$caverId] = ['count' => 1, 'date' => $result['Date']];
+                    // Initialize with other cavers from this trip (excluding self)
+                    $otherCavers = array_filter((array) $result['People'], function($id) use ($caverId) {
+                        return $id != $caverId;
+                    });
+                    $data[$caverId] = ['count' => 1, 'date' => $result['Date'], 'caves' => (array) $result['Cave'], 'cavedwith' => array_values($otherCavers)];
                 }
             }
         }
@@ -274,6 +290,15 @@ class CavepeepsExtension extends SimpleExtension
         foreach ($cavers as $caver) {
             $data[$caver['id']]['caver'] = $caver;
         }
+
+        // Get authored reports count for each caver
+        foreach (array_keys($data) as $caverId) {
+            $authoredCount = $app['db']->fetchColumn(
+                'SELECT COUNT(*) FROM u666684881_rcc_caving.bolt_articles WHERE authors LIKE "%\"' . $caverId . '\"%"'
+            );
+            $data[$caverId]['authored'] = $authoredCount;
+        }
+
         usort($data, function ($item1, $item2) {
             if ($item2['date'] != $item1['date']) {
                 return strcmp($item2['date'], $item1['date']);
