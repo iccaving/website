@@ -297,6 +297,8 @@ cavers:
             - "Medical Officer"
             - "Health and Safety Officer"
             - "Tours Secretary"
+            - "Vice President"
+            - "Webmaster"
           variant: inline
           multiple: true
           class: "committee-positions"
