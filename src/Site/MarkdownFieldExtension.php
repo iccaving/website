@@ -36,6 +36,12 @@ class MarkdownFieldExtension extends SimpleExtension
 		$app = $this->getContainer();
 		$siteurl = $app['config']->get('general/siteurl');
 
+        $jspatch = JavaScript::create()
+            ->setFileName('js/editormd/codemirror-spellcheck-patch.js')
+            ->setLate(true)
+            ->setPriority(4)
+            ->setZone(Zone::BACKEND)
+        ;
         $jsasset1 = JavaScript::create()
             ->setFileName('js/editormd/editormd.js')
             ->setLate(true)
@@ -61,7 +67,7 @@ class MarkdownFieldExtension extends SimpleExtension
             ->setZone(Zone::BACKEND)
         ;
 
-        return [ $jsasset1, $jsasset2, $jsasset3, $cssasset ];
+        return [ $jspatch, $jsasset1, $jsasset2, $jsasset3, $cssasset ];
     }
 
 }

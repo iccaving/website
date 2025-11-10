@@ -56,8 +56,25 @@ window.addEventListener('load', md => {
                     toc: "A table of contents"
                 }
             },
-            watch: false
+            watch: false,
+            onload: function() {
+                const cm = this.cm || this.codemirror || this.editor;
+                if (cm) {
+                    // Ensure spellcheck is enabled on the input field
+                    const inputField = cm.getInputField();
+                    if (inputField) {
+                        inputField.setAttribute('spellcheck', 'true');
+                    }
+
+                    // Also set spellcheck on the line div for extra compatibility
+                    const editableDiv = cm.display.lineDiv;
+                    if (editableDiv) {
+                        editableDiv.setAttribute('spellcheck', 'true');
+                    }
+                }
+            }
         });
+
         document.querySelector('.nav-tabs').addEventListener('click', () => {
             editor.recreate();
         })
